@@ -1,0 +1,12 @@
+{
+  "name": "jsbox-booru",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "booru": "^2.1.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": ""
+}

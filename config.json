@@ -1,0 +1,24 @@
+{
+  "info": {
+    "name": "JSBoxBooru",
+    "url": "",
+    "version": "0.5.0",
+    "author": "Gandum2077",
+    "website": "https://github.com/Gandum2077",
+    "types": 1
+  },
+  "settings": {
+    "minSDKVer": "2.3.0",
+    "minOSVer": "13.0.0",
+    "idleTimerDisabled": false,
+    "autoKeyboardEnabled": false,
+    "keyboardToolbarEnabled": false,
+    "rotateDisabled": false
+  },
+  "widget": {
+    "height": 0,
+    "staticSize": false,
+    "tintColor": "",
+    "iconColor": ""
+  }
+}

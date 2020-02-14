@@ -1,0 +1,85 @@
+{
+  "title": "SETTINGS",
+  "groups": [
+    {
+      "title": "GENERAL",
+      "items": [
+        {
+          "title": "Default Site",
+          "type": "list",
+          "key": "default_site",
+          "items": [
+            "e621.net",
+            "e926.net",
+            "hypnohub.net",
+            "danbooru.donmai.us",
+            "konachan.com",
+            "konachan.net",
+            "yande.re",
+            "gelbooru.com",
+            "rule34.xxx",
+            "safebooru.org",
+            "tbib.org",
+            "xbooru.com",
+            "lolibooru.moe",
+            "rule34.paheal.net",
+            "derpibooru.org",
+            "furry.booru.org",
+            "realbooru.com"
+          ],
+          "value": 5
+        },
+        {
+          "title": "Safe Search",
+          "type": "boolean",
+          "key": "safe_search",
+          "value": true
+        },
+        {
+          "title": "Slideshow Intervals",
+          "type": "integer",
+          "key": "slideshow_intervals",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "title": "STORAGE",
+      "items": [
+        {
+          "title": "Clear Download Cache",
+          "type": "script",
+          "key": "clear_cache",
+          "value": "require('scripts/utils/settings').clearCache();"
+        },
+        {
+          "title": "Rebuild Database",
+          "type": "script",
+          "key": "rebuild_database",
+          "value": "require('scripts/utils/settings').rebuildDatabase();"
+        },
+        {
+          "title": "Reset",
+          "type": "script",
+          "key": "reset",
+          "value": "require('scripts/utils/settings').reset();"
+        }
+      ]
+    },
+    {
+      "title": "About",
+      "items": [
+        {
+          "title": "Author",
+          "type": "info",
+          "value": "Gandum2077"
+        },
+        {
+          "title": "Report Bugs",
+          "type": "link",
+          "value": "https://github.com/Gandum2077/jsbox-booru/issues"
+        }
+      ]
+    }
+  ]
+}
