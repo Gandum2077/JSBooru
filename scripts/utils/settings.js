@@ -1,5 +1,5 @@
-const constants = require("scripts/utils/constants")
-const { createDB } = require("scripts/utils/database")
+const constants = require("scripts/utils/constants");
+const { createDB } = require("scripts/utils/database");
 
 function clearCache() {
   $ui.alert({
@@ -7,17 +7,17 @@ function clearCache() {
     actions: [
       {
         title: "Cancel"
-      }, 
+      },
       {
         title: "OK",
         handler: () => {
-          $file.delete(constants.imagePath)
-          $file.mkdir(constants.imagePath)
-          $ui.toast("Finished")
+          $file.delete(constants.imagePath);
+          $file.mkdir(constants.imagePath);
+          $ui.toast("Finished");
         }
       }
     ]
-  })
+  });
 }
 
 function rebuildDatabase() {
@@ -26,18 +26,17 @@ function rebuildDatabase() {
     actions: [
       {
         title: "Cancel"
-      }, 
+      },
       {
         title: "OK",
         handler: () => {
-          createDB()
-          $ui.toast("Finished")
+          createDB();
+          $ui.toast("Finished");
         }
       }
     ]
-  })
+  });
 }
-
 
 function reset() {
   $ui.alert({
@@ -45,24 +44,24 @@ function reset() {
     actions: [
       {
         title: "Cancel"
-      }, 
+      },
       {
         title: "OK",
         handler: () => {
-          $file.delete(constants.imagePath)
-          $file.mkdir(constants.imagePath)
-          createDB()
-          $prefs.set("default_site", 5)
-          $prefs.set("safe_search", true)
-          $ui.toast("Finished")
+          $file.delete(constants.imagePath);
+          $file.mkdir(constants.imagePath);
+          createDB();
+          $prefs.set("default_site", 5);
+          $prefs.set("safe_search", true);
+          $ui.toast("Finished");
         }
       }
     ]
-  })
+  });
 }
 
 module.exports = {
   clearCache,
   rebuildDatabase,
   reset
-}
+};

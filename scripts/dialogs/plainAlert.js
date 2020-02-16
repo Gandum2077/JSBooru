@@ -5,7 +5,7 @@ const {
   UIAlertController
 } = require("./UIAlert");
 
-function plainAlert({ title = "", message, placeholder }) {
+function plainAlert({ title = "", message } = {}) {
   return new Promise((resolve, reject) => {
     const alertVC = new UIAlertController(
       title,

@@ -5,7 +5,7 @@ const {
   UIAlertController
 } = require("./UIAlert");
 
-function loginAlert({ title = "", message, placeholder1, placeholder2 }) {
+function loginAlert({ title = "", message, placeholder1, placeholder2 } = {}) {
   return new Promise((resolve, reject) => {
     const alertVC = new UIAlertController(
       title,
