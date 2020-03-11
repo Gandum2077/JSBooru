@@ -1,4 +1,5 @@
 const BaseView = require("../components/baseView");
+const constants = require("../utils/constants");
 
 class AccessoryView extends BaseView {
   constructor({ textViewId }) {
@@ -8,14 +9,17 @@ class AccessoryView extends BaseView {
 
   _defineView() {
     const classThis = this;
-    const matrix = {
+    return {
       type: "matrix",
       props: {
-        id: "matrix",
+        id: this.id,
+        height: 44,
+        bgcolor: $color("#eee"),
+        borderWidth: 0.5,
+        borderColor: $color("#ccc"),
         keyboardDismissMode: 0,
         spacing: 5,
         direction: $scrollDirection.horizontal,
-        bgcolor: $color("#eee"),
         alwaysBounceVertical: false,
         showsHorizontalIndicator: false,
         template: {
@@ -41,10 +45,6 @@ class AccessoryView extends BaseView {
           ]
         }
       },
-      layout: (make, view) => {
-        make.left.top.bottom.inset(0);
-        make.right.equalTo(view.prev.left);
-      },
       events: {
         itemSize: function(sender, indexPath) {
           const textWidth = $text.sizeThatFits({
@@ -57,52 +57,25 @@ class AccessoryView extends BaseView {
           return $size(adjustedWidth, 32);
         },
         didSelect: function(sender, indexPath, data) {
-
+          if (indexPath.item === 0) {
+            $(classThis.textViewId).text = $clipboard.text;
+          } else {
+            $(classThis.textViewId).text = data.label.text;
+          }
         }
       }
     };
-    const button = {
-      type: "button",
-      props: {
-        id: "button",
-        title: $l10n("More⤓"),
-        font: $font("bold", 14),
-        titleColor: $color("#333333"),
-        bgcolor: $color("clear"),
-        borderWidth: 0
-      },
-      layout: (make, view) => {
-        make.top.bottom.inset(0);
-        make.right.inset(5);
-        make.width.equalTo(60);
-      },
-      events: {
-        tapped: sender => {
-        }
-      }
-    };
-    return {
-      type: "view",
-      props: {
-        height: 44,
-        bgcolor: $color("#eee"),
-        borderWidth: 0.5,
-        borderColor: $color("#ccc")
-      },
-      views: [button, matrix]
-    };
   }
 
-  _deactivate() {
-    const textView = $(this.textViewId)
-  }
-
-  _activate() {
-    const textView = $(this.textViewId)
-  }
-  
   initial() {
-    const textView = $(this.textViewId)
+    const textView = $(this.textViewId);
+    this.view.data = ["剪贴板", ...constants.userConfig.search_history].map(
+      n => {
+        return {
+          label: { text: n }
+        };
+      }
+    );
   }
 }
 

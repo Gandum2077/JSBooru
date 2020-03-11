@@ -2,10 +2,13 @@ const Controller = require("./controller");
 const plainAlert = require("./dialogs/plainAlert");
 const constants = require("./utils/constants");
 const { insertExampleData } = require("./utils/example");
+const { checkLatestVersion } = require("./utils/updater")
 
 async function init() {
   try {
-    const controller = new Controller();
+    const controller = new Controller({
+      footerBarIndex: $prefs.get("favorites_on_startup") ? 1 : 0
+    });
     controller.render();
     if (constants.userConfig.inset_example_data) {
       insertExampleData();
@@ -22,6 +25,7 @@ async function init() {
         });
         constants.userConfig.closeTips();
         controller.loadFavorites();
+        checkLatestVersion()
         await $wait(0.3);
         await controller.loadBooru({ useUiLoading: false });
       } catch (err) {
@@ -29,6 +33,7 @@ async function init() {
       }
     } else {
       controller.loadFavorites();
+      checkLatestVersion()
       await $wait(0.3);
       await controller.loadBooru();
     }

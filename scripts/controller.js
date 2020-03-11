@@ -158,6 +158,7 @@ class Controller {
         const tags = text.split(" ");
         if (!tags || !tags.length) return;
         await classThis.loadBooru({ tags });
+        constants.userConfig.addSearchHistory(text)
       }
     });
     this.views.searchBarFavorites = new SearchBar({
@@ -179,6 +180,7 @@ class Controller {
         const tags = text.split(" ");
         if (!tags || !tags.length) return;
         await classThis.loadBooru({ tags });
+        constants.userConfig.addSearchHistory(text)
       }
     });
   }

@@ -98,7 +98,7 @@ class SearchBar extends BaseView {
         returned: async function(sender) {
           sender.blur();
           if (classThis.searchEvent) {
-            classThis.searchEvent(sender.text)
+            classThis.searchEvent(sender.text.trim().toLowerCase())
           }
         }
       }
@@ -135,6 +135,7 @@ class SearchBar extends BaseView {
   }
 
   activate() {
+    if (this.useAccessoryView) this.accessoryView.initial();
     $(this.textViewId).remakeLayout((make, view) => {
       make.top.bottom.inset(0);
       make.left.equalTo(view.prev.prev.right);
