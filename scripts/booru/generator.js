@@ -1,4 +1,4 @@
-const { searchFavorites, getCount } = require("scripts/utils/database");
+const database = require("../utils/database");
 const search = require("./search");
 
 async function* generatorForSite({
@@ -23,20 +23,18 @@ async function* generatorForSite({
       currentPage++;
     } catch (err) {
       continueFlag = false;
-      console.error(err);
       return;
     }
   }
 }
 
-async function* generatorForFavorites({ site = null, startPage = 1 }) {
+function* generatorForFavorites({ site = null, startPage = 1 }) {
   let currentPage = startPage;
-  const totalPage = Math.ceil(getCount() / 50);
+  const totalPage = Math.ceil(database.getPostCount() / 50);
   do {
-    const items = searchFavorites({
-      site,
-      page: currentPage
-    });
+    const items = database
+      .searchPost({ site, page: currentPage })
+      .map(n => n.info);
     yield items;
     currentPage++;
   } while (currentPage < totalPage);

@@ -9,31 +9,60 @@
           "type": "list",
           "key": "default_site",
           "items": [
+            "danbooru.donmai.us",
+            "gelbooru.com",
+            "konachan.com",
+            "yande.re",
+            "konachan.net",
             "e621.net",
             "e926.net",
             "hypnohub.net",
-            "danbooru.donmai.us",
-            "konachan.com",
-            "konachan.net",
-            "yande.re",
-            "gelbooru.com",
+            "lolibooru.moe",
             "rule34.xxx",
             "safebooru.org",
             "tbib.org",
             "xbooru.com",
-            "lolibooru.moe",
             "rule34.paheal.net",
-            "derpibooru.org",
             "furry.booru.org",
-            "realbooru.com"
+            "realbooru.com",
+            "derpibooru.org"
           ],
-          "value": 5
+          "value": 2
         },
+        {
+          "title": "Show Favorites on Startup",
+          "type": "boolean",
+          "key": "favorites_on_startup",
+          "value": false
+        }
+      ]
+    },
+    {
+      "title": "SEARCH",
+      "items": [
         {
           "title": "Safe Search",
           "type": "boolean",
           "key": "safe_search",
           "value": true
+        }
+      ]
+    },
+    {
+      "title": "IMAGEVIEW",
+      "items": [
+        {
+          "title": "Use the original image first",
+          "type": "boolean",
+          "key": "orginal_image_first",
+          "value": false
+        },
+        {
+          "title": "Prefetch",
+          "type": "list",
+          "key": "prefetch",
+          "items": ["Off", "Next Page", "Next 2 Pages", "Next 3 Pages"],
+          "value": 0
         },
         {
           "title": "Slideshow Intervals",
@@ -67,12 +96,17 @@
       ]
     },
     {
-      "title": "About",
+      "title": "ABOUT",
       "items": [
         {
           "title": "Author",
           "type": "info",
           "value": "Gandum2077"
+        },
+        {
+          "title": "Repository",
+          "type": "link",
+          "value": "https://github.com/Gandum2077/JSBooru"
         },
         {
           "title": "Report Bugs",

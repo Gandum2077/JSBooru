@@ -1,0 +1,132 @@
+[
+  {
+    "name": "danbooru.donmai.us",
+    "status": "recommand",
+    "problem": null,
+    "description": "",
+    "nsfw": true,
+    "random": true
+  },
+  {
+    "name": "gelbooru.com",
+    "status": "recommand",
+    "problem": "no previewUrl or sampleUrl",
+    "description": "",
+    "nsfw": true,
+    "random": false
+  },
+  {
+    "name": "konachan.com",
+    "status": "recommand",
+    "problem": null,
+    "description": "",
+    "nsfw": true,
+    "random": true
+  },
+  { "name": "yande.re",
+    "status": "recommand",
+    "problem": null,
+    "description": "",
+    "nsfw": true,
+    "random": true
+  },
+  {
+    "name": "konachan.net",
+    "status": "good",
+    "problem": null,
+    "description": "",
+    "nsfw": false,
+    "random": true
+  },
+  { "name": "e621.net",
+    "status": "good",
+    "problem": null,
+    "description": "",
+    "nsfw": true,
+    "random": true
+  },
+  { "name": "e926.net",
+    "status": "good",
+    "problem": null,
+    "description": "",
+    "nsfw": false,
+    "random": true
+  },
+  {
+    "name": "hypnohub.net",
+    "status": "good",
+    "problem": null,
+    "description": "",
+    "nsfw": true,
+    "random": true
+  },
+  {
+    "name": "lolibooru.moe",
+    "status": "fixed",
+    "problem": "previewUrl is wrong. Use data.preview_url",
+    "description": "",
+    "nsfw": true,
+    "random": true
+  },
+  { "name": "rule34.xxx",
+    "status": "fixed",
+    "problem": "no previewUrl or sampleUrl",
+    "description": "",
+    "nsfw": true,
+    "random": false
+  },
+  {
+    "name": "safebooru.org",
+    "status": "fixed",
+    "problem": "no previewUrl or sampleUrl",
+    "description": "",
+    "nsfw": false,
+    "random": false
+  },
+  { "name": "tbib.org",
+    "status": "fixed",
+    "problem": "no previewUrl or sampleUrl",
+    "description": "",
+    "nsfw": false,
+    "random": false
+  },
+  { "name": "xbooru.com",
+    "status": "fixed",
+    "problem": "no previewUrl or sampleUrl",
+    "description": "",
+    "nsfw": true,
+    "random": false
+  },
+  {
+    "name": "rule34.paheal.net",
+    "status": "good",
+    "problem": "no sampleUrl",
+    "description": "",
+    "nsfw": true,
+    "random": false
+  },
+  {
+    "name": "furry.booru.org",
+    "status": "fixed",
+    "problem": "no previewUrl or sampleUrl",
+    "description": "",
+    "nsfw": true,
+    "random": false
+  },
+  {
+    "name": "realbooru.com",
+    "status": "fixed",
+    "problem": "no previewUrl or sampleUrl",
+    "description": "",
+    "nsfw": true,
+    "random": false
+  },
+  {
+    "name": "derpibooru.org",
+    "status": "slow",
+    "problem": "",
+    "description": "",
+    "nsfw": true,
+    "random": true
+  }
+]

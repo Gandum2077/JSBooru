@@ -1,0 +1,92 @@
+// General
+
+"OK" = "好的";
+"DONE" = "完成";
+"CANCEL" = "取消";
+"ADD" = "添加";
+"INVALID_VALUES" = "取值不合法";
+"DUPLICATE_VALUES" = "取值重复";
+
+// prefs.json
+
+"GENERAL" = "通用";
+"Default Site" = "默认站点";
+"Show Favorites on Startup" = "启动后显示收藏";
+"SEARCH" = "搜索";
+"Safe Search" = "安全搜索";
+"Tags Shown on Search" = "搜索时显示的标签";
+"Search History" = "历史搜索";
+"Favorited Tags" = "收藏的标签";
+"Saved Combinations" = "标签组合";
+"IMAGEVIEW" = "阅读";
+"Use the original image first" = "优先使用原图";
+"Prefetch" = "预加载";
+"Off" = "关闭";
+"Next Page" = "提前一页";
+"Next 2 Pages" = "提前两页";
+"Next 3 Pages" = "提前三页";
+"Next 5 Pages" = "提前五页";
+"Slideshow Intervals" = "幻灯片浏览速度";
+"STORAGE" = "存储";
+"Clear Download Cache" = "清空下载缓存";
+"Rebuild Database" = "重建数据库";
+"Reset" = "全部重置";
+"ABOUT" = "关于";
+"Author" = "作者";
+"Repository" = "项目地址";
+"Report Bugs" = "报告问题";
+
+// Tags and combinations
+
+"SAVE_TAG_TITLE" = "保存标签";
+"TAG_FAVORITE_TITLE" = "标签收藏";
+"SEARCH_DIRECTLY" = "立即搜索";
+"COPY_TO_CLIPBOARD" = "复制到剪贴板";
+"ADD_TO_CLIPBOARD" = "追加到剪贴板";
+"OPEN_SAVED_TAGS_INTERFACE" = "打开标签保存界面";
+
+"FAVORITED" = "收藏";
+"FAVORITES" = "收藏";
+"TAGS" = "标签";
+"TAG" = "标签";
+"COMBINATIONS" = "组合";
+"COMBINATION" = "组合";
+"CONTENT" = "内容";
+"TITLE" = "标题";
+"ADD_COMBINATION_TITLE" = "添加标签组合";
+"SAVED_TAGS_TITLE" = "保存标签";
+"REQUIRED" = "必需";
+"OPTIONAL" = "可选";
+"UNCATEGORIZED" = "未分类";
+"CATEGORY" = "分类";
+"ADD_TO_FAVORITED_TAGS" = "同时添加到收藏的标签";
+
+// Tips
+
+"TIPS" = "Tips";
+"TIPS_CONTENT" = "点击右上角问号查看详细说明\n\n【关于网络问题的特别提示】\n1. 由于众所周知的原因，在中国大陆地区无法使用本应用绝大多数功能，请确保设备已经科学上网；\n2. 本应用需要的Node.js使用了SSL Pinning（证书锁定）技术，因此被中间人攻击（MITM）时可能无法使用，请关闭Surge、Quantumult X或其他工具的MITM功能；\n3. 部分代理工具不能正确识别Node.js的网络请求，请自行修改规则或者改为全局模式";
+"CANCEL_TEXT" = "先去设置";
+"CONFIRM_TEXT" = "准备好了";
+
+
+// selectServers
+"STATUS_RECOMMAND" = "推荐";
+"STATUS_GOOD" = "良好";
+"STATUS_FIXED" = "良好";
+"STATUS_SLOW" = "速度较慢";
+"STATUS_BAD" = "存在问题";
+
+// PopOver
+
+"JUMP_TO_PAGE" = "跳转";
+"BROWSE_ALL" = "浏览全部";
+"RANDOM" = "随机";
+"SERVERS" = "切换站点";
+"SETTINGS" = "设置";
+"ADD_TAG" = "添加标签";
+"ADD_COMBINATION" = "添加组合";
+"MANAGE_CATEGORIES" = "管理分类";
+
+"RANDOM_SUPPORT_ERROR" = "此站点不支持随即搜索";
+"CURRENT" = "当前";
+

@@ -1,5 +1,5 @@
-const constants = require("scripts/utils/constants");
-const { createDB } = require("scripts/utils/database");
+const constants = require("./constants");
+const database = require("./database");
 
 function clearCache() {
   $ui.alert({
@@ -30,7 +30,9 @@ function rebuildDatabase() {
       {
         title: "OK",
         handler: () => {
-          createDB();
+          database.closeDB();
+          database.createDB();
+          database.openDB();
           $ui.toast("Finished");
         }
       }

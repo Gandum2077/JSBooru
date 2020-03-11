@@ -1,114 +1,49 @@
-const { maskView, defineTitleBarView } = require("./baseViews");
+const Sheet = require("../components/sheet");
+const BaseView = require("../components/baseView");
 
-async function textDialogsSheet({ title = "", text = "" }) {
-  const width = 500;
-  const layout = function(make, view) {
-    make.width.equalTo(width);
-    make.height.equalTo(556);
-    make.center.equalTo(view.super);
-  };
-  return new Promise((resolve, reject) => {
-    const cancelEvent = function(sender) {
-      sender.super.super.super.remove();
-      reject("cancel");
-    };
-    const confrimEvent = function(sender) {
-      const result = sender.super.super.get("textView").text;
-      sender.super.super.super.remove();
-      resolve(result);
-    };
-    const titleBarView = defineTitleBarView(
-      title,
-      cancelEvent,
-      confrimEvent
-    );
-    const textView = {
+class TextView extends BaseView {
+  constructor({ text, placeholder }) {
+    super();
+    this.text = text;
+    this.placeholder = placeholder;
+  }
+
+  _defineView() {
+    return {
       type: "text",
       props: {
-        id: "textView",
-        text: text,
-        textColor: $color("black"),
-        bgcolor: $color("white")
-      },
-      layout: function(make, view) {
-        make.left.right.bottom.inset(0);
-        make.top.equalTo($("titleBar").bottom);
+        id: this.id,
+        text: this.text,
+        placeholder: this.placeholder
       },
       events: {
         ready: sender => {
-          sender.focus()
+          sender.focus();
         }
       }
     };
-    const content = {
-      props: {
-        radius: 10
-      },
-      views: [titleBarView, textView],
-      layout: layout
-    };
-    const textDialogs = {
-      props: {
-        id: "textDialogs"
-      },
-      views: [maskView, content],
-      layout: $layout.fillSafeArea
-    };
-    $ui.window.add(textDialogs);
-  });
-}
-
-async function textDialogsPush({ title = "", text = "" }) {
-  let done = false
-  let result = text
-  return new Promise((resolve, reject) => {
-    $ui.push({
-      props: {
-        title,
-        navButtons: [{
-          title: "Done",
-          handler: () => {
-            done = true
-            result = $ui.window.get("textView").text
-            $ui.pop()
-          }
-        }]
-      },
-      views: [
-        {
-          type: "text",
-          props: {
-            id: "textView",
-            text
-          },
-          layout: $layout.fillSafeArea,
-          events: {
-            ready: sender => {
-              //sender.focus()
-              // 自动聚焦会有动画不顺畅的bug
-            }
-          }
-        }
-      ],
-      events: {
-        dealloc: () => {
-          if (done) {
-            resolve(result)
-          } else {
-            reject("cancel")
-          }
-        }
-      }
-    })
-  });
-}
-
-async function textDialogs({ title = "", text = "" }) {
-  if ($device.isIpad) {
-    return textDialogsSheet({ title, text })
-  } else {
-    return textDialogsPush({ title, text })
   }
+}
+
+function presentSheet({ title, text, placeholder, presentMode = 1 }) {
+  const textView = new TextView({ text, placeholder });
+  const sheet = new Sheet({
+    title,
+    presentMode,
+    view: textView.definition,
+    doneEvent: sender => textView.view.text
+  });
+  return new Promise((resolve, reject) => {
+    sheet.promisify(resolve, reject);
+    sheet.present();
+  });
+}
+
+function textDialogs({ title = "", text = "", placeholder = "", presentMode }) {
+  if (presentMode === undefined) {
+    presentMode = $device.isIpad ? 2 : 1;
+  }
+  return presentSheet({ title, text, placeholder, presentMode });
 }
 
 module.exports = textDialogs;

@@ -1,38 +1,106 @@
-const imagePath = "image";
-const sitesConfigFile = "scripts/utils/sites.json";
+const sitesConfigFile = "scripts/utils/siteInfos.json";
 const userConfigFile = "assets/userConfig.json";
-const databaseFile = "assets/favorites.db";
+
+const imagePath = "images";
+const databaseFile = "assets/database.db";
+const savedTagsFile = "assets/savedTags.json";
+const favoritedTagsFile = "assets/favoritedTags.json";
+const tagCombinationsFile = "assets/tagCombinations.json";
 
 const sitesConfig = JSON.parse($file.read(sitesConfigFile).string);
-const userConfig = {};
-const defaultUserConfig = {
-  sites_order: Object.keys(sitesConfig),
-  temp_tags: [],
-  stored_tags: []
-};
 
-function initConfig() {
-  if (!$file.exists(userConfigFile)) {
+class UserConfig {
+  constructor(file) {
+    this.file = file;
+    this.defaultConfig = { inset_example_data: true, show_tips: true, search_history: [], tag_categoires: [] };
+    if (!$file.exists(this.file)) this.create();
+    this.open();
+  }
+
+  create() {
+    if ($file.exists(this.file)) $file.delete(this.file);
     $file.write({
-      data: $data({ string: JSON.stringify(defaultUserConfig, null, 2) }),
-      path: userConfigFile
+      data: $data({ string: JSON.stringify(this.defaultConfig, null, 2) }),
+      path: this.file
     });
   }
-  Object.assign(userConfig, JSON.parse($file.read(userConfigFile).string));
+
+  open() {
+    Object.assign(this, JSON.parse($file.read(this.file).string));
+  }
+
+  save() {
+    const filtered = {
+      inset_example_data: this.inset_example_data,
+      show_tips: this.show_tips,
+      search_history: this.search_history,
+      tag_categoires: this.tag_categoires
+    }
+    $file.write({
+      data: $data({ string: JSON.stringify(filtered, null, 2) }),
+      path: this.file
+    });
+  }
+
+  clear() {
+    this.content = this.defaultConfig;
+    this.save();
+  }
+
+  addSearchHistory(text) {
+    if (!text) return
+    const index = this.search_history.indexOf(text);
+    if (index !== -1) {
+      this.search_history.splice(index, 1);
+    }
+    this.search_history.unshift(text);
+    if (this.search_history.length > 10) {
+      this.search_history.splice(10);
+    }
+    this.save();
+  }
+
+  saveTagCategoires(tag_categoires) {
+    if (tag_categoires.find(n => !n)) throw new Error("Null is not allowed")
+    if (find_duplicate_in_array(tag_categoires).length) throw new Error("Duplicate values are not allowed")
+    this.tag_categoires = tag_categoires
+    this.save();
+  }
+
+  closeTips() {
+    this.show_tips = false
+    this.save()
+  }
 }
 
-function saveConfig() {
-  $file.write({
-    data: $data({ string: JSON.stringify(userConfig, null, 2) }),
-    path: userConfigFile
-  });
+function find_duplicate_in_array(arra1) {
+  const object = {};
+  const result = [];
+
+  arra1.forEach(item => {
+    if(!object[item])
+        object[item] = 0;
+      object[item] += 1;
+  })
+
+  for (const prop in object) {
+     if(object[prop] >= 2) {
+         result.push(prop);
+     }
+  }
+
+  return result;
+
 }
+
+const userConfig = new UserConfig(userConfigFile);
 
 module.exports = {
   imagePath,
   databaseFile,
+  savedTagsFile,
+  favoritedTagsFile,
+  tagCombinationsFile,
   sitesConfig,
-  userConfig,
-  initConfig,
-  saveConfig
+  userConfig
 };

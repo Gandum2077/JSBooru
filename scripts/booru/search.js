@@ -1,3 +1,5 @@
+const fix = require("./fix");
+
 function booruSearch({ site, tags, limit, random, page }) {
   return new Promise((resolve, reject) => {
     $nodejs.run({
@@ -7,7 +9,8 @@ function booruSearch({ site, tags, limit, random, page }) {
         id: "booruSearch",
         handler: result => {
           if (result.posts) {
-            resolve(result.posts);
+            const fixedPosts = result.posts.map(n => fix(n));
+            resolve(fixedPosts);
           } else {
             reject(result.error);
           }

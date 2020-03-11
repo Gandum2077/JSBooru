@@ -1,0 +1,91 @@
+// General
+
+"OK" = "OK";
+"DONE" = "Done";
+"CANCEL" = "Cancel";
+"ADD" = "Add";
+"INVALID_VALUES" = "Invalid values";
+"DUPLICATE_VALUES" = "Duplicate values";
+
+// prefs.json
+
+"GENERAL" = "GENERAL";
+"Default Site" = "Default Site";
+"Show Favorites on Startup" = "Show Favorites on Startup";
+"SEARCH" = "SEARCH";
+"Safe Search" = "Safe Search";
+"Tags Shown on Search" = "Tags Shown on Search";
+"Search History" = "Search History";
+"Favorited Tags" = "Favorited Tags";
+"Saved Combinations" = "Saved Combinations";
+"IMAGEVIEW" = "IMAGEVIEW";
+"Use the original image first" = "Use the original image first";
+"Prefetch" = "Prefetch";
+"Off" = "Off";
+"Next Page" = "Next Page";
+"Next 2 Pages" = "Next 2 Pages";
+"Next 3 Pages" = "Next 3 Pages";
+"Next 5 Pages" = "Next 5 Pages";
+"Slideshow Intervals" = "Slideshow Intervals";
+"STORAGE" = "STORAGE";
+"Clear Download Cache" = "Clear Download Cache";
+"Rebuild Database" = "Rebuild Database";
+"Reset" = "Reset";
+"ABOUT" = "ABOUT";
+"Author" = "Author";
+"Repository" = "Repository";
+"Report Bugs" = "Report Bugs";
+
+// Tags and combinations
+
+"SAVE_TAG_TITLE" = "Save Tag";
+"TAG_FAVORITE_TITLE" = "Tag Favorite";
+"SEARCH_DIRECTLY" = "Search Directly";
+"COPY_TO_CLIPBOARD" = "Copy to Clipboard";
+"ADD_TO_CLIPBOARD" = "Add to Clipboard";
+"OPEN_SAVED_TAGS_INTERFACE" = "Open Saved Tags Interface";
+
+"FAVORITED" = "Favorited";
+"FAVORITES" = "Favorites";
+"TAGS" = "Tags";
+"TAG" = "Tags";
+"COMBINATIONS" = "Combination";
+"COMBINATION" = "Combination";
+"CONTENT" = "Content";
+"TITLE" = "Title";
+"ADD_COMBINATION_TITLE" = "Save Combination"；
+"SAVED_TAGS_TITLE" = "Save Tags";
+"REQUIRED" = "Required";
+"OPTIONAL" = "Optional";
+"UNCATEGORIZED" = "Uncategorized";
+"CATEGORY" = "Category";
+"ADD_TO_FAVORITED_TAGS" = "Add to favorited tags";
+
+// Tips
+
+"TIPS" = "Tips";
+"TIPS_CONTENT" = "Click questionmark symbol for help. \n\nSPECIAL TIPS ABOUT NETWORK ERROR:\n1. In mainland China, Almost all Servers are not accessible. Make sure you use VPN or other proxy tools;\n2. Node.js, the runtime environment used by this application, uses a technology called SSL Pining to ensure security and protect itself from MITM attack. So you CAN NOT use MITM tools like Surge or Quantumult X.\n3. Some proxy tools can not identify all requests by Node.js correctly. Please fix the proxy rules manually or switch to global proxy mode.";
+"CANCEL_TEXT" = "Quit for preparation";
+"CONFIRM_TEXT" = "I'm ready";
+
+// selectServers
+
+"STATUS_RECOMMAND" = "Recommand";
+"STATUS_GOOD" = "Good";
+"STATUS_FIXED" = "Good";
+"STATUS_SLOW" = "Slow";
+"STATUS_BAD" = "Bad";
+
+// PopOver
+
+"JUMP_TO_PAGE" = "Jump to Page";
+"BROWSE_ALL" = "Browse All";
+"RANDOM" = "Random";
+"SERVERS" = "Servers";
+"SETTINGS" = "Settings";
+"ADD_TAG" = "Add Tag";
+"ADD_COMBINATION" = "Add Combination";
+"MANAGE_CATEGORIES" = "Manage Categories";
+
+"RANDOM_SUPPORT_ERROR" = "Random search is not supported by this site";
+"CURRENT" = "Current";
