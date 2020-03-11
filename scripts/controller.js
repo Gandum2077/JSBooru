@@ -58,19 +58,30 @@ class Controller {
       }
     });
     this.views.booruView = new ContentView({
+      bgcolor: $color("#333"),
       layout: (make, view) => {
         make.left.right.top.inset(0);
         make.bottom.equalTo(this.views.footerBar.view.top);
       }
     });
     this.views.favoritesView = new ContentView({
+      bgcolor: $color("#333"),
       layout: (make, view) => {
         make.left.right.top.inset(0);
         make.bottom.equalTo(this.views.footerBar.view.top);
       }
     });
     this.views.thumbnailsViewBooru = new ThumbnailsView({
+      layout: (make, view) => {
+        make.left.right.bottom.inset(0)
+        make.top.inset(36)
+      },
       events: {
+        itemSize: function(sender, indexPath) {
+          const index = indexPath.item
+          const info = classThis.booruItems[index]
+          return $size(info.width, info.height)
+        },
         pulled: async function(sender) {
           if (classThis.isLoading) {
             sender.endRefreshing();
@@ -115,7 +126,16 @@ class Controller {
       }
     });
     this.views.thumbnailsViewFavorites = new ThumbnailsView({
+      layout: (make, view) => {
+        make.left.right.bottom.inset(0)
+        make.top.inset(36)
+      },
       events: {
+        itemSize: function(sender, indexPath) {
+          const index = indexPath.item
+          const info = classThis.favoritesItems[index]
+          return $size(info.width, info.height)
+        },
         pulled: async function(sender) {
           classThis.loadFavorites({
             startPage: classThis.favoritesInfo.startPage
@@ -140,8 +160,8 @@ class Controller {
         didReachBottom: async function(sender) {
           const result = classThis.generatorFavorites.next();
           if (!result.done) {
-            ITEMS.push(...result.value);
-            sender.data = getDataForListView(ITEMS);
+            classThis.favoritesItems.push(...result.value);
+            classThis.views.thumbnailsViewFavorites.items = classThis.favoritesItems;
           }
           sender.endFetchingMore();
         }

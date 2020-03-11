@@ -65,11 +65,13 @@ class Menu extends BaseView {
 }
 
 class ListView extends BaseView {
-  constructor() {
+  constructor({searchEvent}) {
     super();
+    this.searchEvent = searchEvent
   }
 
   _defineView() {
+    const classThis = this
     return {
       type: "list",
       props: {
@@ -110,6 +112,12 @@ class ListView extends BaseView {
       layout: (make, view) => {
         make.left.right.bottom.inset(0);
         make.top.equalTo(view.prev.bottom);
+      },
+      events: {
+        didSelect: (sender, indexPath, data) => {
+          const name = classThis._rawData[indexPath.item].name
+          classThis.searchEvent(name)
+        }
       }
     };
   }
@@ -119,6 +127,7 @@ class ListView extends BaseView {
       if (!text) return 0;
       return text.length;
     };
+    this._rawData = items
     this.view.data = items.map(n => {
       return {
         label: {
@@ -172,7 +181,7 @@ class TagsView extends BaseView {
       items: [...FIXED_ITEMS, ...constants.userConfig.tag_categoires],
       changedEvent: text => classThis.reload()
     });
-    this.listView = new ListView();
+    this.listView = new ListView({searchEvent: this.searchEvent});
     return {
       type: "view",
       props: {

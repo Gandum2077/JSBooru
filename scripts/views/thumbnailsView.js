@@ -13,17 +13,10 @@ class ThumbnailsView extends BaseView {
       type: "matrix",
       props: {
         id: this.id,
-        square: true,
+        waterfall: true,
         columns: this.columns,
         spacing: 5,
         bgcolor: $color("#333"),
-        header: {
-          type: "view",
-          props: {
-            height: 36,
-            bgcolor: $color("clear")
-          }
-        },
         template: {
           props: {
             bgcolor: $color("clear")
