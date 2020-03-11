@@ -17,6 +17,7 @@ class FooterStackView extends BaseView {
     return {
        type: "stack",
        props: {
+         id: this.id,
          spacing: 0,
          distribution: $stackViewDistribution.fillEqually,
          axis: $stackViewAxis.horizontal,

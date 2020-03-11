@@ -4,7 +4,7 @@ const BaseView = require("../components/baseView");
 class ContentView extends BaseView {
   constructor({
     bgcolor = $color("white"),
-    layout = $layout.fill
+    layout = $layout.fillSafeArea
   } = {}) {
     super();
     this.bgcolor = bgcolor;
@@ -103,8 +103,37 @@ class Button extends BaseView {
   }
 }
 
+class Label extends BaseView {
+  constructor({
+    bgcolor = $color("white"),
+    layout
+  } = {}) {
+    super();
+    this.bgcolor = bgcolor;
+    this.layout = layout
+  }
+
+  _defineView() {
+    return {
+      type: "label",
+      props: {
+        id: this.id,
+        align: $align.center,
+        font: $font("bold", 18),
+        bgcolor: this.bgcolor
+      },
+      layout: this.layout
+    };
+  }
+
+  set text(text) {
+    this.view.text = text
+  }
+}
+
 module.exports = {
   ContentView,
   MaskView,
-  Button
+  Button,
+  Label
 }

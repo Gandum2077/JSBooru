@@ -58,6 +58,13 @@
           "value": false
         },
         {
+          "title": "Prefetch",
+          "type": "list",
+          "key": "prefetch",
+          "items": ["Off", "Next Page", "Next 2 Pages", "Next 3 Pages", "Next 4 Pages"],
+          "value": 0
+        },
+        {
           "title": "Slideshow Intervals",
           "type": "integer",
           "key": "slideshow_intervals",

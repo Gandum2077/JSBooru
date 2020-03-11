@@ -1,7 +1,8 @@
 const ImageView = require("./views/imageView");
 const FooterStackView = require("./views/footerStackView");
+const PrefetchView = require("./views/prefetchView");
 const InfoView = require("./views/infoView");
-const { ContentView, MaskView, Button } = require("./views/views");
+const { ContentView, MaskView, Button, Label } = require("./views/views");
 const database = require("./utils/database");
 
 class SubCotroller {
@@ -38,25 +39,27 @@ class SubCotroller {
       tapped: sender => {
         if (classThis.timer) {
           classThis.views.slideshowButton.symbol = "play";
-          classThis.stopTimer()
+          classThis.stopTimer();
         } else {
           classThis.views.slideshowButton.symbol = "pause";
-          classThis.startTimer()
+          classThis.startTimer();
         }
       }
     });
     this.views.shareButton = new Button({
       symbol: "square.and.arrow.up",
       tapped: sender => {
-        const image = classThis.views.imageView.image
+        const image = classThis.views.imageView.image;
         if (image) $share.sheet(image);
       }
     });
+    this.views.indexLabel = new Label();
     this.views.footerStackView = new FooterStackView({
       items: [
         this.views.favoritedButton.definition,
         this.views.slideshowButton.definition,
-        this.views.shareButton.definition
+        this.views.shareButton.definition,
+        this.views.indexLabel.definition
       ]
     });
     this.views.imageView = new ImageView({
@@ -66,11 +69,17 @@ class SubCotroller {
       },
       upEvent: () => {
         classThis.index -= 1;
-        classThis.refresh()
+        classThis.refresh();
       },
       downEvent: () => {
         classThis.index += 1;
-        classThis.refresh()
+        classThis.refresh();
+      }
+    });
+    this.views.prefetchView = new PrefetchView({
+      layout: (make, view) => {
+        make.size.equalTo($size(150, 30));
+        make.bottom.equalTo(view.super.bottom);
       }
     });
   }
@@ -95,7 +104,7 @@ class SubCotroller {
     const classThis = this;
     $ui.push({
       props: {
-        title: "",
+        titleView: this.views.prefetchView.definition,
         navButtons: this._defineNavButtons()
       },
       views: [this.views.main.definition],
@@ -115,7 +124,7 @@ class SubCotroller {
           });
         },
         dealloc: function() {
-          classThis.stopTimer()
+          classThis.stopTimer();
         }
       }
     });
@@ -124,13 +133,15 @@ class SubCotroller {
     );
     this.views.main.add(this.views.footerStackView.definition);
     this.views.main.add(this.views.imageView.definition);
-    $delay(0.2, () => {
+    $delay(0.3, () => {
       classThis.refresh();
     });
   }
 
   refresh() {
-    this.views.imageView.src = this.item.sampleUrl;
+    this.views.imageView.src = $prefs.get("orginal_image_first")
+      ? this.item.fileUrl
+      : this.item.sampleUrl;
     const id = this.item.id;
     const site = this.item.booru.domain;
     const favorited = database.queryPostFavorited({ site, id });
@@ -141,7 +152,18 @@ class SubCotroller {
       this.views.favoritedButton.symbol = "bookmark";
       this.views.favoritedButton.tintColor = $color("black");
     }
-    $ui.title = `${this.index + 1} / ${this.items.length}`;
+    this.views.indexLabel.text = `${this.index + 1} / ${this.items.length}`;
+    const prefetch = $prefs.get("prefetch") + 1;
+    this.views.prefetchView.urls = [
+      ...this.items
+        .slice(this.index, prefetch + this.index)
+        .map(n =>
+          $prefs.get("orginal_image_first") ? n.fileUrl : n.sampleUrl
+        ),
+      ...this.items
+        .slice(this.index + prefetch, 5 + this.index)
+        .map(n => n.previewUrl)
+    ];
   }
 
   presentInfoView() {
