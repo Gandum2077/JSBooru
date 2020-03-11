@@ -1,5 +1,5 @@
 function checkLatestVersion() {
-  const current_version = $addin.current.version
+  const current_version =JSON.parse($file.read("config.json").string).info.version
   const url =
     "https://api.github.com/repos/Gandum2077/JSBooru/releases/latest";
   $http.get({
