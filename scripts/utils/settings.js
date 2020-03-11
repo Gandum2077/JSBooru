@@ -52,8 +52,10 @@ function reset() {
         handler: () => {
           $file.delete(constants.imagePath);
           $file.mkdir(constants.imagePath);
-          createDB();
-          $prefs.set("default_site", 5);
+          database.closeDB();
+          database.createDB();
+          database.openDB();
+          $prefs.set("default_site", 2);
           $prefs.set("safe_search", true);
           $ui.toast("Finished");
         }
