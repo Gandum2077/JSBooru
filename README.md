@@ -29,3 +29,7 @@ JSBooru 是一款基于 Node.js 的应用，这也许会成为您订阅 JSBox �
    - 部分代理工具不能正确识别 Node.js 的网络请求，请自行修改规则或者改为全局模式
 
 2. Node.js 运行时偶尔会有不工作的情况，如果遇到请重启 JSBox
+
+## Acknowledgements
+
+Icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/)
