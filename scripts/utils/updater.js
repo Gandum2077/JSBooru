@@ -1,7 +1,7 @@
 function checkLatestVersion() {
-  const current_version =JSON.parse($file.read("config.json").string).info.version
-  const url =
-    "https://api.github.com/repos/Gandum2077/JSBooru/releases/latest";
+  const current_version = JSON.parse($file.read("config.json").string).info
+    .version;
+  const url = "https://api.github.com/repos/Gandum2077/JSBooru/releases/latest";
   $http.get({
     url: url,
     timeout: 10,
@@ -19,4 +19,4 @@ function checkLatestVersion() {
 
 module.exports = {
   checkLatestVersion
-}
+};

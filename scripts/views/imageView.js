@@ -5,13 +5,13 @@ class ImageView extends BaseView {
     super();
     this._src = src;
     this.layout = layout;
-    this.upEvent =upEvent
-    this.downEvent=downEvent
-    this.prepared = false
+    this.upEvent = upEvent;
+    this.downEvent = downEvent;
+    this.prepared = false;
   }
 
   _defineView() {
-    const classThis = this
+    const classThis = this;
     const image = {
       type: "image",
       props: {
@@ -35,9 +35,9 @@ class ImageView extends BaseView {
             return;
           }
           if (location.y <= sender.frame.height / 2) {
-            if (classThis.upEvent) classThis.upEvent()
+            if (classThis.upEvent) classThis.upEvent();
           } else {
-            if (classThis.downEvent) classThis.downEvent()
+            if (classThis.downEvent) classThis.downEvent();
           }
         }
       }
@@ -73,7 +73,7 @@ class ImageView extends BaseView {
             sender.get("scroll").frame.height
           );
           sender.get("content").add(image);
-          classThis.prepared = true
+          classThis.prepared = true;
         }
       }
     };
@@ -89,7 +89,7 @@ class ImageView extends BaseView {
   }
 
   get image() {
-    return this.view.get("content").get("image").image
+    return this.view.get("content").get("image").image;
   }
 }
 

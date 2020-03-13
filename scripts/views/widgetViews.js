@@ -134,13 +134,10 @@ class ImageView extends BaseView {
 }
 
 class TipsLabel extends BaseView {
-  constructor({
-    tips = $l10n("WIDGET_TIPS"),
-    layout= $layout.fill
-  } = {}) {
-    super()
-    this.tips = tips
-    this.layout = layout
+  constructor({ tips = $l10n("WIDGET_TIPS"), layout = $layout.fill } = {}) {
+    super();
+    this.tips = tips;
+    this.layout = layout;
   }
 
   _defineView() {
@@ -155,7 +152,7 @@ class TipsLabel extends BaseView {
         textColor: $color("black")
       },
       layout: this.layout
-    }
+    };
   }
 }
 

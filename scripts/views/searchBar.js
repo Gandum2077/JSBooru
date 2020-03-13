@@ -3,7 +3,13 @@ const idManager = require("../utils/id");
 const AccessoryView = require("./accessoryView");
 
 class SearchBar extends BaseView {
-  constructor({ placeholder, layout, useAccessoryView = true, changedEvent, searchEvent } = {}) {
+  constructor({
+    placeholder,
+    layout,
+    useAccessoryView = true,
+    changedEvent,
+    searchEvent
+  } = {}) {
     super();
     this.textViewId = idManager.newId;
     this.placeholder = placeholder;
@@ -75,7 +81,9 @@ class SearchBar extends BaseView {
         placeholder: this.placeholder,
         bgcolor: $color("#f3f3f4"),
         radius: 0,
-        accessoryView: this.useAccessoryView ? this.accessoryView.definition : undefined
+        accessoryView: this.useAccessoryView
+          ? this.accessoryView.definition
+          : undefined
       },
       layout: function(make, view) {
         make.top.bottom.inset(0);
@@ -85,7 +93,7 @@ class SearchBar extends BaseView {
       events: {
         changed: function(sender) {
           if (classThis.changedEvent) {
-            classThis.changedEvent(sender.text)
+            classThis.changedEvent(sender.text);
           }
         },
         didBeginEditing: function(sender) {
@@ -98,7 +106,7 @@ class SearchBar extends BaseView {
         returned: async function(sender) {
           sender.blur();
           if (classThis.searchEvent) {
-            classThis.searchEvent(sender.text.trim().toLowerCase())
+            classThis.searchEvent(sender.text.trim().toLowerCase());
           }
         }
       }
@@ -130,7 +138,7 @@ class SearchBar extends BaseView {
       make.left.equalTo(view.prev.prev.right);
       make.right.inset(0);
     });
-    this.blur()
+    this.blur();
     this.view.alpha = 0.5;
   }
 

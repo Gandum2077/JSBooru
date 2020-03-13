@@ -9,24 +9,24 @@ class FooterStackView extends BaseView {
     items
   } = {}) {
     super();
-    this.layout = layout
-    this.items = items
+    this.layout = layout;
+    this.items = items;
   }
 
   _defineView() {
     return {
-       type: "stack",
-       props: {
-         id: this.id,
-         spacing: 0,
-         distribution: $stackViewDistribution.fillEqually,
-         axis: $stackViewAxis.horizontal,
-         stack: {
-           views: this.items
-         }
-       },
-       layout: this.layout
-     }
+      type: "stack",
+      props: {
+        id: this.id,
+        spacing: 0,
+        distribution: $stackViewDistribution.fillEqually,
+        axis: $stackViewAxis.horizontal,
+        stack: {
+          views: this.items
+        }
+      },
+      layout: this.layout
+    };
   }
 }
 

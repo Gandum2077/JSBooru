@@ -154,7 +154,7 @@ class Database {
   getRandomPost({ limit = 4 } = {}) {
     const clause =
       "SELECT * FROM posts WHERE order_id IN (SELECT order_id FROM posts ORDER BY RANDOM() LIMIT ?)";
-    const args = [limit]
+    const args = [limit];
     const result = this.search(clause, args);
     return result.map(n => {
       return {

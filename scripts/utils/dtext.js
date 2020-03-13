@@ -182,14 +182,14 @@ function removeLink(text) {
 }
 
 function replaceH456Tag(text) {
-  text = text.replace(/^h4\. (.*)$/gm, "<h3>$1</h3>")
-  text = text.replace(/^h5\. (.*)$/gm, "<h4>$1</h4>")
-  text = text.replace(/^h6\. (.*)$/gm, "<h4>$1</h4>")
-  return text
+  text = text.replace(/^h4\. (.*)$/gm, "<h3>$1</h3>");
+  text = text.replace(/^h5\. (.*)$/gm, "<h4>$1</h4>");
+  text = text.replace(/^h6\. (.*)$/gm, "<h4>$1</h4>");
+  return text;
 }
 
 function render(text) {
-  if (!text) return ''
+  if (!text) return "";
   text = replaceH456Tag(text);
   text = removeLink(text);
   text = text.replace(/\n+/g, "<br>");

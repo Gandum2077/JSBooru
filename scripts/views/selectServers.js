@@ -1,5 +1,5 @@
 const listDialogs = require("../dialogs/listDialogs");
-const constants = require("../utils/constants")
+const constants = require("../utils/constants");
 
 function map(items) {
   const colors = {
@@ -25,7 +25,7 @@ function map(items) {
         styles: [
           {
             range: $range(0, statuses[n.status].length),
-            bgcolor:  $color(colors[n.status]),
+            bgcolor: $color(colors[n.status]),
             color: $color("white")
           }
         ]
@@ -35,16 +35,15 @@ function map(items) {
 }
 
 async function selectServers(site) {
-  const currentIndex = constants.sitesConfig.findIndex(n => n.name === site)
-  console.info(site)
+  const currentIndex = constants.sitesConfig.findIndex(n => n.name === site);
   const result = await listDialogs({
     title: $l10n("SERVERS"),
     items: map(constants.sitesConfig),
     multiSelectEnabled: false,
     value: currentIndex
   });
-  const newSite = constants.sitesConfig[result].name
-  return newSite
+  const newSite = constants.sitesConfig[result].name;
+  return newSite;
 }
 
 module.exports = selectServers;

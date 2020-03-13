@@ -1,6 +1,5 @@
 const BaseView = require("../components/baseView");
 
-
 class ContentView extends BaseView {
   constructor({
     bgcolor = $color("white"),
@@ -8,7 +7,7 @@ class ContentView extends BaseView {
   } = {}) {
     super();
     this.bgcolor = bgcolor;
-    this.layout = layout
+    this.layout = layout;
   }
 
   _defineView() {
@@ -31,12 +30,12 @@ class MaskView extends BaseView {
   } = {}) {
     super();
     this.bgcolor = bgcolor;
-    this.layout = layout
-    this.tapped = tapped
+    this.layout = layout;
+    this.tapped = tapped;
   }
 
   _defineView() {
-    const classThis = this
+    const classThis = this;
     return {
       props: {
         id: this.id,
@@ -46,7 +45,7 @@ class MaskView extends BaseView {
       layout: this.layout,
       events: {
         tapped: function(sender) {
-          if (classThis.tapped) classThis.tapped(sender)
+          if (classThis.tapped) classThis.tapped(sender);
         }
       }
     };
@@ -57,7 +56,7 @@ class Button extends BaseView {
   constructor({ symbol, tapped }) {
     super();
     this._symbol = symbol;
-    this.tapped = tapped
+    this.tapped = tapped;
   }
 
   _defineView() {
@@ -65,7 +64,7 @@ class Button extends BaseView {
       type: "button",
       props: {
         id: this.id,
-        bgcolor: $color("clear"),
+        bgcolor: $color("clear")
       },
       views: [
         {
@@ -77,40 +76,37 @@ class Button extends BaseView {
             contentMode: 1
           },
           layout: (make, view) => {
-            make.top.bottom.inset(12.5)
-            make.centerX.equalTo(view.super)
-            make.width.equalTo(view.height)
+            make.top.bottom.inset(12.5);
+            make.centerX.equalTo(view.super);
+            make.width.equalTo(view.height);
           },
           events: {
             tapped: this.tapped
           }
         }
       ]
-    }
+    };
   }
 
   set tintColor(tintColor) {
-    this.view.get("image").tintColor = tintColor
+    this.view.get("image").tintColor = tintColor;
   }
 
   set symbol(symbol) {
-    this._symbol = symbol
-    this.view.get("image").symbol = symbol
+    this._symbol = symbol;
+    this.view.get("image").symbol = symbol;
   }
 
   get symbol() {
-    return this._symbol
+    return this._symbol;
   }
 }
 
 class Label extends BaseView {
-  constructor({
-    bgcolor = $color("white"),
-    layout
-  } = {}) {
+  constructor({ bgcolor = $color("white"), layout } = {}) {
     super();
     this.bgcolor = bgcolor;
-    this.layout = layout
+    this.layout = layout;
   }
 
   _defineView() {
@@ -127,7 +123,7 @@ class Label extends BaseView {
   }
 
   set text(text) {
-    this.view.text = text
+    this.view.text = text;
   }
 }
 
@@ -136,4 +132,4 @@ module.exports = {
   MaskView,
   Button,
   Label
-}
+};

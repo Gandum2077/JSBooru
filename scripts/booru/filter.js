@@ -3,7 +3,7 @@ function safeSearchFilter(items) {
 }
 
 function nonauthorizedFilter(items) {
-  return items.filter(n => n.previewUrl)
+  return items.filter(n => n.previewUrl);
 }
 
 module.exports = {

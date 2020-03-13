@@ -1,11 +1,15 @@
 const BaseView = require("../components/baseView");
 
 class ThumbnailsView extends BaseView {
-  constructor({ columns = $device.isIpad ? 4 : 2, layout = $layout.fill, events } = {}) {
+  constructor({
+    columns = $device.isIpad ? 4 : 2,
+    layout = $layout.fill,
+    events
+  } = {}) {
     super();
     this.columns = columns;
-    this.layout = layout
-    this.events = events
+    this.layout = layout;
+    this.events = events;
   }
 
   _defineView() {

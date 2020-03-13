@@ -369,10 +369,10 @@ class AddTagView extends BaseView {
           return $size(Math.min(Math.max(width + 15, 50), maxWidth), 32);
         },
         didSelect: function(sender, indexPath, data) {
-          const titleInput = (classThis.view
+          classThis.view
             .get("headerView")
             .cell($indexPath(0, 1))
-            .get("input").text = data.tag.text);
+            .get("input").text = data.tag.text;
         }
       }
     };

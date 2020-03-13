@@ -68,7 +68,6 @@ class AccessoryView extends BaseView {
   }
 
   initial() {
-    const textView = $(this.textViewId);
     this.view.data = ["剪贴板", ...constants.userConfig.search_history].map(
       n => {
         return {

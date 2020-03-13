@@ -6,7 +6,7 @@ class ID {
   }
 
   get newId() {
-    return this.generateNewIdWithAlias()
+    return this.generateNewIdWithAlias();
   }
 
   generateNewIdWithAlias(alias) {

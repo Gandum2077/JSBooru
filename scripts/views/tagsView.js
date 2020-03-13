@@ -65,13 +65,13 @@ class Menu extends BaseView {
 }
 
 class ListView extends BaseView {
-  constructor({searchEvent}) {
+  constructor({ searchEvent }) {
     super();
-    this.searchEvent = searchEvent
+    this.searchEvent = searchEvent;
   }
 
   _defineView() {
-    const classThis = this
+    const classThis = this;
     return {
       type: "list",
       props: {
@@ -115,8 +115,8 @@ class ListView extends BaseView {
       },
       events: {
         didSelect: (sender, indexPath, data) => {
-          const name = classThis._rawData[indexPath.item].name
-          classThis.searchEvent(name)
+          const name = classThis._rawData[indexPath.item].name;
+          classThis.searchEvent(name);
         }
       }
     };
@@ -127,7 +127,7 @@ class ListView extends BaseView {
       if (!text) return 0;
       return text.length;
     };
-    this._rawData = items
+    this._rawData = items;
     this.view.data = items.map(n => {
       return {
         label: {
@@ -181,7 +181,7 @@ class TagsView extends BaseView {
       items: [...FIXED_ITEMS, ...constants.userConfig.tag_categoires],
       changedEvent: text => classThis.reload()
     });
-    this.listView = new ListView({searchEvent: this.searchEvent});
+    this.listView = new ListView({ searchEvent: this.searchEvent });
     return {
       type: "view",
       props: {
@@ -198,7 +198,7 @@ class TagsView extends BaseView {
   }
 
   _filter(data, keyword) {
-    if (!data) return []
+    if (!data) return [];
     return keyword.length === 0
       ? data
       : data.filter(
@@ -235,9 +235,9 @@ class TagsView extends BaseView {
   }
 
   reloadAll() {
-    this.menu.customItems = constants.userConfig.tag_categoires
-    this.menu.index = 0
-    this.reload()
+    this.menu.customItems = constants.userConfig.tag_categoires;
+    this.menu.index = 0;
+    this.reload();
   }
 }
 

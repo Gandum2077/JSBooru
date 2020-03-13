@@ -1,5 +1,5 @@
 const Booru = require("booru");
-const { BooruError, sites } = require("booru");
+const { BooruError } = require("booru");
 
 const {
   site = "safebooru",

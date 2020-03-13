@@ -10,15 +10,15 @@ class FooterBar extends BaseView {
     },
     events
   }) {
-    super()
-    this.items = items
+    super();
+    this.items = items;
     this._index = index;
     this.layout = layout;
-    this.events = events
+    this.events = events;
   }
 
   _defineView() {
-    const classThis = this
+    const classThis = this;
     return {
       type: "matrix",
       props: {
@@ -59,9 +59,9 @@ class FooterBar extends BaseView {
       layout: this.layout,
       events: {
         didSelect: async function(sender, indexPath, data) {
-          classThis.index = indexPath.item
+          classThis.index = indexPath.item;
           if (classThis.events.changed) {
-            classThis.events.changed(indexPath.item)
+            classThis.events.changed(indexPath.item);
           }
         }
       }
@@ -69,12 +69,12 @@ class FooterBar extends BaseView {
   }
 
   get index() {
-    return this._index
+    return this._index;
   }
 
   set index(index) {
-    this._index = index
-    const data = this.view.data
+    this._index = index;
+    const data = this.view.data;
     data.forEach((n, i) => {
       if (i === index) {
         n.label.textColor = $color("black");
@@ -83,11 +83,9 @@ class FooterBar extends BaseView {
         n.label.textColor = $color("gray");
         n.image.tintColor = $color("gray");
       }
-    })
-    this.view.data = data
+    });
+    this.view.data = data;
   }
-
-
 }
 
-module.exports = FooterBar
+module.exports = FooterBar;

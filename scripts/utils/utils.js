@@ -1,12 +1,12 @@
 const constants = require("./constants");
 
-
 // 立即获得window size
 function getWindowSize() {
-    const window = $objc("UIWindow").$keyWindow().jsValue();
-    return window.size;
+  const window = $objc("UIWindow")
+    .$keyWindow()
+    .jsValue();
+  return window.size;
 }
-
 
 function querySiteNameByIndex(index) {
   return constants.sitesConfig[index].name;
