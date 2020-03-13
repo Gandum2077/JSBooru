@@ -32,7 +32,7 @@ class Sheet {
     navBarHidden = false,
     customButton
   } = {}) {
-    this.done = false;
+    this._done = false;
     this.title = title;
     this.navBarHidden = navBarHidden;
     this.customButton = customButton;
@@ -52,7 +52,7 @@ class Sheet {
       type: this.id + ": UIViewController",
       events: {
         "viewDidDisappear:": function() {
-          if (!this.done && this.reject) this.reject("cancel");
+          if (!classThis.done && classThis.reject) classThis.reject("cancel");
         }
       }
     });
@@ -98,7 +98,7 @@ class Sheet {
   }
 
   done(sender) {
-    this.done = true;
+    this._done = true;
     if (this.doneEvent) this.result = this.doneEvent(sender.super.super);
     this.PSViewController.invoke("dismissModalViewControllerAnimated", true);
     this.resolve(this.result);
