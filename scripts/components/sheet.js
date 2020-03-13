@@ -1,16 +1,13 @@
+const idManager = require("../utils/id");
+
 /**
  * 本模块用以呼出一个pageSheet
  * 常用参数：
  *   view  view定义，无需layout，必然被自动替换为覆盖整个sheet的layout
  *   doneEvent 点击左上角完成按钮后执行的事件，其参数sender代表上面参数view的上层view，其返回值会传递给this.result
  *   title 标题
- * 本模块的限制：
- *   由于使用了全局变量来控制reject，因此如果使用promisify，每次使用都要新创建实例，而且只能有一个实例运行
  *
  */
-
-let REJECT;
-let DONE = false;
 
 const UIModalPresentationStyle = {
   automatic: -2,
@@ -25,15 +22,6 @@ const UIModalPresentationStyle = {
   none: -1
 };
 
-$define({
-  type: "PSViewController: UIViewController",
-  events: {
-    "viewDidDisappear:": function() {
-      if (!DONE && REJECT) REJECT("cancel");
-    }
-  }
-});
-
 class Sheet {
   constructor({
     view,
@@ -44,17 +32,30 @@ class Sheet {
     navBarHidden = false,
     customButton
   } = {}) {
-    REJECT = undefined;
-    DONE = false;
+    this.done = false;
     this.title = title;
     this.navBarHidden = navBarHidden;
-    this.customButton = customButton
-    this.PSViewController = $objc("PSViewController").invoke("alloc.init");
+    this.customButton = customButton;
+    this.id = idManager.newId;
+    this._define();
+    this.PSViewController = $objc(this.id).invoke("alloc.init");
     this.PSViewControllerView = this.PSViewController.$view();
     this.PSViewControllerView.$setBackgroundColor(bgcolor);
     this.PSViewController.$setModalPresentationStyle(presentMode);
     if (view) this.add(view, doneEvent);
     if (!navBarHidden) this._add(this.defineNavBar());
+  }
+
+  _define() {
+    const classThis = this;
+    $define({
+      type: this.id + ": UIViewController",
+      events: {
+        "viewDidDisappear:": function() {
+          if (!this.done && this.reject) this.reject("cancel");
+        }
+      }
+    });
   }
 
   _add(view) {
@@ -93,11 +94,11 @@ class Sheet {
 
   promisify(resolve, reject) {
     this.resolve = resolve;
-    REJECT = reject;
+    this.reject = reject;
   }
 
   done(sender) {
-    DONE = true;
+    this.done = true;
     if (this.doneEvent) this.result = this.doneEvent(sender.super.super);
     this.PSViewController.invoke("dismissModalViewControllerAnimated", true);
     this.resolve(this.result);
@@ -167,13 +168,16 @@ class Sheet {
       props: {
         radius: 0,
         bgcolor: $color("clear"),
-        hidden: (this.customButton) ? false : true
+        hidden: this.customButton ? false : true
       },
       views: [
         {
           type: "image",
           props: {
-            symbol: this.customButton && this.customButton.symbol ? this.customButton.symbol : undefined,
+            symbol:
+              this.customButton && this.customButton.symbol
+                ? this.customButton.symbol
+                : undefined,
             tintColor: $color("white")
           },
           layout: function(make, view) {
@@ -188,8 +192,8 @@ class Sheet {
       },
       events: {
         tapped: sender => {
-          if (this.customButton.handler) this.customButton.handler()
-        } 
+          if (this.customButton.handler) this.customButton.handler();
+        }
       }
     };
     const navBar = {
