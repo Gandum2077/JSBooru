@@ -6,6 +6,7 @@ function map(items) {
     recommand: "#006600",
     good: "#00bb00",
     fixed: "#00bb00",
+    unstable: "orange",
     slow: "orange",
     bad: "red"
   };
@@ -13,6 +14,7 @@ function map(items) {
     recommand: $l10n("STATUS_RECOMMAND"),
     good: $l10n("STATUS_GOOD"),
     fixed: $l10n("STATUS_FIXED"),
+    unstable: $l10n("STATUS_UNSTABLE"),
     slow: $l10n("STATUS_SLOW"),
     bad: $l10n("STATUS_BAD")
   };

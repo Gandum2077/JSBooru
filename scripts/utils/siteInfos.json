@@ -41,7 +41,7 @@
   },
   {
     "name": "e621.net",
-    "status": "good",
+    "status": "unstable",
     "problem": null,
     "description": "",
     "nsfw": true,
@@ -49,7 +49,7 @@
   },
   {
     "name": "e926.net",
-    "status": "good",
+    "status": "unstable",
     "problem": null,
     "description": "",
     "nsfw": false,
@@ -97,7 +97,7 @@
   },
   {
     "name": "xbooru.com",
-    "status": "fixed",
+    "status": "unstable",
     "problem": "no previewUrl or sampleUrl",
     "description": "",
     "nsfw": true,
@@ -121,7 +121,7 @@
   },
   {
     "name": "realbooru.com",
-    "status": "fixed",
+    "status": "unstable",
     "problem": "no previewUrl or sampleUrl",
     "description": "",
     "nsfw": true,
@@ -129,7 +129,7 @@
   },
   {
     "name": "derpibooru.org",
-    "status": "slow",
+    "status": "bad",
     "problem": "",
     "description": "",
     "nsfw": true,

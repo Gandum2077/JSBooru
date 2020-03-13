@@ -79,6 +79,7 @@
 "STATUS_RECOMMAND" = "Recommand";
 "STATUS_GOOD" = "Good";
 "STATUS_FIXED" = "Good";
+"STATUS_UNSTABLE" = "Unstable";
 "STATUS_SLOW" = "Slow";
 "STATUS_BAD" = "Bad";
 

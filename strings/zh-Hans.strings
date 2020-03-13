@@ -79,6 +79,7 @@
 "STATUS_RECOMMAND" = "推荐";
 "STATUS_GOOD" = "良好";
 "STATUS_FIXED" = "良好";
+"STATUS_UNSTABLE" = "不稳定";
 "STATUS_SLOW" = "速度较慢";
 "STATUS_BAD" = "存在问题";
 
