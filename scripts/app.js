@@ -1,5 +1,4 @@
 const Controller = require("./control/main");
-const plainAlert = require("./dialogs/plainAlert");
 const constants = require("./utils/constants");
 const { insertExampleData } = require("./utils/example");
 const { checkLatestVersion } = require("./utils/updater");
@@ -16,19 +15,21 @@ async function init() {
       constants.userConfig.save();
     }
     if (constants.userConfig.show_tips) {
-      try {
-        await plainAlert({
-          title: $l10n("TIPS"),
-          message: $l10n("TIPS_CONTENT"),
-          cancelText: $l10n("CANCEL_TEXT"),
-          confirmText: $l10n("CONFIRM_TEXT")
-        });
+      const { index } = await $ui.alert({
+        title: $l10n("TIPS"),
+        message: $l10n("TIPS_CONTENT"),
+        actions: [
+          { title: $l10n("CANCEL_TEXT") },
+          { title: $l10n("CONFIRM_TEXT") }
+        ]
+      });
+      if (index) {
         constants.userConfig.closeTips();
         controller.loadFavorites();
         checkLatestVersion();
         await $wait(0.3);
         await controller.loadBooru({ useUiLoading: false });
-      } catch (err) {
+      } else {
         $app.close();
       }
     } else {

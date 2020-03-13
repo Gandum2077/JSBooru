@@ -10,7 +10,7 @@ function checkLatestVersion() {
         const info = resp.data;
         const latest_version = info["tag_name"];
         if (current_version !== latest_version) {
-          $ui.toast("可更新，请从Github或者Erots商店更新");
+          $ui.toast($l10n("UPDATE_TIPS"));
         }
       }
     }

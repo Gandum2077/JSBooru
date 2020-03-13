@@ -1,7 +1,6 @@
 const sitesConfigFile = "scripts/utils/siteInfos.json";
 const userConfigFile = "assets/userConfig.json";
 
-const imagePath = "images";
 const databaseFile = "assets/database.db";
 const savedTagsFile = "assets/savedTags.json";
 const favoritedTagsFile = "assets/favoritedTags.json";
@@ -12,7 +11,12 @@ const sitesConfig = JSON.parse($file.read(sitesConfigFile).string);
 class UserConfig {
   constructor(file) {
     this.file = file;
-    this.defaultConfig = { inset_example_data: true, show_tips: true, search_history: [], tag_categoires: [] };
+    this.defaultConfig = {
+      inset_example_data: true,
+      show_tips: true,
+      search_history: [],
+      tag_categoires: []
+    };
     if (!$file.exists(this.file)) this.create();
     this.open();
   }
@@ -35,7 +39,7 @@ class UserConfig {
       show_tips: this.show_tips,
       search_history: this.search_history,
       tag_categoires: this.tag_categoires
-    }
+    };
     $file.write({
       data: $data({ string: JSON.stringify(filtered, null, 2) }),
       path: this.file
@@ -48,7 +52,7 @@ class UserConfig {
   }
 
   addSearchHistory(text) {
-    if (!text) return
+    if (!text) return;
     const index = this.search_history.indexOf(text);
     if (index !== -1) {
       this.search_history.splice(index, 1);
@@ -61,15 +65,16 @@ class UserConfig {
   }
 
   saveTagCategoires(tag_categoires) {
-    if (tag_categoires.find(n => !n)) throw new Error("Null is not allowed")
-    if (find_duplicate_in_array(tag_categoires).length) throw new Error("Duplicate values are not allowed")
-    this.tag_categoires = tag_categoires
+    if (tag_categoires.find(n => !n)) throw new Error("Null is not allowed");
+    if (find_duplicate_in_array(tag_categoires).length)
+      throw new Error("Duplicate values are not allowed");
+    this.tag_categoires = tag_categoires;
     this.save();
   }
 
   closeTips() {
-    this.show_tips = false
-    this.save()
+    this.show_tips = false;
+    this.save();
   }
 }
 
@@ -78,25 +83,23 @@ function find_duplicate_in_array(arra1) {
   const result = [];
 
   arra1.forEach(item => {
-    if(!object[item])
-        object[item] = 0;
-      object[item] += 1;
-  })
+    if (!object[item]) object[item] = 0;
+    object[item] += 1;
+  });
 
   for (const prop in object) {
-     if(object[prop] >= 2) {
-         result.push(prop);
-     }
+    if (object[prop] >= 2) {
+      result.push(prop);
+    }
   }
 
   return result;
-
 }
 
 const userConfig = new UserConfig(userConfigFile);
 
 module.exports = {
-  imagePath,
+  userConfigFile,
   databaseFile,
   savedTagsFile,
   favoritedTagsFile,

@@ -174,11 +174,11 @@ class InfoView extends BaseView {
                 directions,
                 size: $size(250, 220),
                 items: [
-                  "立即搜索",
-                  "复制到剪贴板",
-                  "追加到剪贴板",
-                  savedTagInfo ? "取消保存" : "立即保存",
-                  "打开标签保存界面"
+                  $l10n("SEARCH_DIRECTLY"),
+                  $l10n("COPY_TO_CLIPBOARD"),
+                  $l10n("ADD_TO_CLIPBOARD"),
+                  savedTagInfo ? $l10n("DELETE_IT_FROM_SAVED") : $l10n("SAVE_DIRECTLY"),
+                  $l10n("OPEN_SAVED_TAGS_INTERFACE")
                 ]
               });
               switch (index) {

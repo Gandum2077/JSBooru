@@ -68,7 +68,7 @@ class AccessoryView extends BaseView {
   }
 
   initial() {
-    this.view.data = ["剪贴板", ...constants.userConfig.search_history].map(
+    this.view.data = [$l10n("CLIPBOARD"), ...constants.userConfig.search_history].map(
       n => {
         return {
           label: { text: n }

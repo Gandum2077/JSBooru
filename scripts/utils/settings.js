@@ -1,39 +1,20 @@
 const constants = require("./constants");
 const database = require("./database");
 
-function clearCache() {
-  $ui.alert({
-    title: "Sure to clear download cache?",
-    actions: [
-      {
-        title: "Cancel"
-      },
-      {
-        title: "OK",
-        handler: () => {
-          $file.delete(constants.imagePath);
-          $file.mkdir(constants.imagePath);
-          $ui.toast("Finished");
-        }
-      }
-    ]
-  });
-}
-
 function rebuildDatabase() {
   $ui.alert({
-    title: "Sure to rebuild database?",
+    title: $l10n("REBUILD_DATABASE_TIPS"),
     actions: [
       {
-        title: "Cancel"
+        title: $l10n("CANCEL")
       },
       {
-        title: "OK",
+        title: $l10n("OK"),
         handler: () => {
           database.closeDB();
           database.createDB();
           database.openDB();
-          $ui.toast("Finished");
+          $ui.toast($l10n("FINISHED"));
         }
       }
     ]
@@ -42,22 +23,20 @@ function rebuildDatabase() {
 
 function reset() {
   $ui.alert({
-    title: "Sure to reset?",
+    title: $l10n("RESET_TIPS"),
     actions: [
       {
-        title: "Cancel"
+        title: $l10n("CANCEL")
       },
       {
-        title: "OK",
+        title: $l10n("OK"),
         handler: () => {
-          $file.delete(constants.imagePath);
-          $file.mkdir(constants.imagePath);
           database.closeDB();
           database.createDB();
-          database.openDB();
-          $prefs.set("default_site", 2);
-          $prefs.set("safe_search", true);
-          $ui.toast("Finished");
+          if ($file.exists("assets/.files")) $file.delete("assets/.files");
+          if ($file.exists(constants.userConfigFile))
+            $file.delete(constants.userConfigFile);
+          $addin.restart();
         }
       }
     ]
@@ -65,7 +44,6 @@ function reset() {
 }
 
 module.exports = {
-  clearCache,
   rebuildDatabase,
   reset
 };

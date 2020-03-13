@@ -4,8 +4,10 @@
 "DONE" = "完成";
 "CANCEL" = "取消";
 "ADD" = "添加";
+"FINISHED" = "完成";
 "INVALID_VALUES" = "取值不合法";
 "DUPLICATE_VALUES" = "取值重复";
+"CLIPBOARD" = "剪贴板";
 
 // prefs.json
 
@@ -45,6 +47,8 @@
 "COPY_TO_CLIPBOARD" = "复制到剪贴板";
 "ADD_TO_CLIPBOARD" = "追加到剪贴板";
 "OPEN_SAVED_TAGS_INTERFACE" = "打开标签保存界面";
+"SAVE_DIRECTLY" = "立即保存";
+"DELETE_IT_FROM_SAVED" = "取消保存";
 
 "FAVORITED" = "收藏";
 "FAVORITES" = "收藏";
@@ -61,6 +65,7 @@
 "UNCATEGORIZED" = "未分类";
 "CATEGORY" = "分类";
 "ADD_TO_FAVORITED_TAGS" = "同时添加到收藏的标签";
+"WIKI_LOADING" = "wiki查询中…";
 
 // Tips
 
@@ -89,9 +94,21 @@
 "MANAGE_CATEGORIES" = "管理分类";
 
 "RANDOM_SUPPORT_ERROR" = "此站点不支持随即搜索";
-"CURRENT" = "当前";
+"CURRENT_PAGE" = "当前页码";
 
 // widget
 
 "REFRESH_WIDGET" = "换一批";
 "WIDGET_TIPS" = "尚未收藏图片哦";
+
+// settings
+
+"REBUILD_DATABASE_TIPS" = "确定要重建数据库？";
+"RESET_TIPS" = "确定要全部重置？JSBox将会重启";
+
+// updater
+
+"UPDATE_TIPS" = "可更新，请从Github或者Erots商店更新";
+
+// views
+

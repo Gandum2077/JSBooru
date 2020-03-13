@@ -243,7 +243,7 @@ class Controller {
                   let startPage = await inputAlert({
                     title: $l10n("JUMP_TO_PAGE"),
                     message:
-                      $l10n("CURRENT") + ": " + classThis.booruInfo.startPage
+                      $l10n("CURRENT_PAGE") + ": " + classThis.booruInfo.startPage
                   });
                   startPage = startPage.trim();
                   if (/^\d+$/.test(startPage) && parseInt(startPage) > 0) {
@@ -298,7 +298,7 @@ class Controller {
                   let startPage = await inputAlert({
                     title: $l10n("JUMP_TO_PAGE"),
                     message:
-                      $l10n("CURRENT") +
+                      $l10n("CURRENT_PAGE") +
                       ": " +
                       classThis.favoritesInfo.startPage
                   });

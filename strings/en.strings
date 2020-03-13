@@ -4,8 +4,10 @@
 "DONE" = "Done";
 "CANCEL" = "Cancel";
 "ADD" = "Add";
+"FINISHED" = "Finished";
 "INVALID_VALUES" = "Invalid values";
 "DUPLICATE_VALUES" = "Duplicate values";
+"CLIPBOARD" = "Clipboard";
 
 // prefs.json
 
@@ -45,6 +47,8 @@
 "COPY_TO_CLIPBOARD" = "Copy to Clipboard";
 "ADD_TO_CLIPBOARD" = "Add to Clipboard";
 "OPEN_SAVED_TAGS_INTERFACE" = "Open Saved Tags Interface";
+"SAVE_DIRECTLY" = "Save It Directly";
+"DELETE_IT_FROM_SAVED" = "Delete it From Saved";
 
 "FAVORITED" = "Favorited";
 "FAVORITES" = "Favorites";
@@ -61,6 +65,7 @@
 "UNCATEGORIZED" = "Uncategorized";
 "CATEGORY" = "Category";
 "ADD_TO_FAVORITED_TAGS" = "Add to favorited tags";
+"WIKI_LOADING" = "Wiki loading...";
 
 // Tips
 
@@ -89,9 +94,18 @@
 "MANAGE_CATEGORIES" = "Manage Categories";
 
 "RANDOM_SUPPORT_ERROR" = "Random search is not supported by this site";
-"CURRENT" = "Current";
+"CURRENT_PAGE" = "Current Page";
 
 // widget
 
 "REFRESH_WIDGET" = "Refresh";
 "WIDGET_TIPS" = "No Favorited Images";
+
+// settings
+
+"REBUILD_DATABASE_TIPS" = "Sure to rebuild database?";
+"RESET_TIPS" = "Sure to reset? JSBooru will restart.";
+
+// updater
+
+"UPDATE_TIPS" = "Update available. You can get it from Github or Erots.";

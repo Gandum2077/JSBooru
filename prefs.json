@@ -67,8 +67,14 @@
           "title": "Prefetch",
           "type": "list",
           "key": "prefetch",
-          "items": ["Off", "Next Page", "Next 2 Pages", "Next 3 Pages", "Next 4 Pages"],
-          "value": 0
+          "items": [
+            "Off",
+            "Next Page",
+            "Next 2 Pages",
+            "Next 3 Pages",
+            "Next 4 Pages"
+          ],
+          "value": 1
         },
         {
           "title": "Slideshow Intervals",
@@ -81,12 +87,6 @@
     {
       "title": "STORAGE",
       "items": [
-        {
-          "title": "Clear Download Cache",
-          "type": "script",
-          "key": "clear_cache",
-          "value": "require('scripts/utils/settings').clearCache();"
-        },
         {
           "title": "Rebuild Database",
           "type": "script",
