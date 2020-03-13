@@ -1,6 +1,6 @@
-const database = require("./utils/database");
-const { TopBar, ThumbnailsView, ImageView, TipsLabel } = require("./views/widgetViews");
-const { ContentView } = require("./views/views");
+const database = require("../utils/database");
+const { TopBar, ThumbnailsView, ImageView, TipsLabel } = require("../views/widgetViews");
+const { ContentView } = require("../views/views");
 
 class Controller {
   constructor() {

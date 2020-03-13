@@ -1,4 +1,4 @@
-const Controller = require("./widgetController");
+const Controller = require("./control/widget");
 
 async function init() {
   const controller = new Controller();

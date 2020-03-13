@@ -1,8 +1,8 @@
-const Controller = require("./controller");
+const Controller = require("./control/main");
 const plainAlert = require("./dialogs/plainAlert");
 const constants = require("./utils/constants");
 const { insertExampleData } = require("./utils/example");
-const { checkLatestVersion } = require("./utils/updater")
+const { checkLatestVersion } = require("./utils/updater");
 
 async function init() {
   try {
@@ -25,7 +25,7 @@ async function init() {
         });
         constants.userConfig.closeTips();
         controller.loadFavorites();
-        checkLatestVersion()
+        checkLatestVersion();
         await $wait(0.3);
         await controller.loadBooru({ useUiLoading: false });
       } catch (err) {
@@ -33,7 +33,7 @@ async function init() {
       }
     } else {
       controller.loadFavorites();
-      checkLatestVersion()
+      checkLatestVersion();
       await $wait(0.3);
       await controller.loadBooru();
     }

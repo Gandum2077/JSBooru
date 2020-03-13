@@ -1,9 +1,9 @@
-const ImageView = require("./views/imageView");
-const FooterStackView = require("./views/footerStackView");
-const PrefetchView = require("./views/prefetchView");
-const InfoView = require("./views/infoView");
-const { ContentView, MaskView, Button, Label } = require("./views/views");
-const database = require("./utils/database");
+const ImageView = require("../views/imageView");
+const FooterStackView = require("../views/footerStackView");
+const PrefetchView = require("../views/prefetchView");
+const InfoView = require("../views/infoView");
+const { ContentView, MaskView, Button, Label } = require("../views/views");
+const database = require("../utils/database");
 
 class SubCotroller {
   constructor({ items, index, searchEvent }) {

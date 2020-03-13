@@ -1,22 +1,22 @@
-const constants = require("./utils/constants");
-const database = require("./utils/database");
-const inputAlert = require("./dialogs/inputAlert");
-const editListDialogs = require("./dialogs/editListDialogs");
-const { ContentView } = require("./views/views");
-const FooterBar = require("./views/footerBar");
-const ThumbnailsView = require("./views/thumbnailsView");
-const SearchBar = require("./views/searchBar");
-const TagsView = require("./views/tagsView");
-const selectServers = require("./views/selectServers");
-const addTag = require("./views/addTag");
-const addCombination = require("./views/addCombination");
+const constants = require("../utils/constants");
+const database = require("../utils/database");
+const inputAlert = require("../dialogs/inputAlert");
+const editListDialogs = require("../dialogs/editListDialogs");
+const { ContentView } = require("../views/views");
+const FooterBar = require("../views/footerBar");
+const ThumbnailsView = require("../views/thumbnailsView");
+const SearchBar = require("../views/searchBar");
+const TagsView = require("../views/tagsView");
+const selectServers = require("../views/selectServers");
+const addTag = require("../views/addTag");
+const addCombination = require("../views/addCombination");
 const {
   generatorForSite,
   generatorForFavorites
-} = require("./booru/generator");
-const { safeSearchFilter, nonauthorizedFilter } = require("./booru/filter");
-const { checkRandomSupport } = require("./utils/utils");
-const SubController = require("./subController");
+} = require("../booru/generator");
+const { safeSearchFilter, nonauthorizedFilter } = require("../booru/filter");
+const { checkRandomSupport } = require("../utils/utils");
+const SubController = require("./reader");
 
 class Controller {
   constructor({
