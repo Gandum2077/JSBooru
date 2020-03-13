@@ -7,12 +7,14 @@ function booruSearch({ site, tags, limit, random, page }) {
       query: { site, tags, limit, random, page },
       listener: {
         id: "booruSearch",
-        handler: result => {
-          if (result.posts) {
-            const fixedPosts = result.posts.map(n => fix(n));
+        handler: ({ posts, error }) => {
+          if (posts) {
+            //console.info(posts);
+            const fixedPosts = posts.map(n => fix(n));
             resolve(fixedPosts);
           } else {
-            reject(result.error);
+            console.info(error);
+            reject(error);
           }
         }
       }

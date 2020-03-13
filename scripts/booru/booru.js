@@ -1,5 +1,4 @@
 const Booru = require("booru");
-const { BooruError } = require("booru");
 
 const {
   site = "safebooru",
@@ -8,36 +7,21 @@ const {
   random = false,
   page = 1
 } = $context.query;
-console.log("Node.js works");
+//console.log(site, tags);
 
-function sendResult({ posts = null, error = null }) {
-  $jsbox.notify("booruSearch", {
-    posts,
-    error
+// Search with promises
+Booru.search(site, tags, { limit, random, page })
+  .then(posts => {
+    //Log the direct link to each image
+    $jsbox.notify("booruSearch", { posts });
+  })
+  .catch(err => {
+    if (err instanceof Booru.BooruError) {
+      // It's a custom error thrown by the package
+      // Typically results from errors the boorus returns, eg. "too many tags"
+      $jsbox.notify("booruSearch", { error: err.message });
+    } else {
+      // This means something pretty bad happened
+      $jsbox.notify("booruSearch", { error: err });
+    }
   });
-}
-
-function search({ site, tags, limit, random, page }) {
-  // Search with promises
-  Booru.search(site, tags, { limit, random, page })
-    .then(posts => {
-      //Log the direct link to each image
-      sendResult(posts);
-    })
-    .catch(err => {
-      if (err instanceof BooruError) {
-        // It's a custom error thrown by the package
-        // Typically results from errors the boorus returns, eg. "too many tags"
-        sendResult({
-          error: err.message
-        });
-      } else {
-        // This means something pretty bad happened
-        sendResult({
-          error: err
-        });
-      }
-    });
-}
-
-search({ site, tags, limit, random, page });
