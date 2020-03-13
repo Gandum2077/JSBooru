@@ -66,7 +66,16 @@ const fixFunctions = {
       item.sampleUrl = `https://realbooru.com/samples/${directory}/sample_${basename}.jpg`;
     }
     return item;
-  }
+  },
+  "danbooru.donmai.us": item => {
+    if (!item.fileUrl) {
+      item.fileUrl = item.data.file_url || null
+    }
+    if (!item.previewUrl) {
+      item.previewUrl = item.data.preview_file_url || null
+    }
+    return item;
+  },
 };
 
 function fix(item) {

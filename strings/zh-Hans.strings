@@ -14,6 +14,7 @@
 "Show Favorites on Startup" = "启动后显示收藏";
 "SEARCH" = "搜索";
 "Safe Search" = "安全搜索";
+"Filter Nonauthorized Images" = "过滤无法显示的图片";
 "Tags Shown on Search" = "搜索时显示的标签";
 "Search History" = "历史搜索";
 "Favorited Tags" = "收藏的标签";
@@ -90,3 +91,7 @@
 "RANDOM_SUPPORT_ERROR" = "此站点不支持随即搜索";
 "CURRENT" = "当前";
 
+// widget
+
+"REFRESH_WIDGET" = "换一批";
+"WIDGET_TIPS" = "尚未收藏图片哦";

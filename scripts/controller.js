@@ -14,7 +14,7 @@ const {
   generatorForSite,
   generatorForFavorites
 } = require("./booru/generator");
-const { safeSearchFilter } = require("./booru/filter");
+const { safeSearchFilter, nonauthorizedFilter } = require("./booru/filter");
 const { checkRandomSupport } = require("./utils/utils");
 const SubController = require("./subController");
 
@@ -73,14 +73,21 @@ class Controller {
     });
     this.views.thumbnailsViewBooru = new ThumbnailsView({
       layout: (make, view) => {
-        make.left.right.bottom.inset(0)
-        make.top.inset(36)
+        make.left.right.bottom.inset(0);
+        make.top.inset(36);
       },
       events: {
         itemSize: function(sender, indexPath) {
-          const index = indexPath.item
-          const info = classThis.booruItems[index]
-          return $size(info.width, info.height)
+          const index = indexPath.item;
+          const info = classThis.booruItems[index];
+          const width = info.width;
+          let height = info.height;
+          if (height > width * 2) {
+            height = width * 2;
+          } else if (height < width / 2) {
+            height = width / 2;
+          }
+          return $size(width, height);
         },
         pulled: async function(sender) {
           if (classThis.isLoading) {
@@ -114,11 +121,7 @@ class Controller {
           }
           const result = await classThis.generatorBooru.next();
           if (!result.done) {
-            if ($prefs.get("safe_search")) {
-              classThis.booruItems.push(...safeSearchFilter(result.value));
-            } else {
-              classThis.booruItems.push(...result.value);
-            }
+            classThis.booruItems.push(...classThis._filter(result.value));
             classThis.views.thumbnailsViewBooru.items = classThis.booruItems;
           }
           sender.endFetchingMore();
@@ -127,14 +130,21 @@ class Controller {
     });
     this.views.thumbnailsViewFavorites = new ThumbnailsView({
       layout: (make, view) => {
-        make.left.right.bottom.inset(0)
-        make.top.inset(36)
+        make.left.right.bottom.inset(0);
+        make.top.inset(36);
       },
       events: {
         itemSize: function(sender, indexPath) {
-          const index = indexPath.item
-          const info = classThis.favoritesItems[index]
-          return $size(info.width, info.height)
+          const index = indexPath.item;
+          const info = classThis.favoritesItems[index];
+          const width = info.width;
+          let height = info.height;
+          if (height > width * 2) {
+            height = width * 2;
+          } else if (height < width / 2) {
+            height = width / 2;
+          }
+          return $size(width, height);
         },
         pulled: async function(sender) {
           classThis.loadFavorites({
@@ -161,7 +171,8 @@ class Controller {
           const result = classThis.generatorFavorites.next();
           if (!result.done) {
             classThis.favoritesItems.push(...result.value);
-            classThis.views.thumbnailsViewFavorites.items = classThis.favoritesItems;
+            classThis.views.thumbnailsViewFavorites.items =
+              classThis.favoritesItems;
           }
           sender.endFetchingMore();
         }
@@ -178,7 +189,7 @@ class Controller {
         const tags = text.split(" ");
         if (!tags || !tags.length) return;
         await classThis.loadBooru({ tags });
-        constants.userConfig.addSearchHistory(text)
+        constants.userConfig.addSearchHistory(text);
       }
     });
     this.views.searchBarFavorites = new SearchBar({
@@ -200,7 +211,7 @@ class Controller {
         const tags = text.split(" ");
         if (!tags || !tags.length) return;
         await classThis.loadBooru({ tags });
-        constants.userConfig.addSearchHistory(text)
+        constants.userConfig.addSearchHistory(text);
       }
     });
   }
@@ -441,7 +452,7 @@ class Controller {
       case 2: {
         this.views.tagsView.moveToFront();
         $ui.title = $l10n("TAGS");
-        this.views.tagsView.reload()
+        this.views.tagsView.reload();
         break;
       }
       default:
@@ -468,11 +479,7 @@ class Controller {
         startPage
       });
       const result = await this.generatorBooru.next();
-      if ($prefs.get("safe_search")) {
-        this.booruItems = safeSearchFilter(result.value);
-      } else {
-        this.booruItems = result.value;
-      }
+      this.booruItems = this._filter(result.value);
       this.views.thumbnailsViewBooru.items = this.booruItems;
       this.views.thumbnailsViewBooru.view.scrollTo({
         indexPath: $indexPath(0, 0),
@@ -502,6 +509,12 @@ class Controller {
       animated: false
     });
     this.favoritesInfo.startPage = startPage;
+  }
+
+  _filter(items) {
+    if ($prefs.get("safe_search")) items = safeSearchFilter(items);
+    if ($prefs.get("filter_nonauthorized_images")) items = nonauthorizedFilter(items);
+    return items
   }
 
   async openPrefs() {

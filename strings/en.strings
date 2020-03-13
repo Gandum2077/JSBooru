@@ -14,6 +14,7 @@
 "Show Favorites on Startup" = "Show Favorites on Startup";
 "SEARCH" = "SEARCH";
 "Safe Search" = "Safe Search";
+"Filter Nonauthorized Images" = "Filter Nonauthorized Images";
 "Tags Shown on Search" = "Tags Shown on Search";
 "Search History" = "Search History";
 "Favorited Tags" = "Favorited Tags";
@@ -89,3 +90,8 @@
 
 "RANDOM_SUPPORT_ERROR" = "Random search is not supported by this site";
 "CURRENT" = "Current";
+
+// widget
+
+"REFRESH_WIDGET" = "Refresh";
+"WIDGET_TIPS" = "No Favorited Images";

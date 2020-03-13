@@ -79,9 +79,9 @@ class Database {
   }
 
   insertPost({ info, favorited }) {
-    const { id, previewUrl: preview_url } = info
-    const site = info.booru.domain
-    const tags = ' ' + info.tags.join(' ') + ' '
+    const { id, previewUrl: preview_url } = info;
+    const site = info.booru.domain;
+    const tags = " " + info.tags.join(" ") + " ";
     this.deletePost({ site, id });
     this.db.update({
       sql:
@@ -149,6 +149,22 @@ class Database {
         limit_clause,
       args: args
     };
+  }
+
+  getRandomPost({ limit = 4 } = {}) {
+    const clause =
+      "SELECT * FROM posts WHERE order_id IN (SELECT order_id FROM posts ORDER BY RANDOM() LIMIT ?)";
+    const args = [limit]
+    const result = this.search(clause, args);
+    return result.map(n => {
+      return {
+        site_id: n.site_id,
+        id: n.id,
+        thumbnail_url: n.thumbnail_url,
+        info: JSON.parse(n.info),
+        favorited: n.favorited ? true : false
+      };
+    });
   }
 
   getPostCount(favorited = true) {
@@ -229,7 +245,8 @@ class Database {
 
   updateSavedTag({ name, title, category, favorited }) {
     this.db.update({
-      sql: "UPDATE saved_tags SET title = ?, category = ?, favorited = ? WHERE name=?",
+      sql:
+        "UPDATE saved_tags SET title = ?, category = ?, favorited = ? WHERE name=?",
       args: [title, category, favorited, name]
     });
     this.db.commit();
@@ -268,17 +285,17 @@ class Database {
     }
   }
 
-  safeAddSavedTag({name, title, category, favorited }) {
-    const result = this.searchSavedTag(name)
+  safeAddSavedTag({ name, title, category, favorited }) {
+    const result = this.searchSavedTag(name);
     if (result) {
-      this.updateSavedTag({ name, title, category, favorited })
+      this.updateSavedTag({ name, title, category, favorited });
     } else {
-      this.insertSavedTag({ name, title, category, favorited })
+      this.insertSavedTag({ name, title, category, favorited });
     }
   }
 
   renameCategory(oldname, newname) {
-    if (!newname) newname = null
+    if (!newname) newname = null;
     this.db.update({
       sql: "UPDATE saved_tags SET category = ? WHERE category = ?",
       args: [newname, oldname]
@@ -333,11 +350,11 @@ class Database {
   }
 
   safeAddCombination({ name, title }) {
-    const result = this.searchSavedCombination(name)
+    const result = this.searchSavedCombination(name);
     if (result) {
-      this.updateSavedCombination({name, title})
+      this.updateSavedCombination({ name, title });
     } else {
-      this.insertSavedCombination({name, title})
+      this.insertSavedCombination({ name, title });
     }
   }
 }

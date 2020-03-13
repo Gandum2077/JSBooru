@@ -45,6 +45,12 @@
           "type": "boolean",
           "key": "safe_search",
           "value": true
+        },
+        {
+          "title": "Filter Nonauthorized Images",
+          "type": "boolean",
+          "key": "filter_nonauthorized_images",
+          "value": true
         }
       ]
     },
