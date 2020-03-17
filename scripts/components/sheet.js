@@ -28,7 +28,7 @@ class Sheet {
     doneEvent,
     title = "",
     presentMode = UIModalPresentationStyle.pageSheet,
-    bgcolor = $color("white"),
+    bgcolor = $color("primarySurface"),
     navBarHidden = false,
     customButton
   } = {}) {

@@ -70,7 +70,6 @@ class ListView extends BaseView {
       props: {
         id: this.id,
         style: 2,
-        bgcolor: $color("#eee"),
         selectable: false,
         data: this.items,
         reorder: this.moveEnabled,

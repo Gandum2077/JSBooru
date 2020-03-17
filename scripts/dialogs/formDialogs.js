@@ -17,8 +17,8 @@ const BaseView = require("../components/baseView");
  *    title: string // 标题，可选。供人阅读的标题。
  *    value: *      // 缺省值，可选。在下面专项里有详解。
  *    titleColor: $color  // title颜色，可选。
- *    tintColor: $color  // icon颜色，可选。
  *    icon: $image  // 图标，可选。
+ *    iconColor: $color  // icon颜色，可选。
  *    iconEdgeInsets: $insets // 图标边距，可选。icon的size是锁定为$size(89/2, 89/2)的，
  *                               因此提供此参数缩小icon，默认$insets(12, 12, 12, 12)
  *
@@ -85,8 +85,8 @@ class Cell extends BaseView {
       key,
       title,
       value,
-      titleColor = $color("black"),
-      tintColor = $color("#007aff"),
+      titleColor = $color("primaryText"),
+      iconColor = $color("tintColor"),
       icon,
       iconEdgeInsets = $insets(12, 12, 12, 12)
     } = { type }
@@ -97,7 +97,7 @@ class Cell extends BaseView {
     this.title = title;
     this.value = value;
     this.titleColor = titleColor;
-    this.tintColor = tintColor;
+    this.iconColor = iconColor;
     this.icon = icon;
     this.iconEdgeInsets = iconEdgeInsets;
   }
@@ -105,14 +105,6 @@ class Cell extends BaseView {
   _defineView() {
     return {
       type: "view",
-      props: {
-        bgcolor: $color("white"),
-        info: {
-          key: this.key,
-          value: this.value,
-          type: this.type
-        }
-      },
       layout: $layout.fill,
       views: this.icon
         ? [
@@ -159,7 +151,7 @@ class Cell extends BaseView {
           type: "image",
           props: {
             id: "icon",
-            tintColor: this.tintColor,
+            tintColor: this.iconColor,
             image: this.icon.alwaysTemplate
           },
           layout: function(make, view) {
@@ -183,7 +175,7 @@ class BaseStringCell extends Cell {
       autocapitalizationType = 0,
       spellCheckingType = 0,
       placeholder,
-      textColor = $color("#337097")
+      textColor
     } = props;
     this.autocorrectionType = autocorrectionType;
     this.autocapitalizationType = autocapitalizationType;
@@ -203,7 +195,7 @@ class BaseStringCell extends Cell {
         kbType: this.kbType,
         align: $align.left,
         textColor: this.textColor,
-        bgcolor: $color("white"),
+        bgcolor: $color("clear"),
         placeholder: this.placeholder,
         secure: this.secure,
         autocorrectionType: this.autocorrectionType,
@@ -283,7 +275,7 @@ class PasswordCell extends BaseStringCell {
 class BooleanCell extends Cell {
   constructor(props, values) {
     super(props);
-    const { onColor = $color("#007aff"), thumbColor = $color("white") } = props;
+    const { onColor, thumbColor } = props;
     this.onColor = onColor;
     this.thumbColor = thumbColor;
     this.values = values;
@@ -320,9 +312,9 @@ class SliderCell extends Cell {
       decimal = 1,
       min = 0,
       max = 1,
-      minColor = $color("#007aff"),
-      maxColor = $color("#e4e4e6"),
-      thumbColor = $color("white")
+      minColor,
+      maxColor,
+      thumbColor
     } = props;
     this.decimal = decimal;
     this.min = min;
@@ -404,7 +396,7 @@ class ListCell extends Cell {
       props: {
         id: "valueView",
         text: this.value,
-        textColor: $color("#007aff"),
+        textColor: $color("tintColor"),
         align: $align.right,
         userInteractionEnabled: true
       },
@@ -528,7 +520,7 @@ class InfoCell extends Cell {
       props: {
         id: "valueView",
         text: this.value,
-        textColor: $color("#balck"),
+        textColor: $color("secondaryText"),
         align: $align.right
       },
       layout: function(make, view) {
@@ -605,8 +597,8 @@ class ActionCell extends Cell {
         props: {
           id: "valueView",
           title: this.buttonTitle,
-          titleColor: $color("#007aff"),
-          bgcolor: $color("white"),
+          titleColor: $color("tintColor"),
+          bgcolor: $color("clear"),
           radius: 0
         },
         layout: function(make, view) {
@@ -625,12 +617,7 @@ class ActionCell extends Cell {
         type: "button",
         props: {
           id: "valueView",
-          title: this.buttonTitle,
-          titleColor: $color("#007aff"),
-          bgcolor: $color("#f0f1f6"),
-          radius: 5,
-          borderWidth: 1,
-          borderColor: $color("#c8c7cc")
+          title: this.buttonTitle
         },
         layout: function(make, view) {
           make.top.bottom.inset(5);
@@ -667,7 +654,6 @@ class ListView extends BaseView {
       type: "list",
       props: {
         id: this.id,
-        bgcolor: $color("#eee"),
         data: this.sections.map(section => {
           const title = section.title;
           const rows = section.rows.map(

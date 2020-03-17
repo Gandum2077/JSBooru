@@ -16,7 +16,6 @@ class ListView extends BaseView {
       props: {
         id: this.id,
         style: 2,
-        bgcolor: $color("#eee"),
         data: this.items.map((n, i) => {
           if (typeof n === "string") {
             return {
@@ -31,9 +30,6 @@ class ListView extends BaseView {
           }
         }),
         template: {
-          props: {
-            bgcolor: $color("white")
-          },
           views: [
             {
               type: "label",

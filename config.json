@@ -6,14 +6,15 @@
     "author": "Gandum2077",
     "website": "https://github.com/Gandum2077/JSBooru",
     "types": 0
-  },
+  }, 
   "settings": {
-    "minSDKVer": "2.5.1",
+    "minSDKVer": "2.7.0",
     "minOSVer": "13.0.0",
     "idleTimerDisabled": false,
     "autoKeyboardEnabled": false,
     "keyboardToolbarEnabled": false,
-    "rotateDisabled": false
+    "rotateDisabled": false,
+    "theme": "auto"
   },
   "widget": {
     "height": 0,
