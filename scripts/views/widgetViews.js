@@ -46,7 +46,7 @@ class TopBar extends BaseView {
             symbol: "arrow.2.circlepath",
             title: $l10n("REFRESH_WIDGET"),
             font: $font(17),
-            titleColor: $color("black"),
+            titleColor: $color("primaryText"),
             bgcolor: $color("clear")
           },
           layout: (make, view) => {
@@ -149,7 +149,7 @@ class TipsLabel extends BaseView {
         hidden: true,
         align: $align.center,
         bgcolor: $color("clear"),
-        textColor: $color("black")
+        textColor: $color("primaryText")
       },
       layout: this.layout
     };
