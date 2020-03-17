@@ -1,5 +1,6 @@
 const BaseView = require("../components/baseView");
 const constants = require("../utils/constants");
+const colors = require("../utils/colors");
 
 class AccessoryView extends BaseView {
   constructor({ textViewId }) {
@@ -14,9 +15,6 @@ class AccessoryView extends BaseView {
       props: {
         id: this.id,
         height: 44,
-        bgcolor: $color("#eee"),
-        borderWidth: 0.5,
-        borderColor: $color("#ccc"),
         keyboardDismissMode: 0,
         spacing: 5,
         direction: $scrollDirection.horizontal,
@@ -30,10 +28,8 @@ class AccessoryView extends BaseView {
               props: {
                 id: "label",
                 font: $font("menlo", 13),
-                borderWidth: 0.5,
                 align: $align.center,
-                bgcolor: $color("white"),
-                textColor: $color("black"),
+                bgcolor: colors.fixedSecondarySurface,
                 radius: 5
               },
               layout: function(make, view) {

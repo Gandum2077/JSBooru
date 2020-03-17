@@ -23,7 +23,7 @@ function map(items) {
       styledText: {
         text: statuses[n.status] + "  " + n.name,
         font: $font(17),
-        color: $color("black"),
+        color: $color("primaryText"),
         styles: [
           {
             range: $range(0, statuses[n.status].length),

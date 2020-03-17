@@ -20,17 +20,14 @@ class ThumbnailsView extends BaseView {
         waterfall: true,
         columns: this.columns,
         spacing: 5,
-        bgcolor: $color("#333"),
+        bgcolor: $color("systemGroupedBackground"),
         template: {
-          props: {
-            bgcolor: $color("clear")
-          },
           views: [
             {
               type: "image",
               props: {
                 id: "thumbnail",
-                bgcolor: $color("#efeff4"),
+                bgcolor: $color("systemSecondaryGroupedBackground"),
                 contentMode: 1
               },
               layout: $layout.fill

@@ -2,6 +2,7 @@ const BaseView = require("../components/baseView");
 const SearchBar = require("./searchBar");
 const database = require("../utils/database");
 const constants = require("../utils/constants");
+const colors = require("../utils/colors");
 
 const FIXED_ITEMS = [
   $l10n("COMBINATIONS"),
@@ -26,8 +27,7 @@ class Menu extends BaseView {
         segmentWidthStyle: 1,
         dynamicWidth: true,
         items: this._items,
-        index: this._index,
-        bgcolor: $color("white")
+        index: this._index
       },
       layout: (make, view) => {
         make.left.right.equalTo(0);
@@ -78,9 +78,6 @@ class ListView extends BaseView {
         id: this.id,
         style: 2,
         template: {
-          props: {
-            bgcolor: $color("white")
-          },
           views: [
             {
               type: "label",
@@ -98,7 +95,7 @@ class ListView extends BaseView {
               props: {
                 id: "image",
                 symbol: "star.fill",
-                tintColor: $color("#ffd700"),
+                tintColor: colors.gold,
                 contentMode: 1
               },
               layout: (make, view) => {
@@ -132,18 +129,16 @@ class ListView extends BaseView {
       return {
         label: {
           styledText: {
-            text: ` ${n.title || ""}  ${n.name}`,
-            font: $font(15),
-            color: $color("black"),
+            text: `${n.title ? n.title + "  " : ""}${n.name}`,
             styles: [
               {
-                range: $range(1, len(n.title)),
+                range: $range(0, len(n.title)),
                 font: $font(17),
-                color: $color("black")
+                color: $color("primaryText")
               },
               {
-                range: $range(len(n.title) + 3, len(n.name)),
-                color: $color("gray"),
+                range: $range(n.title ? len(n.title) + 2 : 0, len(n.name)),
+                color: $color("secondaryText"),
                 font: $font(14),
                 obliqueness: 0.3
               }
@@ -185,8 +180,7 @@ class TagsView extends BaseView {
     return {
       type: "view",
       props: {
-        id: this.id,
-        bgcolor: $color("#eee")
+        id: this.id
       },
       views: [
         this.searchBar.definition,

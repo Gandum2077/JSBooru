@@ -42,15 +42,19 @@ class Controller {
     this.views.main = new ContentView();
     this.views.footerBar = new FooterBar({
       items: [
-        ["photo.fill", "Booru"],
-        ["bookmark.fill", "Favorites"],
-        ["tag.fill", "Tags"]
-      ].map(n => {
-        return {
-          image: { symbol: n[0] },
-          label: { text: n[1] }
-        };
-      }),
+        {
+          symbol: "photo.fill",
+          title: "Booru"
+        },
+        {
+          symbol: "bookmark.fill",
+          title: "Favorites"
+        },
+        {
+          symbol: "tag.fill",
+          title: "Tags"
+        }
+      ],
       events: {
         changed: index => {
           classThis.changeIndex(index);
@@ -58,14 +62,12 @@ class Controller {
       }
     });
     this.views.booruView = new ContentView({
-      bgcolor: $color("#333"),
       layout: (make, view) => {
         make.left.right.top.inset(0);
         make.bottom.equalTo(this.views.footerBar.view.top);
       }
     });
     this.views.favoritesView = new ContentView({
-      bgcolor: $color("#333"),
       layout: (make, view) => {
         make.left.right.top.inset(0);
         make.bottom.equalTo(this.views.footerBar.view.top);

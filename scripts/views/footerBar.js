@@ -1,9 +1,13 @@
 const BaseView = require("../components/baseView");
+const colors = require("../utils/colors");
 
 class FooterBar extends BaseView {
   constructor({
     items = [],
     index = 0,
+    selectedSegmentTintColor = $color("tintColor"),
+    defaultSegmentTintColor = colors.footBarDefaultSegmentColor,
+    bgcolor = $color("secondarySurface"),
     layout = (make, view) => {
       make.left.right.bottom.equalTo(view.super.safeArea);
       make.height.equalTo(50);
@@ -13,6 +17,9 @@ class FooterBar extends BaseView {
     super();
     this.items = items;
     this._index = index;
+    this.selectedSegmentTintColor = selectedSegmentTintColor
+    this.defaultSegmentTintColor = defaultSegmentTintColor
+    this.bgcolor = bgcolor
     this.layout = layout;
     this.events = events;
   }
@@ -27,7 +34,7 @@ class FooterBar extends BaseView {
         itemHeight: 60,
         spacing: 1,
         scrollEnabled: false,
-        bgcolor: $color("white"),
+        bgcolor: this.bgcolor,
         template: [
           {
             type: "image",
@@ -54,7 +61,7 @@ class FooterBar extends BaseView {
             }
           }
         ],
-        data: this.items
+        data: this._map(this.items)
       },
       layout: this.layout,
       events: {
@@ -68,6 +75,21 @@ class FooterBar extends BaseView {
     };
   }
 
+  _map(items) {
+    return items.map(n => {
+      return {
+        image: { 
+          symbol: n.symbol,
+          tintColor: this.defaultSegmentTintColor
+        },
+        label: {
+          text: n.title,
+          textColor: this.defaultSegmentTintColor
+        }
+      };
+    })
+  }
+
   get index() {
     return this._index;
   }
@@ -77,11 +99,11 @@ class FooterBar extends BaseView {
     const data = this.view.data;
     data.forEach((n, i) => {
       if (i === index) {
-        n.label.textColor = $color("black");
-        n.image.tintColor = $color("black");
+        n.label.textColor = this.selectedSegmentTintColor;
+        n.image.tintColor = this.selectedSegmentTintColor;
       } else {
-        n.label.textColor = $color("gray");
-        n.image.tintColor = $color("gray");
+        n.label.textColor = this.defaultSegmentTintColor;
+        n.image.tintColor = this.defaultSegmentTintColor;
       }
     });
     this.view.data = data;

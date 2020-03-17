@@ -1,4 +1,5 @@
 const idManager = require("../utils/id");
+const colors = require("../utils/colors");
 
 /**
  * 本模块用以呼出一个pageSheet
@@ -199,7 +200,7 @@ class Sheet {
     const navBar = {
       type: "view",
       props: {
-        bgcolor: $color("tint")
+        bgcolor: colors.sheetNavBarColor
       },
       layout: (make, view) => {
         make.left.top.right.inset(0);

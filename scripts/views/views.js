@@ -2,7 +2,7 @@ const BaseView = require("../components/baseView");
 
 class ContentView extends BaseView {
   constructor({
-    bgcolor = $color("white"),
+    bgcolor = $color("primarySurface"),
     layout = $layout.fillSafeArea
   } = {}) {
     super();
@@ -64,7 +64,8 @@ class Button extends BaseView {
       type: "button",
       props: {
         id: this.id,
-        bgcolor: $color("clear")
+        radius: 0,
+        bgcolor: $color("secondarySurface")
       },
       views: [
         {
@@ -72,7 +73,7 @@ class Button extends BaseView {
           props: {
             id: "image",
             symbol: this._symbol,
-            tintColor: $color("black"),
+            tintColor: $color("primaryText"),
             contentMode: 1
           },
           layout: (make, view) => {
@@ -103,7 +104,7 @@ class Button extends BaseView {
 }
 
 class Label extends BaseView {
-  constructor({ bgcolor = $color("white"), layout } = {}) {
+  constructor({ bgcolor = $color("secondarySurface"), layout } = {}) {
     super();
     this.bgcolor = bgcolor;
     this.layout = layout;

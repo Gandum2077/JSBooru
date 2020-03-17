@@ -14,16 +14,14 @@ async function addCombination({
           title: $l10n("CONTENT"),
           key: "combination_name",
           value: combination_name,
-          placeholder: $l10n("REQUIRED"),
-          textColor: $color("black")
+          placeholder: $l10n("REQUIRED")
         },
         {
           type: "string",
           title: $l10n("TITLE"),
           key: "combination_title",
           value: combination_title,
-          placeholder: $l10n("OPTIONAL"),
-          textColor: $color("black")
+          placeholder: $l10n("OPTIONAL")
         }
       ]
     }

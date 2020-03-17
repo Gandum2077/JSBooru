@@ -18,12 +18,12 @@ class InfoView extends BaseView {
           styledText: {
             text: `Sample  ${this.item.sampleWidth} × ${this.item.sampleHeight}`,
             font: $font(15),
-            color: $color("gray"),
+            color: $color("secondaryText"),
             styles: [
               {
                 range: $range(0, 6),
                 font: $font(17),
-                color: $color("black")
+                color: $color("primaryText")
               }
             ]
           }
@@ -35,12 +35,12 @@ class InfoView extends BaseView {
           styledText: {
             text: `Original  ${this.item.width} × ${this.item.height}`,
             font: $font(15),
-            color: $color("gray"),
+            color: $color("secondaryText"),
             styles: [
               {
                 range: $range(0, 8),
                 font: $font(17),
-                color: $color("black")
+                color: $color("primaryText")
               }
             ]
           }
@@ -52,12 +52,12 @@ class InfoView extends BaseView {
           styledText: {
             text: `Source  ${this.item.source}`,
             font: $font(15),
-            color: $color("gray"),
+            color: $color("secondaryText"),
             styles: [
               {
                 range: $range(0, 6),
                 font: $font(17),
-                color: $color("black")
+                color: $color("primaryText")
               }
             ]
           }
@@ -74,12 +74,12 @@ class InfoView extends BaseView {
         styledText: {
           text: `Site  ${this.item.booru.site.domain}`,
           font: $font(15),
-          color: $color("gray"),
+          color: $color("secondaryText"),
           styles: [
             {
               range: $range(0, 4),
               font: $font(17),
-              color: $color("black")
+              color: $color("primaryText")
             }
           ]
         }
@@ -91,12 +91,12 @@ class InfoView extends BaseView {
           styledText: {
             text: `ID  ${this.item.id}`,
             font: $font(15),
-            color: $color("gray"),
+            color: $color("secondaryText"),
             styles: [
               {
                 range: $range(0, 2),
                 font: $font(17),
-                color: $color("black")
+                color: $color("primaryText")
               }
             ]
           }
@@ -108,12 +108,12 @@ class InfoView extends BaseView {
           styledText: {
             text: `Rating  ${this.item.rating}`,
             font: $font(15),
-            color: $color("gray"),
+            color: $color("secondaryText"),
             styles: [
               {
                 range: $range(0, 6),
                 font: $font(17),
-                color: $color("black")
+                color: $color("primaryText")
               }
             ]
           }
@@ -123,7 +123,6 @@ class InfoView extends BaseView {
       type: "list",
       props: {
         id: this.id,
-        bgcolor: $color("#eee"),
         template: {
           views: [
             {

@@ -26,7 +26,7 @@ class SubCotroller {
         if (favorited) {
           database.deletePost({ site, id });
           classThis.views.favoritedButton.symbol = "bookmark";
-          classThis.views.favoritedButton.tintColor = $color("black");
+          classThis.views.favoritedButton.tintColor = $color("primaryText");
         } else {
           database.insertPost({ info: classThis.item, favorited: true });
           classThis.views.favoritedButton.symbol = "bookmark.fill";
@@ -150,7 +150,7 @@ class SubCotroller {
       this.views.favoritedButton.tintColor = $color("red");
     } else {
       this.views.favoritedButton.symbol = "bookmark";
-      this.views.favoritedButton.tintColor = $color("black");
+      this.views.favoritedButton.tintColor = $color("primaryText");
     }
     this.views.indexLabel.text = `${this.index + 1} / ${this.items.length}`;
     const prefetch = $prefs.get("prefetch") + 1;

@@ -59,7 +59,7 @@ class ImageView extends BaseView {
     const enhancedImageView = {
       props: {
         id: this.id,
-        bgcolor: $color("#eee")
+        bgcolor: $color("backgroundColor")
       },
       views: [scroll],
       layout: this.layout,
