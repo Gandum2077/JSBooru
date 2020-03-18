@@ -180,7 +180,8 @@ class TagsView extends BaseView {
     return {
       type: "view",
       props: {
-        id: this.id
+        id: this.id,
+        bgcolor: $color("primarySurface")
       },
       views: [
         this.searchBar.definition,

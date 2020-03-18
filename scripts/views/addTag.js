@@ -30,7 +30,7 @@ class AddTagView extends BaseView {
       {
         type: "view",
         props: {
-          bgcolor: $color("white")
+          bgcolor: $color("secondarySurface")
         },
         layout: $layout.fill,
         views: [
@@ -39,7 +39,7 @@ class AddTagView extends BaseView {
             props: {
               id: "title",
               align: $align.left,
-              bgcolor: $color("white"),
+              bgcolor: $color("clear"),
               text: $l10n("CONTENT")
             },
             layout: function(make, view) {
@@ -57,7 +57,7 @@ class AddTagView extends BaseView {
               radius: 0,
               autocapitalizationType: 0,
               userInteractionEnabled: this.tag_name_editable,
-              bgcolor: $color("white")
+              bgcolor: $color("clear")
             },
             layout: function(make, view) {
               make.top.bottom.inset(0.5);
@@ -84,7 +84,7 @@ class AddTagView extends BaseView {
       {
         type: "view",
         props: {
-          bgcolor: $color("white")
+          bgcolor: $color("secondarySurface")
         },
         layout: $layout.fill,
         views: [
@@ -93,7 +93,7 @@ class AddTagView extends BaseView {
             props: {
               id: "title",
               align: $align.left,
-              bgcolor: $color("white"),
+              bgcolor: $color("clear"),
               text: $l10n("TITLE")
             },
             layout: function(make, view) {
@@ -109,7 +109,7 @@ class AddTagView extends BaseView {
               text: this.tag_title,
               placeholder: $l10n("OPTIONAL"),
               radius: 0,
-              bgcolor: $color("white")
+              bgcolor: $color("clear")
             },
             layout: function(make, view) {
               make.top.bottom.inset(0.5);
@@ -130,7 +130,7 @@ class AddTagView extends BaseView {
       {
         type: "view",
         props: {
-          bgcolor: $color("white")
+          bgcolor: $color("secondarySurface")
         },
         layout: $layout.fill,
         views: [
@@ -139,7 +139,7 @@ class AddTagView extends BaseView {
             props: {
               id: "title",
               align: $align.left,
-              bgcolor: $color("white"),
+              bgcolor: $color("clear"),
               text: $l10n("CATEGORY")
             },
             layout: function(make, view) {
@@ -149,23 +149,11 @@ class AddTagView extends BaseView {
             }
           },
           {
-            type: "view",
-            props: {
-              id: "background",
-              bgcolor: $color("white")
-            },
-            layout: function(make, view) {
-              make.top.bottom.inset(0.5);
-              make.left.equalTo($("title").right);
-              make.right.inset(15);
-            }
-          },
-          {
             type: "button",
             props: {
               id: "cateogry",
               title: this.category || sectionNames[0],
-              titleColor: $color("black"),
+              titleColor: $color("tintColor"),
               bgcolor: $color("clear")
             },
             layout: function(make, view) {
@@ -193,7 +181,7 @@ class AddTagView extends BaseView {
       {
         type: "view",
         props: {
-          bgcolor: $color("white")
+          bgcolor: $color("secondarySurface")
         },
         layout: $layout.fill,
         views: [
@@ -202,25 +190,12 @@ class AddTagView extends BaseView {
             props: {
               id: "title",
               align: $align.left,
-              bgcolor: $color("white"),
               text: $l10n("ADD_TO_FAVORITED_TAGS")
             },
             layout: function(make, view) {
               make.left.inset(15);
               make.top.bottom.inset(0.5);
               make.width.equalTo(200);
-            }
-          },
-          {
-            type: "view",
-            props: {
-              id: "background",
-              bgcolor: $color("white")
-            },
-            layout: function(make, view) {
-              make.top.bottom.inset(0.5);
-              make.left.equalTo($("title").right);
-              make.right.inset(15);
             }
           },
           {
@@ -304,8 +279,7 @@ class AddTagView extends BaseView {
           type: "text",
           props: {
             id: "text_wiki",
-            editable: false,
-            textColor: $color("#666")
+            editable: false
           },
           layout: (make, view) => {
             make.top.equalTo($("sectionHeader").bottom).inset(5);
@@ -324,7 +298,7 @@ class AddTagView extends BaseView {
       type: "matrix",
       props: {
         id: this.id,
-        bgcolor: $color("#eee"),
+        bgcolor: $color("groupedBackground"),
         spacing: 15,
         header: this._defineHeaderView(),
         footer: this._defineFooterView(),
@@ -338,7 +312,7 @@ class AddTagView extends BaseView {
               props: {
                 id: "tag",
                 radius: 5,
-                bgcolor: $color("white"),
+                bgcolor: $color("secondarySurface"),
                 font: $font(15),
                 align: $align.center
               },
@@ -353,7 +327,7 @@ class AddTagView extends BaseView {
       },
       events: {
         ready: async function(sender) {
-          await $wait(0.5);
+          await $wait(1);
           await classThis.updateStatus();
         },
         itemSize: function(sender, indexPath) {
