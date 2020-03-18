@@ -30,8 +30,8 @@ class Menu extends BaseView {
         index: this._index
       },
       layout: (make, view) => {
-        make.left.right.equalTo(0);
-        make.top.equalTo(view.prev.bottom).inset(1);
+        make.left.right.inset(10);
+        make.top.equalTo(view.prev.bottom).inset(5);
         make.height.equalTo(44);
       },
       events: {
@@ -65,9 +65,10 @@ class Menu extends BaseView {
 }
 
 class ListView extends BaseView {
-  constructor({ searchEvent }) {
+  constructor({ searchEvent, bgcolor }) {
     super();
     this.searchEvent = searchEvent;
+    this.bgcolor = bgcolor;
   }
 
   _defineView() {
@@ -76,8 +77,11 @@ class ListView extends BaseView {
       type: "list",
       props: {
         id: this.id,
-        style: 2,
+        bgcolor: this.bgcolor,
         template: {
+          props: {
+            bgcolor: $color("secondarySurface")
+          },
           views: [
             {
               type: "label",
@@ -107,8 +111,9 @@ class ListView extends BaseView {
         }
       },
       layout: (make, view) => {
-        make.left.right.bottom.inset(0);
-        make.top.equalTo(view.prev.bottom);
+        make.left.right.inset(10);
+        make.bottom.inset(0);
+        make.top.equalTo(view.prev.bottom).inset(2);
       },
       events: {
         didSelect: (sender, indexPath, data) => {
@@ -166,9 +171,9 @@ class TagsView extends BaseView {
       placeholder: $l10n("SEARCH"),
       useAccessoryView: false,
       layout: (make, view) => {
-        make.top.inset(1);
-        make.left.right.inset(5);
-        make.height.equalTo(35);
+        make.top.inset(5);
+        make.left.right.inset(10);
+        make.height.equalTo(36);
       },
       changedEvent: text => classThis.reload()
     });
@@ -176,12 +181,15 @@ class TagsView extends BaseView {
       items: [...FIXED_ITEMS, ...constants.userConfig.tag_categoires],
       changedEvent: text => classThis.reload()
     });
-    this.listView = new ListView({ searchEvent: this.searchEvent });
+    this.listView = new ListView({
+      searchEvent: this.searchEvent,
+      bgcolor: $color("backgroundColor")
+    });
     return {
       type: "view",
       props: {
         id: this.id,
-        bgcolor: $color("primarySurface")
+        bgcolor: $color("backgroundColor")
       },
       views: [
         this.searchBar.definition,

@@ -74,10 +74,7 @@ class Controller {
       }
     });
     this.views.thumbnailsViewBooru = new ThumbnailsView({
-      layout: (make, view) => {
-        make.left.right.bottom.inset(0);
-        make.top.inset(36);
-      },
+      layout: $layout.fill,
       events: {
         itemSize: function(sender, indexPath) {
           const index = indexPath.item;
@@ -131,10 +128,7 @@ class Controller {
       }
     });
     this.views.thumbnailsViewFavorites = new ThumbnailsView({
-      layout: (make, view) => {
-        make.left.right.bottom.inset(0);
-        make.top.inset(36);
-      },
+      layout: $layout.fill,
       events: {
         itemSize: function(sender, indexPath) {
           const index = indexPath.item;
@@ -183,9 +177,9 @@ class Controller {
     this.views.searchBarBooru = new SearchBar({
       placeholder: $l10n("SEARCH"),
       layout: (make, view) => {
-        make.top.inset(1);
-        make.left.right.inset(5);
-        make.height.equalTo(35);
+        make.top.inset(5);
+        make.left.right.inset(10);
+        make.height.equalTo(36);
       },
       searchEvent: async text => {
         const tags = text.split(" ");
@@ -197,9 +191,9 @@ class Controller {
     this.views.searchBarFavorites = new SearchBar({
       placeholder: $l10n("SEARCH"),
       layout: (make, view) => {
-        make.top.inset(1);
-        make.left.right.inset(5);
-        make.height.equalTo(35);
+        make.top.inset(5);
+        make.left.right.inset(10);
+        make.height.equalTo(36);
       }
     });
     this.views.tagsView = new TagsView({
@@ -245,7 +239,9 @@ class Controller {
                   let startPage = await inputAlert({
                     title: $l10n("JUMP_TO_PAGE"),
                     message:
-                      $l10n("CURRENT_PAGE") + ": " + classThis.booruInfo.startPage
+                      $l10n("CURRENT_PAGE") +
+                      ": " +
+                      classThis.booruInfo.startPage
                   });
                   startPage = startPage.trim();
                   if (/^\d+$/.test(startPage) && parseInt(startPage) > 0) {
@@ -419,6 +415,7 @@ class Controller {
   }
 
   render() {
+    const classThis = this;
     $ui.render({
       props: {
         title: "",
@@ -431,11 +428,17 @@ class Controller {
     this.views.main.add(this.views.favoritesView.definition);
     this.views.main.add(this.views.booruView.definition);
     this.views.booruView.add(this.views.thumbnailsViewBooru.definition);
-    this.views.booruView.add(this.views.searchBarBooru.definition);
     this.views.favoritesView.add(this.views.thumbnailsViewFavorites.definition);
-    this.views.favoritesView.add(this.views.searchBarFavorites.definition);
     this.views.footerBar.index = this.footerBarIndex;
     this.changeIndex(this.footerBarIndex);
+    $delay(0.1, function() {
+      classThis.views.thumbnailsViewBooru.view
+        .get("header")
+        .add(classThis.views.searchBarBooru.definition);
+      classThis.views.thumbnailsViewFavorites.view
+        .get("header")
+        .add(classThis.views.searchBarFavorites.definition);
+    });
   }
 
   changeIndex(index) {
@@ -515,8 +518,9 @@ class Controller {
 
   _filter(items) {
     if ($prefs.get("safe_search")) items = safeSearchFilter(items);
-    if ($prefs.get("filter_nonauthorized_images")) items = nonauthorizedFilter(items);
-    return items
+    if ($prefs.get("filter_nonauthorized_images"))
+      items = nonauthorizedFilter(items);
+    return items;
   }
 
   async openPrefs() {

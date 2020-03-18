@@ -24,7 +24,7 @@ class ThumbnailsView extends BaseView {
         header: {
           props: {
             id: "header",
-            height: 36
+            height: 41
           }
         },
         template: {

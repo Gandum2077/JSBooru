@@ -1,12 +1,14 @@
 const BaseView = require("../components/baseView");
 const idManager = require("../utils/id");
 const AccessoryView = require("./accessoryView");
+const colors = require("../utils/colors");
 
 class SearchBar extends BaseView {
   constructor({
     placeholder,
     layout,
     useAccessoryView = true,
+    cancelText = $l10n("CANCEL"),
     changedEvent,
     searchEvent
   } = {}) {
@@ -15,8 +17,21 @@ class SearchBar extends BaseView {
     this.placeholder = placeholder;
     this.layout = layout;
     this.useAccessoryView = useAccessoryView;
+    this.cancelText = cancelText;
     this.searchEvent = searchEvent;
     this.changedEvent = changedEvent;
+    this.buttonWidth =
+      $text.sizeThatFits({
+        text: this.cancelText,
+        width: 320,
+        font: $font(17),
+        lineSpacing: 0
+      }).width + 3;
+    this.wrapperLayout1 = $layout.fill;
+    this.wrapperLayout2 = (make, view) => {
+      make.left.top.bottom.inset(0);
+      make.right.equalTo(view.prev.left).inset(5);
+    };
   }
 
   _defineView() {
@@ -29,25 +44,25 @@ class SearchBar extends BaseView {
     const image = {
       type: "view",
       props: {
-        id: "image",
-        bgcolor: $color("#f3f3f4")
+        id: "image"
       },
       views: [
         {
           type: "image",
           props: {
-            tintColor: $color("darkGray"),
+            tintColor: colors.searchSymbolColor,
             symbol: "magnifyingglass"
           },
           layout: function(make, view) {
-            make.edges.insets($insets(5, 5, 5, 5));
+            make.size.equalTo($size(20, 20));
             make.center.equalTo(view.super);
           }
         }
       ],
       layout: function(make, view) {
-        make.left.top.bottom.inset(0);
-        make.width.equalTo(35);
+        make.top.bottom.inset(0);
+        make.width.equalTo(20);
+        make.left.inset(6);
       }
     };
     const button = {
@@ -55,18 +70,20 @@ class SearchBar extends BaseView {
       props: {
         id: "button",
         radius: 0,
-        bgcolor: $color("#f3f3f4"),
-        text: $l10n("CANCEL"),
-        textColor: $color("darkGray"),
+        bgcolor: $color("clear"),
+        text: this.cancelText,
+        textColor: $color("tintColor"),
+        font: $font(17),
         userInteractionEnabled: true,
         hidden: true,
         lines: 0,
         align: $align.center
+        //autoFontSize: true
       },
       layout: (make, view) => {
         make.top.bottom.inset(0);
         make.right.inset(0);
-        make.width.equalTo(70);
+        make.width.equalTo(classThis.buttonWidth);
       },
       events: {
         tapped: sender => classThis.blur()
@@ -79,7 +96,7 @@ class SearchBar extends BaseView {
         id: this.textViewId,
         type: $kbType.search,
         placeholder: this.placeholder,
-        bgcolor: $color("#f3f3f4"),
+        bgcolor: $color("clear"),
         radius: 0,
         accessoryView: this.useAccessoryView
           ? this.accessoryView.definition
@@ -87,7 +104,7 @@ class SearchBar extends BaseView {
       },
       layout: function(make, view) {
         make.top.bottom.inset(0);
-        make.left.equalTo(view.prev.prev.right);
+        make.left.equalTo(view.prev.right);
         make.right.inset(0);
       },
       events: {
@@ -111,46 +128,55 @@ class SearchBar extends BaseView {
         }
       }
     };
-    const blur = {
-      type: "blur",
+    const symbolInputWrapper = {
+      type: "view",
       props: {
-        id: this.id,
-        style: 1,
-        radius: 8,
-        alpha: 1
+        id: "wrapper",
+        bgcolor: colors.searchInputColor,
+        radius: 8
       },
-      views: [image, button, input],
-      layout: this.layout,
-      events: {
-        ready: sender => {
-          sender.alpha = 0.5;
-        }
-      }
+      views: [image, input],
+      layout: this.wrapperLayout1
     };
-    return blur;
+    const view = {
+      type: "view",
+      props: {
+        id: this.id
+      },
+      views: [button, symbolInputWrapper],
+      layout: this.layout
+    };
+    return view;
   }
 
   initial() {
     if (this.useAccessoryView) this.accessoryView.initial();
     this.view.get("button").hidden = true;
-    $(this.textViewId).remakeLayout((make, view) => {
-      make.top.bottom.inset(0);
-      make.left.equalTo(view.prev.prev.right);
-      make.right.inset(0);
+    const wrapper = this.view.get("wrapper");
+    wrapper.remakeLayout(this.wrapperLayout1);
+    $ui.animate({
+      duration: 0.2,
+      animation: () => {
+        wrapper.relayout();
+      }
     });
     this.blur();
-    this.view.alpha = 0.5;
   }
 
   activate() {
+    const classThis = this;
     if (this.useAccessoryView) this.accessoryView.initial();
-    $(this.textViewId).remakeLayout((make, view) => {
-      make.top.bottom.inset(0);
-      make.left.equalTo(view.prev.prev.right);
-      make.right.equalTo(view.prev.left);
+    const wrapper = this.view.get("wrapper");
+    wrapper.remakeLayout(this.wrapperLayout2);
+    $ui.animate({
+      duration: 0.2,
+      animation: () => {
+        wrapper.relayout();
+      },
+      completion: () => {
+        classThis.view.get("button").hidden = false;
+      }
     });
-    this.view.alpha = 1;
-    this.view.get("button").hidden = false;
   }
 
   focus() {
@@ -159,6 +185,10 @@ class SearchBar extends BaseView {
 
   blur() {
     $(this.textViewId).blur();
+  }
+
+  set text(text) {
+    $(this.textViewId).text = text;
   }
 
   get text() {
