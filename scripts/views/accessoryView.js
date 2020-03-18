@@ -64,13 +64,14 @@ class AccessoryView extends BaseView {
   }
 
   initial() {
-    this.view.data = [$l10n("CLIPBOARD"), ...constants.userConfig.search_history].map(
-      n => {
-        return {
-          label: { text: n }
-        };
-      }
-    );
+    this.view.data = [
+      $l10n("CLIPBOARD"),
+      ...constants.userConfig.search_history
+    ].map(n => {
+      return {
+        label: { text: n }
+      };
+    });
   }
 }
 

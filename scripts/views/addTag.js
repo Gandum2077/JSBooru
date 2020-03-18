@@ -370,8 +370,9 @@ class AddTagView extends BaseView {
     };
     try {
       if (!this.tag_name) return;
-      this.view.super.get("headerView").get("sectionHeaderMatrix").text =
-        $l10n("WIKI_LOADING");
+      this.view.super.get("headerView").get("sectionHeaderMatrix").text = $l10n(
+        "WIKI_LOADING"
+      );
       const info = await getTagInfo(this.tag_name);
       if (!this.view.super) return;
       this.view.data = map(info.other_names);

@@ -123,6 +123,7 @@ class InfoView extends BaseView {
       type: "list",
       props: {
         id: this.id,
+        stickyHeader: true,
         template: {
           views: [
             {
@@ -176,7 +177,9 @@ class InfoView extends BaseView {
                   $l10n("SEARCH_DIRECTLY"),
                   $l10n("COPY_TO_CLIPBOARD"),
                   $l10n("ADD_TO_CLIPBOARD"),
-                  savedTagInfo ? $l10n("DELETE_IT_FROM_SAVED") : $l10n("SAVE_DIRECTLY"),
+                  savedTagInfo
+                    ? $l10n("DELETE_IT_FROM_SAVED")
+                    : $l10n("SAVE_DIRECTLY"),
                   $l10n("OPEN_SAVED_TAGS_INTERFACE")
                 ]
               });

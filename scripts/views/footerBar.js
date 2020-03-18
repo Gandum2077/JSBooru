@@ -17,9 +17,9 @@ class FooterBar extends BaseView {
     super();
     this.items = items;
     this._index = index;
-    this.selectedSegmentTintColor = selectedSegmentTintColor
-    this.defaultSegmentTintColor = defaultSegmentTintColor
-    this.bgcolor = bgcolor
+    this.selectedSegmentTintColor = selectedSegmentTintColor;
+    this.defaultSegmentTintColor = defaultSegmentTintColor;
+    this.bgcolor = bgcolor;
     this.layout = layout;
     this.events = events;
   }
@@ -78,7 +78,7 @@ class FooterBar extends BaseView {
   _map(items) {
     return items.map(n => {
       return {
-        image: { 
+        image: {
           symbol: n.symbol,
           tintColor: this.defaultSegmentTintColor
         },
@@ -87,7 +87,7 @@ class FooterBar extends BaseView {
           textColor: this.defaultSegmentTintColor
         }
       };
-    })
+    });
   }
 
   get index() {
