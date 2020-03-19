@@ -257,7 +257,7 @@ class AddTagView extends BaseView {
     const footerView = {
       type: "view",
       props: {
-        height: 200,
+        height: 400,
         id: "footerView",
         hidden: true
       },
@@ -276,10 +276,10 @@ class AddTagView extends BaseView {
           }
         },
         {
-          type: "text",
+          type: "markdown",
           props: {
             id: "text_wiki",
-            editable: false
+            bgcolor: $color("secondarySurface")
           },
           layout: (make, view) => {
             make.top.equalTo($("sectionHeader").bottom).inset(5);
@@ -382,7 +382,7 @@ class AddTagView extends BaseView {
           : "No Other Names";
       if (info.wiki) {
         this.view.super.get("footerView").hidden = false;
-        this.view.super.get("footerView").get("text_wiki").html = render(
+        this.view.super.get("footerView").get("text_wiki").content = render(
           info.wiki
         );
       }

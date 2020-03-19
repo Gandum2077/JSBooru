@@ -156,16 +156,11 @@ var BBCodeHTML = function() {
   }
 
   // adds BBCodes and their HTML
-  me.addBBCode("[b]{TEXT}[/b]", "<strong>{TEXT}</strong>");
-  me.addBBCode("[i]{TEXT}[/i]", "<em>{TEXT}</em>");
-  me.addBBCode(
-    "[u]{TEXT}[/u]",
-    '<span style="text-decoration:underline;">{TEXT}</span>'
-  );
-  me.addBBCode(
-    "[s]{TEXT}[/s]",
-    '<span style="text-decoration:line-through;">{TEXT}</span>'
-  );
+  me.addBBCode("[[{TEXT}]]", "[{TEXT}]()");
+  me.addBBCode("[b]{TEXT}[/b]", "**{TEXT}**");
+  me.addBBCode("[i]{TEXT}[/i]", "*{TEXT}*");
+  me.addBBCode("[u]{TEXT}[/u]", "__{TEXT}__");
+  me.addBBCode("[s]{TEXT}[/s]", "~~{TEXT}~~");
   me.addBBCode("[tn]{TEXT}[/tn]", '<span style="color:#8c8c8c;">{TEXT}</span>');
   me.addBBCode("[quote]{TEXT}[/quote]", "<cite>{TEXT}</cite>");
   me.addBBCode(
@@ -175,24 +170,17 @@ var BBCodeHTML = function() {
 };
 var bbcodeParser = new BBCodeHTML(); // creates object instance of BBCodeHTML()
 
-function removeLink(text) {
-  text = text.replace(/\[\[/g, "");
-  text = text.replace(/]]/g, "");
-  return text;
-}
-
 function replaceH456Tag(text) {
-  text = text.replace(/^h4\. (.*)$/gm, "<h3>$1</h3>");
-  text = text.replace(/^h5\. (.*)$/gm, "<h4>$1</h4>");
-  text = text.replace(/^h6\. (.*)$/gm, "<h4>$1</h4>");
+  text = text.replace(/^h4\. (.*)$/gm, "### $1");
+  text = text.replace(/^h5\. (.*)$/gm, "#### $1");
+  text = text.replace(/^h6\. (.*)$/gm, "#### $1");
   return text;
 }
 
 function render(text) {
   if (!text) return "";
   text = replaceH456Tag(text);
-  text = removeLink(text);
-  text = text.replace(/\n+/g, "<br>");
+  text = text.replace(/^\*\* /gm, "  - ");
   return bbcodeParser.bbcodeToHtml(text);
 }
 
