@@ -135,6 +135,7 @@ class ListView extends BaseView {
         label: {
           styledText: {
             text: `${n.title ? n.title + "  " : ""}${n.name}`,
+            markdown: false,
             styles: [
               {
                 range: $range(0, len(n.title)),
