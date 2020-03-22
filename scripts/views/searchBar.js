@@ -28,9 +28,10 @@ class SearchBar extends BaseView {
         lineSpacing: 0
       }).width + 3;
     this.wrapperLayout1 = $layout.fill;
+    const classThis = this
     this.wrapperLayout2 = (make, view) => {
       make.left.top.bottom.inset(0);
-      make.right.equalTo(view.prev.left).inset(5);
+      make.right.inset(classThis.buttonWidth + 5);
     };
   }
 
@@ -50,7 +51,7 @@ class SearchBar extends BaseView {
         {
           type: "image",
           props: {
-            tintColor: colors.searchSymbolColor,
+            tintColor: colors.searchBarSymbolColor,
             symbol: "magnifyingglass"
           },
           layout: function(make, view) {
@@ -75,14 +76,14 @@ class SearchBar extends BaseView {
         textColor: $color("tintColor"),
         font: $font(17),
         userInteractionEnabled: true,
-        hidden: true,
+        alpha: 0,
         lines: 0,
         align: $align.center
         //autoFontSize: true
       },
       layout: (make, view) => {
         make.top.bottom.inset(0);
-        make.right.inset(0);
+        make.left.equalTo(view.prev.right).inset(5);
         make.width.equalTo(classThis.buttonWidth);
       },
       events: {
@@ -132,7 +133,7 @@ class SearchBar extends BaseView {
       type: "view",
       props: {
         id: "wrapper",
-        bgcolor: colors.searchInputColor,
+        bgcolor: colors.searchBarInputColor,
         radius: 8
       },
       views: [image, input],
@@ -141,23 +142,25 @@ class SearchBar extends BaseView {
     const view = {
       type: "view",
       props: {
-        id: this.id
+        id: this.id,
+        clipsToBounds: true
       },
-      views: [button, symbolInputWrapper],
+      views: [symbolInputWrapper, button],
       layout: this.layout
     };
     return view;
   }
 
   initial() {
+    const classThis = this;
     if (this.useAccessoryView) this.accessoryView.initial();
-    this.view.get("button").hidden = true;
     const wrapper = this.view.get("wrapper");
     wrapper.remakeLayout(this.wrapperLayout1);
     $ui.animate({
       duration: 0.2,
       animation: () => {
         wrapper.relayout();
+        classThis.view.get("button").alpha = 0;
       }
     });
     this.blur();
@@ -172,9 +175,7 @@ class SearchBar extends BaseView {
       duration: 0.2,
       animation: () => {
         wrapper.relayout();
-      },
-      completion: () => {
-        classThis.view.get("button").hidden = false;
+        classThis.view.get("button").alpha = 1;
       }
     });
   }

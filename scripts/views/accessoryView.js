@@ -29,7 +29,7 @@ class AccessoryView extends BaseView {
                 id: "label",
                 font: $font("menlo", 13),
                 align: $align.center,
-                bgcolor: colors.fixedSecondarySurface,
+                bgcolor: $color("secondarySurface"),
                 radius: 5
               },
               layout: function(make, view) {

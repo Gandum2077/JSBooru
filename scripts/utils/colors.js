@@ -8,8 +8,13 @@
 module.exports = {
   sheetNavBarColor: $color("tint", $color("secondarySurface")),
   footBarDefaultSegmentColor: $color("#b7bec6", "#6e6e6e"),
-  fixedSecondarySurface: $color("#f2f2f7", $color("secondarySurface")), // 让 secondarySurface 在light mode下可以和纯白区分
-  searchSymbolColor: $color("#777", "#aaa"),
-  searchInputColor: $color("#e0e1e3", "secondarySurface"),
-  gold: $color("#ffd700")
+  //fixedSecondarySurface: $color("#f2f2f7", $color("secondarySurface")), // 让 secondarySurface 在light mode下可以和纯白区分
+  searchBarSymbolColor: $color("#777", "#aaa"),
+  searchBarInputColor: $color("#e0e1e3", "secondarySurface"),
+  gold: $color("#ffd700"),
+  sectionHeaderColor: $color({
+    light: "#666666",
+    dark: "#acacac",
+    black: "#ababab"
+  })
 };
