@@ -3,454 +3,291 @@ const { render } = require("../utils/dtext");
 const constants = require("../utils/constants");
 const Sheet = require("../components/sheet");
 const BaseView = require("../components/baseView");
+const FlowLayout = require("../components/flowlayout");
+const colors = require("../utils/colors");
+const ListView = require("../dialogs/listView");
 
-class AddTagView extends BaseView {
-  constructor({
-    tag_name,
-    tag_title,
-    category,
-    add_to_favorited,
-    tag_name_editable
-  }) {
+class Label extends BaseView {
+  constructor({ text, layout }) {
     super();
-    this.tag_name = tag_name;
-    this.tag_title = tag_title;
-    this.category = category;
-    this.add_to_favorited = add_to_favorited;
-    this.tag_name_editable = tag_name_editable;
+    this._text = text;
+    this.layout = layout;
   }
 
-  _defineHeaderView() {
-    const classThis = this;
-    const sectionNames = [
-      $l10n("UNCATEGORIZED"),
-      ...constants.userConfig.tag_categoires
-    ];
-    const rows = [
-      {
-        type: "view",
-        props: {
-          bgcolor: $color("secondarySurface")
-        },
-        layout: $layout.fill,
-        views: [
-          {
-            type: "label",
-            props: {
-              id: "title",
-              align: $align.left,
-              bgcolor: $color("clear"),
-              text: $l10n("CONTENT")
-            },
-            layout: function(make, view) {
-              make.left.inset(15);
-              make.top.bottom.inset(0.5);
-              make.width.equalTo(100);
-            }
-          },
-          {
-            type: "input",
-            props: {
-              id: "input",
-              text: this.tag_name,
-              placeholder: $l10n("REQUIRED"),
-              radius: 0,
-              autocapitalizationType: 0,
-              userInteractionEnabled: this.tag_name_editable,
-              bgcolor: $color("clear")
-            },
-            layout: function(make, view) {
-              make.top.bottom.inset(0.5);
-              make.left.equalTo(view.prev.right);
-              make.right.inset(15);
-            },
-            events: {
-              changed: function(sender) {
-                classThis.tag_name = sender.text;
-              },
-              didEndEditing: async function(sender) {
-                sender.text = sender.text.trim();
-                classThis.initStatus();
-                classThis.tag_name = sender.text;
-                await classThis.updateStatus();
-              },
-              returned: function(sender) {
-                sender.blur();
-              }
-            }
-          }
-        ]
-      },
-      {
-        type: "view",
-        props: {
-          bgcolor: $color("secondarySurface")
-        },
-        layout: $layout.fill,
-        views: [
-          {
-            type: "label",
-            props: {
-              id: "title",
-              align: $align.left,
-              bgcolor: $color("clear"),
-              text: $l10n("TITLE")
-            },
-            layout: function(make, view) {
-              make.left.inset(15);
-              make.top.bottom.inset(0.5);
-              make.width.equalTo(100);
-            }
-          },
-          {
-            type: "input",
-            props: {
-              id: "input",
-              text: this.tag_title,
-              placeholder: $l10n("OPTIONAL"),
-              radius: 0,
-              bgcolor: $color("clear")
-            },
-            layout: function(make, view) {
-              make.top.bottom.inset(0.5);
-              make.left.equalTo(view.prev.right);
-              make.right.inset(15);
-            },
-            events: {
-              changed: function(sender) {
-                classThis.tag_title = sender.text;
-              },
-              returned: function(sender) {
-                sender.blur();
-              }
-            }
-          }
-        ]
-      },
-      {
-        type: "view",
-        props: {
-          bgcolor: $color("secondarySurface")
-        },
-        layout: $layout.fill,
-        views: [
-          {
-            type: "label",
-            props: {
-              id: "title",
-              align: $align.left,
-              bgcolor: $color("clear"),
-              text: $l10n("CATEGORY")
-            },
-            layout: function(make, view) {
-              make.left.inset(15);
-              make.top.bottom.inset(0.5);
-              make.width.equalTo(100);
-            }
-          },
-          {
-            type: "button",
-            props: {
-              id: "cateogry",
-              title: this.category || sectionNames[0],
-              titleColor: $color("tintColor"),
-              bgcolor: $color("clear")
-            },
-            layout: function(make, view) {
-              make.top.bottom.inset(0.5);
-              make.width.equalTo(180);
-              make.right.inset(20);
-            },
-            events: {
-              tapped: async function(sender) {
-                const { index } = await $ui.popover({
-                  sourceView: sender.super,
-                  sourceRect: sender.super.bounds,
-                  directions: $popoverDirection.up,
-                  size: $size(200, 44 * 5),
-                  items: sectionNames
-                });
-                sender.title = sectionNames[index];
-                classThis.category =
-                  index !== 0 ? sectionNames[index] : undefined;
-              }
-            }
-          }
-        ]
-      },
-      {
-        type: "view",
-        props: {
-          bgcolor: $color("secondarySurface")
-        },
-        layout: $layout.fill,
-        views: [
-          {
-            type: "label",
-            props: {
-              id: "title",
-              align: $align.left,
-              text: $l10n("ADD_TO_FAVORITED_TAGS")
-            },
-            layout: function(make, view) {
-              make.left.inset(15);
-              make.top.bottom.inset(0.5);
-              make.width.equalTo(200);
-            }
-          },
-          {
-            type: "switch",
-            props: {
-              id: "switch",
-              on: this.add_to_favorited
-            },
-            layout: function(make, view) {
-              make.centerY.equalTo(view.super);
-              make.right.inset(40);
-            },
-            events: {
-              changed: function(sender) {
-                classThis.add_to_favorited = sender.on;
-              }
-            }
-          }
-        ]
-      }
-    ];
-    const headerView = {
-      type: "list",
+  _defineView() {
+    return {
+      type: "label",
       props: {
-        id: "headerView",
-        style: 2,
-        height: 143 + 50 + 100,
-        separatorHidden: false,
-        scrollEnabled: false,
-        bgcolor: $color("clear"),
-        data: [{ title: "Tag", rows }],
-        footer: {
-          type: "view",
-          props: {
-            height: 200
-          },
-          views: [
-            {
-              type: "label",
-              props: {
-                id: "sectionHeaderMatrix",
-                text: "",
-                font: $font(13),
-                textColor: $color("#666")
-              },
-              layout: (make, view) => {
-                make.top.inset(15);
-                make.left.inset(15);
-              }
-            }
-          ]
-        }
-      }
+        id: this.id,
+        text: this._text,
+        font: $font(13),
+        textColor: colors.sectionHeaderColor
+      },
+      layout: this.layout
     };
-    return headerView;
   }
 
-  _defineFooterView() {
-    const footerView = {
-      type: "view",
+  set text(text) {
+    this._text = text;
+    this.view.text = text;
+  }
+}
+
+class Markdown extends BaseView {
+  constructor({ content, layout }) {
+    super();
+    this._content = content;
+    this.layout = layout;
+  }
+
+  _defineView() {
+    return {
+      type: "markdown",
       props: {
-        height: 400,
-        id: "footerView",
-        hidden: true
+        id: this.id,
+        content: this._content,
+        bgcolor: $color("secondarySurface")
       },
-      views: [
-        {
-          type: "label",
-          props: {
-            id: "sectionHeader",
-            text: "Wiki",
-            font: $font(13),
-            textColor: $color("#666")
-          },
-          layout: (make, view) => {
-            make.top.inset(15);
-            make.left.inset(15);
-          }
-        },
-        {
-          type: "markdown",
-          props: {
-            id: "text_wiki",
-            bgcolor: $color("secondarySurface")
-          },
-          layout: (make, view) => {
-            make.top.equalTo($("sectionHeader").bottom).inset(5);
-            make.left.right.inset(15);
-            make.bottom.inset(0);
-          }
-        }
-      ]
+      layout: this.layout
     };
-    return footerView;
+  }
+
+  set content(content) {
+    this._content = content;
+    this.view.content = content;
+  }
+}
+
+class FooterView extends BaseView {
+  constructor({ height, changeNameEvent }) {
+    super();
+    this._height = height;
+    this.changeNameEvent = changeNameEvent;
+    this.views = {};
   }
 
   _defineView() {
     const classThis = this;
-    const matrix = {
-      type: "matrix",
+    this.views.labelOtherNames = new Label({
+      text: "Other Names",
+      layout: (make, view) => {
+        make.top.inset(5);
+        make.left.inset(15);
+        make.right.inset(0);
+        make.height.equalTo(30);
+      }
+    });
+    this.views.labelWiki = new Label({
+      text: "Wiki",
+      layout: (make, view) => {
+        make.top.equalTo(view.prev.bottom).inset(5);
+        make.left.inset(15);
+        make.right.inset(0);
+        make.height.equalTo(30);
+      }
+    });
+    this.views.flowLayout = new FlowLayout({
       props: {
-        id: this.id,
-        bgcolor: $color("groupedBackground"),
-        spacing: 15,
-        header: this._defineHeaderView(),
-        footer: this._defineFooterView(),
+        bgcolor: $color("clear"),
+        data: [],
         template: {
           props: {
-            bgcolor: $color("clear")
-          },
-          views: [
+            bgcolor: $color("secondarySurface")
+          }
+        }
+      },
+      layout: (make, view) => {
+        make.top.equalTo(view.prev.bottom).inset(5);
+        make.left.right.inset(15);
+        make.height.equalTo(0);
+      },
+      events: {
+        didSelect: (sender, indexpath, data) => {
+          classThis.changeNameEvent(data);
+        },
+        layoutSubviews: sender => {
+          const height = sender.contentSize.height;
+          sender.updateLayout((make, view) => {
+            make.height.equalTo(height);
+          });
+        }
+      }
+    });
+    this.views.markdown = new Markdown({
+      layout: (make, view) => {
+        make.top.equalTo(view.prev.bottom).inset(5);
+        make.left.right.inset(15);
+        make.height.equalTo(300);
+      }
+    });
+    return {
+      props: {
+        id: this.id,
+        height: this._height
+      },
+      views: [
+        this.views.labelOtherNames.definition,
+        this.views.flowLayout.definition,
+        this.views.labelWiki.definition,
+        this.views.markdown.definition
+      ]
+    };
+  }
+}
+
+class AddTagView extends BaseView {
+  constructor({ values, name_editable }) {
+    super();
+    this._values = values;
+    this.name_editable = name_editable;
+  }
+
+  _defineView() {
+    const classThis = this;
+    this.footerView = new FooterView({
+      height: 500,
+      changeNameEvent: text => {
+        const nameCell = classThis.listView.view.cell($indexPath(0, 1));
+        nameCell.get("valueView").text = text;
+        classThis.listView._values.title = text;
+      }
+    });
+    this.listView = new ListView({
+      sections: [
+        {
+          title: $l10n("TAG"),
+          rows: [
             {
-              type: "label",
-              props: {
-                id: "tag",
-                radius: 5,
-                bgcolor: $color("secondarySurface"),
-                font: $font(15),
-                align: $align.center
-              },
-              layout: $layout.fill
+              type: "string",
+              title: $l10n("CONTENT"),
+              key: "name",
+              value: this._values.name,
+              placeholder: $l10n("REQUIRED"),
+              disabled: !this.name_editable
+            },
+            {
+              type: "string",
+              title: $l10n("TITLE"),
+              key: "title",
+              value: this._values.title,
+              placeholder: $l10n("OPTIONAL")
+            },
+            {
+              type: "list",
+              title: $l10n("CATEGORY"),
+              key: "category",
+              listType: "menu",
+              items: [
+                $l10n("UNCATEGORIZED"),
+                ...constants.userConfig.tag_categoires
+              ],
+              value: this._values.category
+            },
+            {
+              type: "boolean",
+              title: $l10n("ADD_TO_FAVORITED_TAGS"),
+              key: "favorited",
+              value: this._values.favorited
             }
           ]
         }
+      ],
+      props: {
+        footer: this.footerView.definition
       },
-      layout: function(make, view) {
-        make.left.right.bottom.equalTo(view.super.safeArea);
-        make.top.equalTo(view.super.safeArea);
+      layout: $layout.fill
+    });
+
+    return {
+      props: {
+        id: this.id
       },
-      events: {
-        ready: async function(sender) {
-          await $wait(1);
-          await classThis.updateStatus();
-        },
-        itemSize: function(sender, indexPath) {
-          const maxWidth = sender.frame.width || $device.info.screen.width;
-          const data = sender.data[indexPath.item];
-          const text = data.tag.text;
-          const width = $text.sizeThatFits({
-            text: text,
-            width: 10000,
-            font: $font(15),
-            lineSpacing: 0
-          }).width;
-          return $size(Math.min(Math.max(width + 15, 50), maxWidth), 32);
-        },
-        didSelect: function(sender, indexPath, data) {
-          classThis.view
-            .get("headerView")
-            .cell($indexPath(0, 1))
-            .get("input").text = data.tag.text;
-        }
-      }
+      views: [this.listView.definition]
     };
-    return matrix;
   }
 
-  initStatus() {
-    this.view.data = [];
-    this.view.super.get("headerView").get("sectionHeaderMatrix").text = "";
-    this.view.super.get("footerView").hidden = true;
+  set footerheight(height) {
+    const footer = this.footerView.view;
+    const frame = footer.frame;
+    frame.height = height;
+    footer.frame = frame;
+    this.listView.view.reload();
   }
 
-  async updateStatus() {
-    const map = other_names => {
-      if (!other_names) return;
-      return other_names.map(n => {
-        return {
-          tag: { text: n }
-        };
-      });
-    };
+  get values() {
+    return this.listView.values;
+  }
+
+  initial() {
+    this.footerView.views.labelOtherNames.text = "";
+    this.footerView.views.flowLayout.data = [];
+    this.footerView.views.labelWiki.view.hidden = true;
+    this.footerView.views.markdown.view.hidden = true;
+    this.footerheight = 35;
+  }
+
+  async update() {
+    const classThis = this;
+    if (!this.values.name) return;
+    this.footerView.views.labelOtherNames.text = $l10n("WIKI_LOADING");
+    let height = 35;
     try {
-      if (!this.tag_name) return;
-      this.view.super.get("headerView").get("sectionHeaderMatrix").text = $l10n(
-        "WIKI_LOADING"
-      );
-      const info = await getTagInfo(this.tag_name);
+      const info = await getTagInfo(this.values.name);
       if (!this.view.super) return;
-      this.view.data = map(info.other_names);
-      this.view.super.get("headerView").get("sectionHeaderMatrix").text =
+      this.footerView.views.flowLayout.data = info.other_names;
+      this.footerView.views.labelOtherNames.text =
         info.other_names && info.other_names.length
           ? "Other Names"
           : "No Other Names";
       if (info.wiki) {
-        this.view.super.get("footerView").hidden = false;
-        this.view.super.get("footerView").get("text_wiki").content = render(
-          info.wiki
-        );
+        this.footerView.views.labelWiki.view.hidden = false;
+        this.footerView.views.markdown.view.content = render(info.wiki);
+        this.footerView.views.markdown.view.hidden = false;
       }
+      $delay(0.1, function() {
+        const flowLayoutHeight =
+          classThis.footerView.views.flowLayout.view.contentSize.height;
+        classThis.footerheight = 400 + flowLayoutHeight;
+      });
     } catch (err) {
-      this.view.super.get("headerView").get("sectionHeaderMatrix").text =
-        err.message;
+      this.footerView.views.labelOtherNames.text = err.message;
     }
-  }
-
-  get result() {
-    return {
-      name: this.tag_name,
-      title: this.tag_title,
-      category: this.category,
-      favorited: this.add_to_favorited
-    };
   }
 }
 
-function presentSheet({
-  title,
-  tag_name,
-  tag_title,
-  category,
-  add_to_favorited,
-  tag_name_editable,
-  presentMode = 1
-}) {
-  const addTagView = new AddTagView({
-    tag_name,
-    tag_title,
-    category,
-    add_to_favorited,
-    tag_name_editable
-  });
+function presentSheet({ values, name_editable, presentMode = 1 }) {
+  const addTagView = new AddTagView({ values, name_editable });
   const sheet = new Sheet({
-    title,
+    title: $l10n("SAVED_TAGS_TITLE"),
     presentMode,
     view: addTagView.definition,
-    doneEvent: sender => {
-      return addTagView.result;
-    }
+    doneEvent: sender => addTagView.values
   });
   return new Promise((resolve, reject) => {
     sheet.promisify(resolve, reject);
     sheet.present();
+    $delay(0.3, function() {
+      addTagView.initial();
+      addTagView.update().then();
+    });
   });
 }
 
 function addTag({
-  title = $l10n("SAVED_TAGS_TITLE"),
-  tag_name,
-  tag_title,
+  name,
+  title,
   category,
-  add_to_favorited,
-  tag_name_editable = false,
+  favorited,
+  name_editable = false,
   presentMode
 } = {}) {
   if (presentMode === undefined) {
     presentMode = $device.isIpad ? 2 : 1;
   }
+  const values = { name, title, category, favorited };
   return presentSheet({
-    title,
-    tag_name,
-    tag_title,
-    category,
-    add_to_favorited,
-    tag_name_editable,
+    values,
+    name_editable,
     presentMode
   });
 }

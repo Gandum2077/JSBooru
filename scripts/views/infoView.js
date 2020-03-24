@@ -209,19 +209,12 @@ class InfoView extends BaseView {
                 }
                 case 4: {
                   const result = await addTag({
-                    tag_name,
-                    tag_title: savedTagInfo ? savedTagInfo.title : undefined,
+                    name: tag_name,
+                    title: savedTagInfo ? savedTagInfo.title : undefined,
                     category: savedTagInfo ? savedTagInfo.category : undefined,
-                    add_to_favorited: savedTagInfo
-                      ? savedTagInfo.favorited
-                      : undefined
+                    favorited: savedTagInfo ? savedTagInfo.favorited : undefined
                   });
-                  database.safeAddSavedTag({
-                    name: result.name,
-                    title: result.title,
-                    category: result.category,
-                    favorited: result.favorited
-                  });
+                  database.safeAddSavedTag(result);
                   break;
                 }
                 default:
