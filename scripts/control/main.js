@@ -335,7 +335,7 @@ class Controller {
               switch (index) {
                 case 0: {
                   const { name, title, category, favorited } = await addTag({
-                    tag_name_editable: true
+                    name_editable: true
                   });
                   database.safeAddSavedTag({
                     name,
@@ -347,11 +347,8 @@ class Controller {
                   break;
                 }
                 case 1: {
-                  const {
-                    combination_name: name,
-                    combination_title: title
-                  } = await addCombination();
-                  database.safeAddCombination({ name, title });
+                  const result = await addCombination();
+                  database.safeAddCombination(result);
                   classThis.views.tagsView.reload(true);
                   break;
                 }
