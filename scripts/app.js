@@ -27,6 +27,7 @@ async function init() {
         constants.userConfig.closeTips();
         checkLatestVersion();
         await $wait(0.3);
+        controller.views.tagsView.reloadAll()
         controller.loadFavorites();
         await controller.loadBooru({ useUiLoading: false });
       } else {
