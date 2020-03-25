@@ -128,9 +128,7 @@ class SubCotroller {
         }
       }
     });
-    $app.tips(
-      "操作手势：两指放缩，点击上/下半部分可以前后翻页\n点击右上角图标可以查看图片信息和标签"
-    );
+    $app.tips($l10n("READER_TIPS"));
     this.views.main.add(this.views.footerStackView.definition);
     this.views.main.add(this.views.imageView.definition);
     $delay(0.3, () => {

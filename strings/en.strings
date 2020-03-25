@@ -75,6 +75,7 @@
 "TIPS_CONTENT" = "Click questionmark symbol for help. \n\nSPECIAL TIPS ABOUT NETWORK ERROR:\n1. In mainland China, Almost all Servers are not accessible. Make sure you use VPN or other proxy tools;\n2. Node.js, the runtime environment used by this application, uses a technology called SSL Pining to ensure security and protect itself from MITM attack. So you CAN NOT use MITM tools like Surge or Quantumult X.\n3. Some proxy tools can not identify all requests by Node.js correctly. Please fix the proxy rules manually or switch to global proxy mode.";
 "CANCEL_TEXT" = "Quit for preparation";
 "CONFIRM_TEXT" = "I'm ready";
+"READER_TIPS" = "Usage: use two fingers to zoom in and out; touch the upper/lower half to turn the page; Click on the icon in the upper right corner to view image information and tags";
 
 // selectServers
 

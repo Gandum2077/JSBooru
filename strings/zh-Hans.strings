@@ -75,7 +75,7 @@
 "TIPS_CONTENT" = "点击右上角问号查看详细说明\n\n【关于网络问题的特别提示】\n1. 由于众所周知的原因，在中国大陆地区无法使用本应用绝大多数功能，请确保设备已经科学上网；\n2. 本应用需要的Node.js使用了SSL Pinning（证书锁定）技术，因此被中间人攻击（MITM）时可能无法使用，请关闭Surge、Quantumult X或其他工具的MITM功能；\n3. 部分代理工具不能正确识别Node.js的网络请求，请自行修改规则或者改为全局模式";
 "CANCEL_TEXT" = "先去设置";
 "CONFIRM_TEXT" = "准备好了";
-
+"READER_TIPS" = "操作手势：两指放缩，点击上/下半部分可以前后翻页\n点击右上角图标可以查看图片信息和标签";
 
 // selectServers
 "STATUS_RECOMMAND" = "推荐";
@@ -112,6 +112,3 @@
 // updater
 
 "UPDATE_TIPS" = "可更新，请从Github或者Erots商店更新";
-
-// views
-
