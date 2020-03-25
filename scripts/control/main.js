@@ -185,7 +185,6 @@ class Controller {
         const tags = text.split(" ");
         if (!tags || !tags.length) return;
         await classThis.loadBooru({ tags });
-        constants.userConfig.addSearchHistory(text);
       }
     });
     this.views.searchBarFavorites = new SearchBar({
@@ -207,7 +206,6 @@ class Controller {
         const tags = text.split(" ");
         if (!tags || !tags.length) return;
         await classThis.loadBooru({ tags });
-        constants.userConfig.addSearchHistory(text);
       }
     });
   }
@@ -490,6 +488,8 @@ class Controller {
       this.booruInfo.tags = tags;
       this.booruInfo.random = random;
       this.booruInfo.startPage = startPage;
+      constants.userConfig.addSearchHistory(tags.join(" "));
+      this.views.searchBarBooru.text = tags.join(" ");
       this.isLoading = false;
       if (useUiLoading) $ui.loading(false);
     } catch (e) {
