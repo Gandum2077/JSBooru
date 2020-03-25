@@ -115,4 +115,6 @@
 
 // updater
 
-"UPDATE_TIPS" = "可更新，请从Github或者Erots商店更新";
+"UPDATE_TIPS" = "发现更新";
+"CANCEL_UPDATE" = "暂不更新";
+"CONFIRM_UPDATE" = "立即更新";

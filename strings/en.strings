@@ -116,4 +116,6 @@
 
 // updater
 
-"UPDATE_TIPS" = "Update available. You can get it from Github or Erots.";
+"UPDATE_TIPS" = "Update available";
+"CANCEL_UPDATE" = "Not Now";
+"CONFIRM_UPDATE" = "Update Now";

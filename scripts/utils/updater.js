@@ -10,7 +10,31 @@ function checkLatestVersion() {
         const info = resp.data;
         const latest_version = info["tag_name"];
         if (current_version !== latest_version) {
-          $ui.toast($l10n("UPDATE_TIPS"));
+          const url = info.assets[0].browser_download_url;
+          $ui.alert({
+            title: $l10n("UPDATE_TIPS") + " " + latest_version,
+            message: info.body,
+            actions: [
+              {
+                title: $l10n("CANCEL_UPDATE")
+              },
+              {
+                title: $l10n("CONFIRM_UPDATE"),
+                handler: async () => {
+                  const { data } = await $http.download({ 
+                    url,
+                    showsProgress: true,
+                    backgroundFetch: false
+                  });
+                  $addin.save({
+                    name: "JSBooru",
+                    data,
+                    handler: success => $addin.restart()
+                  })
+                }
+              }
+            ]
+          });
         }
       }
     }
