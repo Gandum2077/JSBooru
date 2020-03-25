@@ -25,17 +25,17 @@ async function init() {
       });
       if (index) {
         constants.userConfig.closeTips();
-        controller.loadFavorites();
         checkLatestVersion();
         await $wait(0.3);
+        controller.loadFavorites();
         await controller.loadBooru({ useUiLoading: false });
       } else {
         $app.close();
       }
     } else {
-      controller.loadFavorites();
       checkLatestVersion();
       await $wait(0.3);
+      controller.loadFavorites();
       await controller.loadBooru();
     }
   } catch (e) {

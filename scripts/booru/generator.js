@@ -28,16 +28,16 @@ async function* generatorForSite({
   }
 }
 
-function* generatorForFavorites({ site = null, startPage = 1 }) {
+function* generatorForFavorites({ tags = [], site = null, startPage = 1 }) {
   let currentPage = startPage;
   const totalPage = Math.ceil(database.getPostCount() / 50);
   do {
     const items = database
-      .searchPost({ site, page: currentPage })
+      .searchPost({ tags, site, page: currentPage })
       .map(n => n.info);
     yield items;
     currentPage++;
-  } while (currentPage < totalPage);
+  } while (currentPage <= totalPage);
 }
 
 module.exports = {

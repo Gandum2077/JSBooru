@@ -144,7 +144,8 @@ class Controller {
         },
         pulled: async function(sender) {
           classThis.loadFavorites({
-            startPage: classThis.favoritesInfo.startPage
+            tags: classThis.favoritesInfo.tags,
+            startPage: 1
           });
           sender.endRefreshing();
         },
@@ -182,6 +183,7 @@ class Controller {
         make.height.equalTo(36);
       },
       searchEvent: async text => {
+        if (!text) return;
         const tags = text.split(" ");
         if (!tags || !tags.length) return;
         await classThis.loadBooru({ tags });
@@ -193,6 +195,12 @@ class Controller {
         make.top.inset(5);
         make.left.right.inset(10);
         make.height.equalTo(36);
+      },
+      searchEvent: text => {
+        if (!text) return;
+        const tags = text.split(" ");
+        if (!tags || !tags.length) return;
+        classThis.loadFavorites({ tags });
       }
     });
     this.views.tagsView = new TagsView({
@@ -287,7 +295,11 @@ class Controller {
                 sourceRect: sender.bounds,
                 directions: $popoverDirection.up,
                 size: $size(200, 44 * 2),
-                items: [$l10n("JUMP_TO_PAGE"), $l10n("SETTINGS")]
+                items: [
+                  $l10n("JUMP_TO_PAGE"),
+                  $l10n("BROWSE_ALL"),
+                  $l10n("SETTINGS")
+                ]
               });
               switch (index) {
                 case 0: {
@@ -300,7 +312,8 @@ class Controller {
                   });
                   startPage = startPage.trim();
                   if (/^\d+$/.test(startPage) && parseInt(startPage) > 0) {
-                    await this.loadFavorites({
+                    this.loadFavorites({
+                      tags: classThis.favoritesInfo.tags,
                       startPage: parseInt(startPage)
                     });
                   } else {
@@ -309,6 +322,10 @@ class Controller {
                   break;
                 }
                 case 1: {
+                  this.loadFavorites();
+                  break;
+                }
+                case 2: {
                   await classThis.openPrefs();
                   break;
                 }
@@ -499,10 +516,10 @@ class Controller {
     }
   }
 
-  loadFavorites({ startPage = 1 } = {}) {
+  loadFavorites({ tags = [], startPage = 1 } = {}) {
     this.views.thumbnailsViewFavorites.items = [];
     this.favoritesItems = undefined;
-    this.generatorFavorites = generatorForFavorites({ startPage });
+    this.generatorFavorites = generatorForFavorites({ tags, startPage });
     const result = this.generatorFavorites.next();
     this.favoritesItems = result.value;
     this.views.thumbnailsViewFavorites.items = this.favoritesItems;
@@ -510,7 +527,10 @@ class Controller {
       indexPath: $indexPath(0, 0),
       animated: false
     });
+    this.favoritesInfo.tags = tags;
     this.favoritesInfo.startPage = startPage;
+    constants.userConfig.addSearchHistory(tags.join(" "));
+    this.views.searchBarFavorites.text = tags.join(" ");
   }
 
   _filter(items) {

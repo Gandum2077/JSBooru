@@ -110,8 +110,8 @@ class Database {
     this.db.commit();
   }
 
-  searchPost({ site = null, page = 1, favorited = true } = {}) {
-    const { clause, args } = this.handleQuery({ site, page, favorited });
+  searchPost({ site = null, page = 1, favorited = true, tags = [] } = {}) {
+    const { clause, args } = this._handleQuery({ site, page, favorited, tags });
     const result = this.search(clause, args);
     return result.map(n => {
       return {
@@ -124,7 +124,7 @@ class Database {
     });
   }
 
-  handleQuery({ page = 1, site = null, favorited = true }) {
+  _handleQuery({ page = 1, site = null, favorited = true, tags = [] }) {
     const condition_clauses = [];
     const args = [];
     if (site) {
@@ -135,6 +135,11 @@ class Database {
       condition_clauses.push("(favorited = ?)");
       args.push(favorited);
     }
+    tags.forEach(n => {
+      if (!n) return;
+      condition_clauses.push("(tags LIKE ?)");
+      args.push("% " + n + " %");
+    });
     let where_clause = "";
     if (condition_clauses.length) {
       where_clause = " WHERE " + condition_clauses.join(" AND ");
