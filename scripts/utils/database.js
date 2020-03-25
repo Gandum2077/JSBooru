@@ -286,6 +286,8 @@ class Database {
   }
 
   safeAddSavedTag({ name, title, category, favorited }) {
+    if (!name) return;
+    if (!title) title = null;
     const result = this.searchSavedTag(name);
     if (result) {
       this.updateSavedTag({ name, title, category, favorited });
@@ -350,6 +352,8 @@ class Database {
   }
 
   safeAddCombination({ name, title }) {
+    if (!name) return;
+    if (!title) title = null;
     const result = this.searchSavedCombination(name);
     if (result) {
       this.updateSavedCombination({ name, title });

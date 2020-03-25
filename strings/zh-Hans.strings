@@ -8,6 +8,8 @@
 "INVALID_VALUES" = "取值不合法";
 "DUPLICATE_VALUES" = "取值重复";
 "CLIPBOARD" = "剪贴板";
+"EDIT" = "编辑";
+"REMOVE" = "移除";
 
 // prefs.json
 

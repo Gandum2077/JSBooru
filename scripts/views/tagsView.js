@@ -1,5 +1,7 @@
 const BaseView = require("../components/baseView");
 const SearchBar = require("./searchBar");
+const addTag = require("./addTag");
+const addCombination = require("./addCombination");
 const database = require("../utils/database");
 const constants = require("../utils/constants");
 const colors = require("../utils/colors");
@@ -65,9 +67,10 @@ class Menu extends BaseView {
 }
 
 class ListView extends BaseView {
-  constructor({ searchEvent, bgcolor }) {
+  constructor({ searchEvent, reloadEvent, bgcolor }) {
     super();
     this.searchEvent = searchEvent;
+    this.reloadEvent = reloadEvent;
     this.bgcolor = bgcolor;
   }
 
@@ -108,7 +111,38 @@ class ListView extends BaseView {
               }
             }
           ]
-        }
+        },
+        actions: [
+          {
+            title: $l10n("REMOVE"),
+            color: $color("red"),
+            handler: function(sender, indexPath) {
+              const item = classThis._rawData[indexPath.item];
+              if (item.hasOwnProperty("favorited")) {
+                database.deleteSavedTag(item.name)
+                classThis.reloadEvent()
+              } else {
+                database.deleteSavedCombination(item.name)
+                classThis.reloadEvent()
+              }
+            }
+          },
+          {
+            title: $l10n("EDIT"),
+            handler: async function(sender, indexPath) {
+              const item = classThis._rawData[indexPath.item];
+              if (item.hasOwnProperty("favorited")) {
+                const result = await addTag(item);
+                database.safeAddSavedTag(result);
+                classThis.reloadEvent()
+              } else {
+                const result = await addCombination(item);
+                database.safeAddCombination(result);
+                classThis.reloadEvent()
+              }
+            }
+          }
+        ]
       },
       layout: (make, view) => {
         make.left.right.inset(10);
@@ -184,6 +218,7 @@ class TagsView extends BaseView {
     });
     this.listView = new ListView({
       searchEvent: this.searchEvent,
+      reloadEvent: () => classThis.reload(),
       bgcolor: $color("backgroundColor")
     });
     return {

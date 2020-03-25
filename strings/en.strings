@@ -8,6 +8,8 @@
 "INVALID_VALUES" = "Invalid values";
 "DUPLICATE_VALUES" = "Duplicate values";
 "CLIPBOARD" = "Clipboard";
+"EDIT" = "Edit";
+"REMOVE" = "Remove";
 
 // prefs.json
 
