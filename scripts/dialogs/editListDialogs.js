@@ -33,7 +33,7 @@ class ListView extends BaseView {
     const actions = []
     if (this.deleteEnabled) {
       actions.push({
-        title: "Remove",
+        title: $l10n("REMOVE"),
         color: $color("red"),
         handler: function(sender, indexPath) {
           const data = sender.data
@@ -46,9 +46,9 @@ class ListView extends BaseView {
     }
     if (this.renameEnabled) {
       actions.push({
-        title: "Rename",
+        title: $l10n("EDIT"),
         handler: async function(sender, indexPath) {
-          const result = await inputAlert({ title: "Rename" })
+          const result = await inputAlert({ title: $l10n("EDIT") })
           if (!result) {
             $ui.error($l10n("INVALID_VALUE"));
             return
