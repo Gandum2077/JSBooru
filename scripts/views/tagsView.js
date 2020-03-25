@@ -153,6 +153,59 @@ class ListView extends BaseView {
         didSelect: (sender, indexPath, data) => {
           const name = classThis._rawData[indexPath.item].name;
           classThis.searchEvent(name);
+        },
+        didLongPress: async (sender, indexPath, data) => {
+          const item = classThis._rawData[indexPath.item];
+          const type = item.hasOwnProperty("favorited") ? "savedTag" : "savedCombination"
+          const totalHeight = $ui.window.frame.height;
+          const positionY =
+            sender.cell(indexPath).frame.y - sender.bounds.y;
+          const directions =
+            positionY > totalHeight / 2 && totalHeight - positionY < 300
+              ? $popoverDirection.down
+              : $popoverDirection.up;
+          const items = [
+            $l10n("SEARCH_ON_FAVORITES"),
+            $l10n("COPY_TO_CLIPBOARD"),
+            $l10n("ADD_TO_CLIPBOARD")
+          ]
+          if (type === "savedTag" && item.favorited) items.push($l10n("UNFAVORITE_THIS_TAG"))
+          if (type === "savedTag" && !item.favorited) items.push($l10n("FAVORITE_THIS_TAG"))
+          const { index } = await $ui.popover({
+            sourceView: sender.cell(indexPath),
+            sourceRect: sender.cell(indexPath).bounds,
+            directions,
+            size: $size(250, items.length * 44),
+            items
+          });
+          switch (index) {
+            case 0: {
+              classThis.searchEvent(item.name, "favorites");
+              break;
+            }
+            case 1: {
+              $clipboard.text = item.name;
+              break;
+            }
+            case 2: {
+              const old_text = $clipboard.text;
+              $clipboard.text = old_text.trim() + " " + item.name;
+              break;
+            }
+            case 3: {
+              if (item.favorited) {
+                item.favorited = false
+                database.safeAddSavedTag(item)
+              } else {
+                item.favorited = true
+                database.safeAddSavedTag(item)
+              }
+              classThis.reloadEvent()
+              break;
+            }
+            default:
+              break;
+          }
         }
       }
     };

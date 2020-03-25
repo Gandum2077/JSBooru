@@ -52,6 +52,10 @@
 "SAVE_DIRECTLY" = "Save It Directly";
 "DELETE_IT_FROM_SAVED" = "Delete it From Saved";
 
+"SEARCH_ON_FAVORITES" = "Search on Favorites";
+"UNFAVORITE_THIS_TAG" = "Unfavorite this tag";
+"FAVORITE_THIS_TAG" = "Favorite this tag";
+
 "FAVORITED" = "Favorited";
 "FAVORITES" = "Favorites";
 "TAGS" = "Tags";

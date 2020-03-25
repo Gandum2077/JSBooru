@@ -52,6 +52,10 @@
 "SAVE_DIRECTLY" = "立即保存";
 "DELETE_IT_FROM_SAVED" = "取消保存";
 
+"SEARCH_ON_FAVORITES" = "在收藏页面搜索";
+"UNFAVORITE_THIS_TAG" = "取消收藏此标签";
+"FAVORITE_THIS_TAG" = "收藏此标签";
+
 "FAVORITED" = "收藏";
 "FAVORITES" = "收藏";
 "TAGS" = "标签";

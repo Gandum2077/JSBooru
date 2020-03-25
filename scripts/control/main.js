@@ -208,12 +208,20 @@ class Controller {
         make.left.right.top.inset(0);
         make.bottom.equalTo(this.views.footerBar.view.top);
       },
-      searchEvent: async text => {
-        classThis.views.footerBar.index = 0;
-        classThis.changeIndex(0);
-        const tags = text.split(" ");
-        if (!tags || !tags.length) return;
-        await classThis.loadBooru({ tags });
+      searchEvent: async (text, type = "booru") => {
+        if (type === "booru") {
+          classThis.views.footerBar.index = 0;
+          classThis.changeIndex(0);
+          const tags = text.split(" ");
+          if (!tags || !tags.length) return;
+          await classThis.loadBooru({ tags });
+        } else if (type === "favorites") {
+          classThis.views.footerBar.index = 1;
+          classThis.changeIndex(1);
+          const tags = text.split(" ");
+          if (!tags || !tags.length) return;
+          classThis.loadFavorites({ tags });
+        }
       }
     });
   }
