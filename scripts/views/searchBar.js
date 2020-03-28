@@ -141,6 +141,7 @@ class SearchBar extends BaseView {
       type: "view",
       props: {
         id: this.id,
+        alpha: 0.6,
         clipsToBounds: true
       },
       views: [symbolInputWrapper, button],
@@ -153,6 +154,7 @@ class SearchBar extends BaseView {
     if (this.useAccessoryView) this.accessoryView.initial();
     const wrapper = this.view.get("wrapper");
     wrapper.remakeLayout(this.wrapperLayout1);
+    this.view.alpha = 0.6;
     $ui.animate({
       duration: 0.2,
       animation: () => {
@@ -167,6 +169,7 @@ class SearchBar extends BaseView {
     if (this.useAccessoryView) this.accessoryView.initial();
     const wrapper = this.view.get("wrapper");
     wrapper.remakeLayout(this.wrapperLayout2);
+    this.view.alpha = 1;
     $ui.animate({
       duration: 0.2,
       animation: () => {

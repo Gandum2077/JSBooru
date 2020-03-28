@@ -165,8 +165,7 @@ class Controller {
           const result = this.generatorFavorites.next();
           if (!result.done) {
             this.favoritesItems.push(...result.value);
-            this.views.thumbnailsViewFavorites.items =
-              this.favoritesItems;
+            this.views.thumbnailsViewFavorites.items = this.favoritesItems;
           }
           sender.endFetchingMore();
         }
@@ -175,9 +174,10 @@ class Controller {
     this.views.searchBarBooru = new SearchBar({
       placeholder: $l10n("SEARCH"),
       layout: (make, view) => {
-        make.top.inset(5);
-        make.left.right.inset(10);
         make.height.equalTo(36);
+        make.left.right.equalTo(view.super.super).inset(10);
+        make.top.greaterThanOrEqualTo(view.super.super).inset(1);
+        make.top.equalTo(view.super.get("header")).inset(5);
       },
       searchEvent: async text => {
         if (!text) return;
@@ -189,9 +189,10 @@ class Controller {
     this.views.searchBarFavorites = new SearchBar({
       placeholder: $l10n("SEARCH"),
       layout: (make, view) => {
-        make.top.inset(5);
-        make.left.right.inset(10);
         make.height.equalTo(36);
+        make.left.right.equalTo(view.super.super).inset(10);
+        make.top.greaterThanOrEqualTo(view.super.super).inset(1);
+        make.top.equalTo(view.super.get("header")).inset(5);
       },
       searchEvent: text => {
         if (!text) return;
@@ -249,9 +250,7 @@ class Controller {
                   let startPage = await inputAlert({
                     title: $l10n("JUMP_TO_PAGE"),
                     message:
-                      $l10n("CURRENT_PAGE") +
-                      ": " +
-                      this.booruInfo.startPage
+                      $l10n("CURRENT_PAGE") + ": " + this.booruInfo.startPage
                   });
                   startPage = startPage.trim();
                   if (/^\d+$/.test(startPage) && parseInt(startPage) > 0) {
@@ -447,12 +446,10 @@ class Controller {
     this.views.footerBar.index = this.footerBarIndex;
     this.changeIndex(this.footerBarIndex);
     $delay(0.1, () => {
-      this.views.thumbnailsViewBooru.view
-        .get("header")
-        .add(this.views.searchBarBooru.definition);
-        this.views.thumbnailsViewFavorites.view
-        .get("header")
-        .add(this.views.searchBarFavorites.definition);
+      this.views.thumbnailsViewBooru.add(this.views.searchBarBooru.definition);
+      this.views.thumbnailsViewFavorites.add(
+        this.views.searchBarFavorites.definition
+      );
     });
   }
 
