@@ -95,7 +95,7 @@ Cell.defaultProps = {
  *
  * 独特事件：
  *   didSelect: (sender, indexPath, data) => {}
- *   didLongPress: function(sender, indexPath, data) {}
+ *   didLongPress: (sender, indexPath, data) => {}
  *
  * 独特方法：
  *   cell(indexPath) 返回 indexPath 位置的view
@@ -120,30 +120,28 @@ class FlowLayout extends BaseView {
       ...rest
     } = events;
     this.events = { ready_origin, layoutSubviews_origin, ...rest };
-    const classThis = this;
     this.events.ready = sender => {
-      classThis.ready = false;
+      this.ready = false;
       sender.relayout();
-      classThis.width = sender.frame.width;
-      classThis.cells.forEach(cell => sender.add(cell.created));
-      classThis.ready = true;
-      if (classThis.events.ready_origin) classThis.events.ready_origin(sender);
+      this.width = sender.frame.width;
+      this.cells.forEach(cell => sender.add(cell.created));
+      this.ready = true;
+      if (this.events.ready_origin) this.events.ready_origin(sender);
     };
     this.events.layoutSubviews = sender => {
-      if (classThis.ready) {
+      if (this.ready) {
         sender.relayout();
-        classThis.width = sender.frame.width;
-        const height = classThis._layoutCells();
+        this.width = sender.frame.width;
+        const height = this._layoutCells();
         sender.contentSize = $size(0, height);
-        if (classThis.events.layoutSubviews_origin) {
-          classThis.events.layoutSubviews_origin(sender);
+        if (this.events.layoutSubviews_origin) {
+          this.events.layoutSubviews_origin(sender);
         }
       }
     };
   }
 
   _createCells() {
-    const classThis = this;
     const cells = this._data.map(
       (text, index) =>
         new Cell({
@@ -155,8 +153,8 @@ class FlowLayout extends BaseView {
           },
           events: {
             tapped: sender => {
-              if (classThis.events.didSelect) {
-                classThis.events.didSelect(
+              if (this.events.didSelect) {
+                this.events.didSelect(
                   sender.super,
                   $indexPath(0, sender.info.index),
                   sender.info.text
@@ -164,8 +162,8 @@ class FlowLayout extends BaseView {
               }
             },
             longPressed: ({ sender }) => {
-              if (classThis.events.didLongPress) {
-                classThis.events.didLongPress(
+              if (this.events.didLongPress) {
+                this.events.didLongPress(
                   sender.super,
                   $indexPath(0, sender.info.index),
                   sender.info.text

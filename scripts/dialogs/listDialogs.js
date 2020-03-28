@@ -10,7 +10,6 @@ class ListView extends BaseView {
   }
 
   _defineView() {
-    const classThis = this;
     const list = {
       type: "list",
       props: {
@@ -58,9 +57,9 @@ class ListView extends BaseView {
         }
       },
       events: {
-        didSelect: function(sender, indexPath) {
+        didSelect: (sender, indexPath) => {
           const data = sender.data;
-          if (classThis.multiSelectEnabled) {
+          if (this.multiSelectEnabled) {
             data[indexPath.item].image.hidden = !data[indexPath.item].image
               .hidden;
           } else {

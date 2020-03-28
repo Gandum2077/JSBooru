@@ -9,7 +9,6 @@ class AccessoryView extends BaseView {
   }
 
   _defineView() {
-    const classThis = this;
     return {
       type: "matrix",
       props: {
@@ -32,7 +31,7 @@ class AccessoryView extends BaseView {
                 bgcolor: $color("secondarySurface"),
                 radius: 5
               },
-              layout: function(make, view) {
+              layout: (make, view) => {
                 make.center.equalTo(view.super);
                 make.width.equalTo(view.super);
                 make.height.equalTo(28);
@@ -42,7 +41,7 @@ class AccessoryView extends BaseView {
         }
       },
       events: {
-        itemSize: function(sender, indexPath) {
+        itemSize: (sender, indexPath) => {
           const textWidth = $text.sizeThatFits({
             text: sender.data[indexPath.item].label.text,
             width: 1000,
@@ -52,11 +51,11 @@ class AccessoryView extends BaseView {
           const adjustedWidth = Math.min(Math.max(40, textWidth), 290) + 10;
           return $size(adjustedWidth, 32);
         },
-        didSelect: function(sender, indexPath, data) {
+        didSelect: (sender, indexPath, data) => {
           if (indexPath.item === 0) {
-            $(classThis.textViewId).text = $clipboard.text;
+            $(this.textViewId).text = $clipboard.text;
           } else {
-            $(classThis.textViewId).text = data.label.text;
+            $(this.textViewId).text = data.label.text;
           }
         }
       }

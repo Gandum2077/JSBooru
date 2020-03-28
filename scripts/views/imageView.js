@@ -11,7 +11,6 @@ class ImageView extends BaseView {
   }
 
   _defineView() {
-    const classThis = this;
     const image = {
       type: "image",
       props: {
@@ -29,15 +28,15 @@ class ImageView extends BaseView {
         userInteractionEnabled: true
       },
       events: {
-        touchesEnded: function(sender, location, locations) {
+        touchesEnded: (sender, location, locations) => {
           if (sender.super.zoomScale !== 1) {
             sender.super.zoomScale = 1;
             return;
           }
           if (location.y <= sender.frame.height / 2) {
-            if (classThis.upEvent) classThis.upEvent();
+            if (this.upEvent) this.upEvent();
           } else {
-            if (classThis.downEvent) classThis.downEvent();
+            if (this.downEvent) this.downEvent();
           }
         }
       }
@@ -64,7 +63,7 @@ class ImageView extends BaseView {
       views: [scroll],
       layout: this.layout,
       events: {
-        ready: async function(sender) {
+        ready: async sender => {
           await $wait(0.1);
           sender.get("content").frame = $rect(
             0,
@@ -73,7 +72,7 @@ class ImageView extends BaseView {
             sender.get("scroll").frame.height
           );
           sender.get("content").add(image);
-          classThis.prepared = true;
+          this.prepared = true;
         }
       }
     };

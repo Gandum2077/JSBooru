@@ -48,12 +48,11 @@ class Sheet {
   }
 
   _define() {
-    const classThis = this;
     $define({
       type: this.id + ": UIViewController",
       events: {
-        "viewDidDisappear:": function() {
-          if (!classThis.done && classThis.reject) classThis.reject("cancel");
+        "viewDidDisappear:": () => {
+          if (!this.done && this.reject) this.reject("cancel");
         }
       }
     });
@@ -119,12 +118,12 @@ class Sheet {
             symbol: "xmark",
             tintColor: $color("white")
           },
-          layout: function(make, view) {
+          layout: (make, view) => {
             make.edges.insets($insets(5, 5, 5, 5));
           }
         }
       ],
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.centerY.equalTo(view.super);
         make.size.equalTo($size(32, 32));
         make.left.inset(15);
@@ -141,7 +140,7 @@ class Sheet {
         font: $font("bold", 17),
         align: $align.center
       },
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.size.equalTo($size(300, 32));
         make.center.equalTo(view.super);
       }
@@ -155,7 +154,7 @@ class Sheet {
         titleColor: $color("white"),
         bgcolor: $color("clear")
       },
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.centerY.equalTo(view.super);
         make.size.equalTo($size(50, 32));
         make.right.inset(15);
@@ -181,12 +180,12 @@ class Sheet {
                 : undefined,
             tintColor: $color("white")
           },
-          layout: function(make, view) {
+          layout: (make, view) => {
             make.edges.insets($insets(5, 5, 5, 5));
           }
         }
       ],
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.centerY.equalTo(view.super);
         make.size.equalTo($size(32, 32));
         make.right.inset(80);

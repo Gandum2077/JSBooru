@@ -5,7 +5,7 @@ function checkLatestVersion() {
   $http.get({
     url: url,
     timeout: 10,
-    handler: function(resp) {
+    handler: resp => {
       if (resp.data && resp.response.statusCode === 200) {
         const info = resp.data;
         const latest_version = info["tag_name"];

@@ -9,12 +9,11 @@ class Controller {
   }
 
   _createdPermanentView() {
-    const classThis = this;
     this.views.main = new ContentView({ bgcolor: $color("clear") });
     this.views.topBar = new TopBar({
       symbol: "bookmark.fill",
       title: $l10n("FAVORITES"),
-      tapped: sender => classThis.refresh(),
+      tapped: sender => this.refresh(),
       layout: (make, view) => {
         make.top.left.right.inset(0);
         make.height.equalTo(30);
@@ -26,16 +25,12 @@ class Controller {
         make.left.right.bottom.inset(0);
       },
       events: {
-        didSelect: (sender, indexPath, data) => {
-          classThis.expand(data.image.src)
-        }
+        didSelect: (sender, indexPath, data) => this.expand(data.image.src)
       }
     });
     this.views.imageView = new ImageView({
       hidden: true,
-      tapped: sender => {
-        classThis.collapse()
-      }
+      tapped: sender => this.collapse()
     });
     this.views.tipsLabel = new TipsLabel()
   }

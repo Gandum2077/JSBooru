@@ -35,7 +35,6 @@ class MaskView extends BaseView {
   }
 
   _defineView() {
-    const classThis = this;
     return {
       props: {
         id: this.id,
@@ -44,8 +43,8 @@ class MaskView extends BaseView {
       },
       layout: this.layout,
       events: {
-        tapped: function(sender) {
-          if (classThis.tapped) classThis.tapped(sender);
+        tapped: sender => {
+          if (this.tapped) this.tapped(sender);
         }
       }
     };

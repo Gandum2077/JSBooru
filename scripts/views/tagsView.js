@@ -21,7 +21,6 @@ class Menu extends BaseView {
   }
 
   _defineView() {
-    const classThis = this;
     return {
       type: "menu",
       props: {
@@ -38,7 +37,7 @@ class Menu extends BaseView {
       },
       events: {
         changed: sender => {
-          classThis.changedEvent(sender);
+          this.changedEvent(sender);
         }
       }
     };
@@ -75,7 +74,6 @@ class ListView extends BaseView {
   }
 
   _defineView() {
-    const classThis = this;
     return {
       type: "list",
       props: {
@@ -116,29 +114,29 @@ class ListView extends BaseView {
           {
             title: $l10n("REMOVE"),
             color: $color("red"),
-            handler: function(sender, indexPath) {
-              const item = classThis._rawData[indexPath.item];
+            handler: (sender, indexPath) => {
+              const item = this._rawData[indexPath.item];
               if (item.hasOwnProperty("favorited")) {
                 database.deleteSavedTag(item.name)
-                classThis.reloadEvent()
+                this.reloadEvent()
               } else {
                 database.deleteSavedCombination(item.name)
-                classThis.reloadEvent()
+                this.reloadEvent()
               }
             }
           },
           {
             title: $l10n("EDIT"),
-            handler: async function(sender, indexPath) {
-              const item = classThis._rawData[indexPath.item];
+            handler: async (sender, indexPath) => {
+              const item = this._rawData[indexPath.item];
               if (item.hasOwnProperty("favorited")) {
                 const result = await addTag(item);
                 database.safeAddSavedTag(result);
-                classThis.reloadEvent()
+                this.reloadEvent()
               } else {
                 const result = await addCombination(item);
                 database.safeAddCombination(result);
-                classThis.reloadEvent()
+                this.reloadEvent()
               }
             }
           }
@@ -151,11 +149,11 @@ class ListView extends BaseView {
       },
       events: {
         didSelect: (sender, indexPath, data) => {
-          const name = classThis._rawData[indexPath.item].name;
-          classThis.searchEvent(name);
+          const name = this._rawData[indexPath.item].name;
+          this.searchEvent(name);
         },
         didLongPress: async (sender, indexPath, data) => {
-          const item = classThis._rawData[indexPath.item];
+          const item = this._rawData[indexPath.item];
           const type = item.hasOwnProperty("favorited") ? "savedTag" : "savedCombination"
           const totalHeight = $ui.window.frame.height;
           const positionY =
@@ -180,7 +178,7 @@ class ListView extends BaseView {
           });
           switch (index) {
             case 0: {
-              classThis.searchEvent(item.name, "favorites");
+              this.searchEvent(item.name, "favorites");
               break;
             }
             case 1: {
@@ -200,7 +198,7 @@ class ListView extends BaseView {
                 item.favorited = true
                 database.safeAddSavedTag(item)
               }
-              classThis.reloadEvent()
+              this.reloadEvent()
               break;
             }
             default:
@@ -254,7 +252,6 @@ class TagsView extends BaseView {
   }
 
   _defineView() {
-    const classThis = this;
     this.searchBar = new SearchBar({
       placeholder: $l10n("SEARCH"),
       useAccessoryView: false,
@@ -263,15 +260,15 @@ class TagsView extends BaseView {
         make.left.right.inset(10);
         make.height.equalTo(36);
       },
-      changedEvent: text => classThis.reload()
+      changedEvent: text => this.reload()
     });
     this.menu = new Menu({
       items: [...FIXED_ITEMS, ...constants.userConfig.tag_categoires],
-      changedEvent: text => classThis.reload()
+      changedEvent: text => this.reload()
     });
     this.listView = new ListView({
       searchEvent: this.searchEvent,
-      reloadEvent: () => classThis.reload(),
+      reloadEvent: () => this.reload(),
       bgcolor: $color("backgroundColor")
     });
     return {

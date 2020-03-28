@@ -15,41 +15,40 @@ class SubCotroller {
   }
 
   _createdPermanentView() {
-    const classThis = this;
     this.views.main = new ContentView();
     this.views.favoritedButton = new Button({
       symbol: "bookmark",
       tapped: sender => {
-        const id = classThis.item.id;
-        const site = classThis.item.booru.domain;
+        const id = this.item.id;
+        const site = this.item.booru.domain;
         const favorited = database.queryPostFavorited({ site, id });
         if (favorited) {
           database.deletePost({ site, id });
-          classThis.views.favoritedButton.symbol = "bookmark";
-          classThis.views.favoritedButton.tintColor = $color("primaryText");
+          this.views.favoritedButton.symbol = "bookmark";
+          this.views.favoritedButton.tintColor = $color("primaryText");
         } else {
-          database.insertPost({ info: classThis.item, favorited: true });
-          classThis.views.favoritedButton.symbol = "bookmark.fill";
-          classThis.views.favoritedButton.tintColor = $color("red");
+          database.insertPost({ info: this.item, favorited: true });
+          this.views.favoritedButton.symbol = "bookmark.fill";
+          this.views.favoritedButton.tintColor = $color("red");
         }
       }
     });
     this.views.slideshowButton = new Button({
       symbol: "play",
       tapped: sender => {
-        if (classThis.timer) {
-          classThis.views.slideshowButton.symbol = "play";
-          classThis.stopTimer();
+        if (this.timer) {
+          this.views.slideshowButton.symbol = "play";
+          this.stopTimer();
         } else {
-          classThis.views.slideshowButton.symbol = "pause";
-          classThis.startTimer();
+          this.views.slideshowButton.symbol = "pause";
+          this.startTimer();
         }
       }
     });
     this.views.shareButton = new Button({
       symbol: "square.and.arrow.up",
       tapped: sender => {
-        const image = classThis.views.imageView.image;
+        const image = this.views.imageView.image;
         if (image) $share.sheet(image);
       }
     });
@@ -68,12 +67,12 @@ class SubCotroller {
         make.bottom.equalTo(view.prev.top);
       },
       upEvent: () => {
-        classThis.index -= 1;
-        classThis.refresh();
+        this.index -= 1;
+        this.refresh();
       },
       downEvent: () => {
-        classThis.index += 1;
-        classThis.refresh();
+        this.index += 1;
+        this.refresh();
       }
     });
     this.views.prefetchView = new PrefetchView({
@@ -85,15 +84,14 @@ class SubCotroller {
   }
 
   _defineNavButtons() {
-    const classThis = this;
     return [
       {
         symbol: "info.circle",
         handler: sender => {
-          if (classThis.infoViewPresented) {
-            classThis.removeInfoView();
+          if (this.infoViewPresented) {
+            this.removeInfoView();
           } else {
-            classThis.presentInfoView();
+            this.presentInfoView();
           }
         }
       }
@@ -101,7 +99,6 @@ class SubCotroller {
   }
 
   push() {
-    const classThis = this;
     $ui.push({
       props: {
         titleView: this.views.prefetchView.definition,
@@ -110,9 +107,9 @@ class SubCotroller {
       views: [this.views.main.definition],
       events: {
         layoutSubviews: sender => {
-          if (!classThis.views.imageView.prepared) return;
-          const scroll = classThis.views.imageView.view.get("scroll");
-          $delay(0.05, function() {
+          if (!this.views.imageView.prepared) return;
+          const scroll = this.views.imageView.view.get("scroll");
+          $delay(0.05, () => {
             scroll.zoomScale = 1;
             sender.get("content").frame = $rect(
               0,
@@ -123,17 +120,13 @@ class SubCotroller {
             scroll.zoomScale = 1;
           });
         },
-        dealloc: function() {
-          classThis.stopTimer();
-        }
+        dealloc: () => this.stopTimer()
       }
     });
     $app.tips($l10n("READER_TIPS"));
     this.views.main.add(this.views.footerStackView.definition);
     this.views.main.add(this.views.imageView.definition);
-    $delay(0.3, () => {
-      classThis.refresh();
-    });
+    $delay(0.3, () => this.refresh());
   }
 
   refresh() {
@@ -165,16 +158,15 @@ class SubCotroller {
   }
 
   presentInfoView() {
-    const classThis = this;
     this.infoViewPresented = true;
     this.views.infoView = new InfoView({
       item: this.item,
       searchEvent: async text => {
-        await classThis.searchEvent(text);
+        await this.searchEvent(text);
       }
     });
     this.views.maskView = new MaskView({
-      tapped: sender => classThis.removeInfoView()
+      tapped: sender => this.removeInfoView()
     });
     this.views.main.add(this.views.maskView.definition);
     this.views.main.add(this.views.infoView.definition);
@@ -187,12 +179,11 @@ class SubCotroller {
   }
 
   startTimer() {
-    const classThis = this;
     this.timer = $timer.schedule({
       interval: $prefs.get("slideshow_intervals"),
       handler: () => {
-        classThis.index += 1;
-        classThis.refresh();
+        this.index += 1;
+        this.refresh();
       }
     });
   }

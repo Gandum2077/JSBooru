@@ -25,7 +25,6 @@ class FooterBar extends BaseView {
   }
 
   _defineView() {
-    const classThis = this;
     return {
       type: "matrix",
       props: {
@@ -42,7 +41,7 @@ class FooterBar extends BaseView {
               id: "image",
               bgcolor: $color("clear")
             },
-            layout: function(make, view) {
+            layout: (make, view) => {
               make.centerX.equalTo(view.super);
               make.width.height.equalTo(25);
               make.top.inset(7);
@@ -54,21 +53,27 @@ class FooterBar extends BaseView {
               id: "label",
               font: $font(10)
             },
-            layout: function(make, view) {
+            layout: (make, view) => {
               var preView = view.prev;
               make.centerX.equalTo(preView);
               make.bottom.inset(13);
             }
           }
         ],
-        data: this._map(this.items)
+        data: this._map(this.items),
+        header: {
+          props: {
+            height: 0.5,
+            bgcolor: $color("separatorColor")
+          }
+        }
       },
       layout: this.layout,
       events: {
-        didSelect: async function(sender, indexPath, data) {
-          classThis.index = indexPath.item;
-          if (classThis.events.changed) {
-            classThis.events.changed(indexPath.item);
+        didSelect: async (sender, indexPath, data) => {
+          this.index = indexPath.item;
+          if (this.events.changed) {
+            this.events.changed(indexPath.item);
           }
         }
       }

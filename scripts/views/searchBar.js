@@ -28,15 +28,13 @@ class SearchBar extends BaseView {
         lineSpacing: 0
       }).width + 3;
     this.wrapperLayout1 = $layout.fill;
-    const classThis = this
     this.wrapperLayout2 = (make, view) => {
       make.left.top.bottom.inset(0);
-      make.right.inset(classThis.buttonWidth + 5);
+      make.right.inset(this.buttonWidth + 5);
     };
   }
 
   _defineView() {
-    const classThis = this;
     this.accessoryView = this.useAccessoryView
       ? new AccessoryView({
           textViewId: this.textViewId
@@ -54,13 +52,13 @@ class SearchBar extends BaseView {
             tintColor: colors.searchBarSymbolColor,
             symbol: "magnifyingglass"
           },
-          layout: function(make, view) {
+          layout: (make, view) => {
             make.size.equalTo($size(20, 20));
             make.center.equalTo(view.super);
           }
         }
       ],
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.top.bottom.inset(0);
         make.width.equalTo(20);
         make.left.inset(6);
@@ -84,10 +82,10 @@ class SearchBar extends BaseView {
       layout: (make, view) => {
         make.top.bottom.inset(0);
         make.left.equalTo(view.prev.right).inset(5);
-        make.width.equalTo(classThis.buttonWidth);
+        make.width.equalTo(this.buttonWidth);
       },
       events: {
-        tapped: sender => classThis.blur()
+        tapped: sender => this.blur()
       }
     };
 
@@ -103,28 +101,28 @@ class SearchBar extends BaseView {
           ? this.accessoryView.definition
           : undefined
       },
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.top.bottom.inset(0);
         make.left.equalTo(view.prev.right);
         make.right.inset(0);
       },
       events: {
-        changed: function(sender) {
-          if (classThis.changedEvent) {
-            classThis.changedEvent(sender.text);
+        changed: sender => {
+          if (this.changedEvent) {
+            this.changedEvent(sender.text);
           }
         },
-        didBeginEditing: function(sender) {
-          classThis.activate();
+        didBeginEditing: sender => {
+          this.activate();
         },
-        didEndEditing: function(sender) {
-          classThis.initial();
+        didEndEditing: sender => {
+          this.initial();
           sender.blur();
         },
-        returned: async function(sender) {
+        returned: async sender => {
           sender.blur();
-          if (classThis.searchEvent) {
-            classThis.searchEvent(sender.text.trim().toLowerCase());
+          if (this.searchEvent) {
+            this.searchEvent(sender.text.trim().toLowerCase());
           }
         }
       }
@@ -152,7 +150,6 @@ class SearchBar extends BaseView {
   }
 
   initial() {
-    const classThis = this;
     if (this.useAccessoryView) this.accessoryView.initial();
     const wrapper = this.view.get("wrapper");
     wrapper.remakeLayout(this.wrapperLayout1);
@@ -160,14 +157,13 @@ class SearchBar extends BaseView {
       duration: 0.2,
       animation: () => {
         wrapper.relayout();
-        classThis.view.get("button").alpha = 0;
+        this.view.get("button").alpha = 0;
       }
     });
     this.blur();
   }
 
   activate() {
-    const classThis = this;
     if (this.useAccessoryView) this.accessoryView.initial();
     const wrapper = this.view.get("wrapper");
     wrapper.remakeLayout(this.wrapperLayout2);
@@ -175,7 +171,7 @@ class SearchBar extends BaseView {
       duration: 0.2,
       animation: () => {
         wrapper.relayout();
-        classThis.view.get("button").alpha = 1;
+        this.view.get("button").alpha = 1;
       }
     });
   }

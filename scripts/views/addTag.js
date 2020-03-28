@@ -69,7 +69,6 @@ class FooterView extends BaseView {
   }
 
   _defineView() {
-    const classThis = this;
     this.views.labelOtherNames = new Label({
       text: "Other Names",
       layout: (make, view) => {
@@ -105,13 +104,13 @@ class FooterView extends BaseView {
       },
       events: {
         didSelect: (sender, indexpath, data) => {
-          classThis.nameChangedEvent(data);
+          this.nameChangedEvent(data);
         },
         layoutSubviews: sender => {
           const height = sender.contentSize.height;
           sender.updateLayout((make, view) => {
             make.height.equalTo(height);
-            classThis.heightChangedEvent(height);
+            this.heightChangedEvent(height);
           });
         }
       }
@@ -146,17 +145,16 @@ class AddTagView extends BaseView {
   }
 
   _defineView() {
-    const classThis = this;
     this.footerView = new FooterView({
       height: 50,
       nameChangedEvent: text => {
-        const nameCell = classThis.listView.view.cell($indexPath(0, 1));
+        const nameCell = this.listView.view.cell($indexPath(0, 1));
         nameCell.get("valueView").text = text;
-        classThis.listView._values.title = text;
+        this.listView._values.title = text;
       },
       heightChangedEvent: height => {
-        $delay(0.1, function() {
-          classThis.footerheight = (classThis._wikiHidden ? 50 : 400) + height;
+        $delay(0.1, () => {
+          this.footerheight = (this._wikiHidden ? 50 : 400) + height;
         });
       }
     });
@@ -236,7 +234,6 @@ class AddTagView extends BaseView {
   }
 
   async update() {
-    const classThis = this;
     if (!this.values.name) return;
     this.footerView.views.labelOtherNames.text = $l10n("WIKI_LOADING");
     let height = 50;
@@ -254,10 +251,10 @@ class AddTagView extends BaseView {
         this.footerView.views.markdown.view.content = render(info.wiki);
         this.footerView.views.markdown.view.hidden = false;
       }
-      $delay(0.05, function() {
-        height += classThis.footerView.views.flowLayout.view.contentSize.height;
+      $delay(0.05, () => {
+        height += this.footerView.views.flowLayout.view.contentSize.height;
         if (!this._wikiHidden) height += 350;
-        classThis.footerheight = height;
+        this.footerheight = height;
       });
     } catch (err) {
       this.footerView.views.labelOtherNames.text = err.message;
@@ -276,7 +273,7 @@ function presentSheet({ values, name_editable, presentMode = 1 }) {
   return new Promise((resolve, reject) => {
     sheet.promisify(resolve, reject);
     sheet.present();
-    $delay(0.3, function() {
+    $delay(0.3, () => {
       addTagView.initial();
       addTagView.update().then();
     });

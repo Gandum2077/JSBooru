@@ -10,7 +10,6 @@ class InfoView extends BaseView {
   }
 
   _defineView() {
-    const classThis = this;
     const postRows = [];
     if (this.item.sampleUrl)
       postRows.push({
@@ -153,7 +152,7 @@ class InfoView extends BaseView {
         }
       },
       events: {
-        didSelect: async function(sender, indexPath, data) {
+        didSelect: async (sender, indexPath, data) => {
           switch (indexPath.section) {
             case 0: {
               break;
@@ -187,7 +186,7 @@ class InfoView extends BaseView {
                 case 0: {
                   $ui.pop();
                   await $wait(0.5);
-                  await classThis.searchEvent(tag_name);
+                  await this.searchEvent(tag_name);
                   break;
                 }
                 case 1: {

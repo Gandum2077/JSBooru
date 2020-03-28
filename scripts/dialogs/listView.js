@@ -64,7 +64,7 @@ class Cell extends BaseView {
         textColor: this.titleColor,
         font: $font(17)
       },
-      layout: function(make, view) {
+      layout: (make, view) => {
         const icon = view.super.get("icon");
         make.height.equalTo(89 / 2);
         make.width.equalTo(getTextSize(view.text).width + 10);
@@ -79,7 +79,6 @@ class Cell extends BaseView {
   }
 
   _defineIconView() {
-    const classThis = this;
     return {
       type: "view",
       props: {
@@ -93,12 +92,12 @@ class Cell extends BaseView {
             tintColor: this.iconColor,
             image: this.icon.alwaysTemplate
           },
-          layout: function(make, view) {
-            make.edges.insets(classThis.iconEdgeInsets);
+          layout: (make, view) => {
+            make.edges.insets(this.iconEdgeInsets);
           }
         }
       ],
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.size.equalTo($size(89 / 2, 89 / 2));
         make.left.inset(10);
       }
@@ -125,7 +124,6 @@ class BaseStringCell extends Cell {
   }
 
   _defineValueView() {
-    const classThis = this;
     return {
       type: "input",
       props: {
@@ -141,25 +139,21 @@ class BaseStringCell extends Cell {
         autocapitalizationType: this.autocapitalizationType,
         spellCheckingType: this.spellCheckingType
       },
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.top.bottom.inset(0);
         make.left.equalTo(view.prev.right).inset(10);
         make.right.inset(15);
       },
       events: {
-        changed: function(sender) {
-          if (classThis.key)
-            classThis.values[classThis.key] = classThis._handleText(
-              sender.text
-            );
+        changed: sender => {
+          if (this.key) this.values[this.key] = this._handleText(sender.text);
         },
-        didEndEditing: function(sender) {
-          const result = classThis._handleText(sender.text);
+        didEndEditing: sender => {
+          const result = this._handleText(sender.text);
           sender.text = result;
-          if (classThis.key)
-            classThis.values[classThis.key] = classThis._handleText(result);
+          if (this.key) this.values[this.key] = this._handleText(result);
         },
-        returned: function(sender) {
+        returned: sender => {
           sender.blur();
         }
       }
@@ -221,7 +215,6 @@ class BooleanCell extends Cell {
   }
 
   _defineValueView() {
-    const classThis = this;
     return {
       type: "switch",
       props: {
@@ -230,14 +223,14 @@ class BooleanCell extends Cell {
         onColor: this.onColor,
         thumbColor: this.thumbColor
       },
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.size.equalTo($size(51, 31));
         make.centerY.equalTo(view.super);
         make.right.inset(15);
       },
       events: {
-        changed: function(sender) {
-          if (classThis.key) classThis.values[classThis.key] = sender.on;
+        changed: sender => {
+          if (this.key) this.values[this.key] = sender.on;
         }
       }
     };
@@ -265,7 +258,6 @@ class SliderCell extends Cell {
   }
 
   _defineValueView() {
-    const classThis = this;
     return {
       type: "view",
       props: {
@@ -279,7 +271,7 @@ class SliderCell extends Cell {
             text: this.value.toFixed(this.decimal),
             align: $align.right
           },
-          layout: function(make, view) {
+          layout: (make, view) => {
             make.top.right.bottom.inset(0);
             make.width.equalTo(30);
           }
@@ -296,21 +288,20 @@ class SliderCell extends Cell {
             thumbColor: this.thumbColor,
             continuous: true
           },
-          layout: function(make, view) {
+          layout: (make, view) => {
             make.top.left.bottom.inset(0);
             make.right.equalTo(view.prev.left);
           },
           events: {
-            changed: function(sender) {
-              const adjustedValue = sender.value.toFixed(classThis.decimal);
+            changed: sender => {
+              const adjustedValue = sender.value.toFixed(this.decimal);
               sender.prev.text = adjustedValue;
-              if (classThis.key)
-                classThis.values[classThis.key] = parseFloat(adjustedValue);
+              if (this.key) this.values[this.key] = parseFloat(adjustedValue);
             }
           }
         }
       ],
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.top.bottom.inset(0);
         make.left.equalTo(view.prev.right).inset(10);
         make.right.inset(15);
@@ -329,7 +320,6 @@ class ListCell extends Cell {
   }
 
   _defineValueView() {
-    const classThis = this;
     return {
       type: "label",
       props: {
@@ -340,28 +330,28 @@ class ListCell extends Cell {
         userInteractionEnabled: true
       },
       events: {
-        tapped: async function(sender) {
+        tapped: async sender => {
           let title;
-          if (classThis.listType === "menu") {
-            const result = await $ui.menu({ items: classThis.items });
+          if (this.listType === "menu") {
+            const result = await $ui.menu({ items: this.items });
             title = result.title;
-          } else if (classThis.listType === "popover") {
+          } else if (this.listType === "popover") {
             const result = await $ui.popover({
               sourceView: sender.super,
               sourceRect: sender.super.bounds,
               directions: $popoverDirection.up,
               size: $size(320, 200),
-              items: classThis.items
+              items: this.items
             });
             title = result.title;
           }
           if (title) {
             sender.text = title;
-            if (classThis.key) classThis.values[classThis.key] = title;
+            if (this.key) this.values[this.key] = title;
           }
         }
       },
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.top.bottom.inset(0);
         make.left.equalTo(view.prev.right).inset(10);
         make.right.inset(15);
@@ -380,7 +370,6 @@ class SegmentedControlCell extends Cell {
   }
 
   _defineValueView() {
-    const classThis = this;
     return {
       type: "tab",
       props: {
@@ -388,15 +377,15 @@ class SegmentedControlCell extends Cell {
         items: this.items,
         index: this.index
       },
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.centerY.equalTo(view.super);
         make.height.equalTo(40);
         make.left.equalTo($("title").right).inset(10);
         make.right.inset(15);
       },
       events: {
-        changed: function(sender) {
-          if (classThis.key) classThis.values[classThis.key] = sender.index;
+        changed: sender => {
+          if (this.key) this.values[this.key] = sender.index;
         }
       }
     };
@@ -415,7 +404,6 @@ class DatetimeCell extends Cell {
   }
 
   _defineValueView() {
-    const classThis = this;
     return {
       type: "label",
       props: {
@@ -424,24 +412,24 @@ class DatetimeCell extends Cell {
         align: $align.right,
         userInteractionEnabled: true
       },
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.right.inset(15);
         make.centerY.equalTo(view.super);
         make.left.equalTo(view.prev.right).inset(10);
         make.right.inset(15);
       },
       events: {
-        tapped: async function(sender) {
+        tapped: async sender => {
           const result = await $picker.date({
-            date: classThis.value,
-            min: classThis.min,
-            max: classThis.max,
-            mode: classThis.mode,
-            interval: classThis.interval
+            date: this.value,
+            min: this.min,
+            max: this.max,
+            mode: this.mode,
+            interval: this.interval
           });
           const date = new Date(result);
           sender.text = date.toISOString();
-          if (classThis.key) classThis.values[classThis.key] = date;
+          if (this.key) this.values[this.key] = date;
         }
       }
     };
@@ -462,7 +450,7 @@ class InfoCell extends Cell {
         textColor: $color("secondaryText"),
         align: $align.right
       },
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.top.bottom.inset(0);
         make.left.equalTo(view.prev.right).inset(10);
         make.right.inset(15);
@@ -477,7 +465,6 @@ class LinkCell extends Cell {
   }
 
   _defineValueView() {
-    const classThis = this;
     return {
       type: "view",
       props: {
@@ -504,7 +491,7 @@ class LinkCell extends Cell {
           layout: $layout.fill
         }
       ],
-      layout: function(make, view) {
+      layout: (make, view) => {
         make.top.bottom.inset(0);
         make.left.equalTo(view.prev.right).inset(10);
         make.right.inset(15);
@@ -512,7 +499,7 @@ class LinkCell extends Cell {
       events: {
         tapped: sender => {
           $safari.open({
-            url: classThis.value
+            url: this.value
           });
         }
       }
@@ -529,7 +516,6 @@ class ActionCell extends Cell {
   }
 
   _defineValueView() {
-    const classThis = this;
     if (this.buttonType === 0) {
       return {
         type: "button",
@@ -540,14 +526,14 @@ class ActionCell extends Cell {
           bgcolor: $color("clear"),
           radius: 0
         },
-        layout: function(make, view) {
+        layout: (make, view) => {
           make.top.bottom.inset(0);
           make.left.equalTo(view.prev.left);
           make.right.inset(15);
         },
         events: {
-          tapped: function(sender) {
-            classThis.value();
+          tapped: sender => {
+            this.value();
           }
         }
       };
@@ -558,14 +544,14 @@ class ActionCell extends Cell {
           id: "valueView",
           title: this.buttonTitle
         },
-        layout: function(make, view) {
+        layout: (make, view) => {
           make.top.bottom.inset(5);
           make.width.equalTo(100);
           make.right.inset(15);
         },
         events: {
-          tapped: function(sender) {
-            classThis.value();
+          tapped: sender => {
+            this.value();
           }
         }
       };

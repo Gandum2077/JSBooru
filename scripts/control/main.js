@@ -38,7 +38,6 @@ class Controller {
   }
 
   _createdPermanentView() {
-    const classThis = this;
     this.views.main = new ContentView();
     this.views.footerBar = new FooterBar({
       items: [
@@ -56,9 +55,7 @@ class Controller {
         }
       ],
       events: {
-        changed: index => {
-          classThis.changeIndex(index);
-        }
+        changed: index => this.changeIndex(index)
       }
     });
     this.views.booruView = new ContentView({
@@ -76,9 +73,9 @@ class Controller {
     this.views.thumbnailsViewBooru = new ThumbnailsView({
       layout: $layout.fill,
       events: {
-        itemSize: function(sender, indexPath) {
+        itemSize: (sender, indexPath) => {
           const index = indexPath.item;
-          const info = classThis.booruItems[index];
+          const info = this.booruItems[index];
           const width = info.width;
           let height = info.height;
           if (height > width * 2) {
@@ -88,40 +85,40 @@ class Controller {
           }
           return $size(width, height);
         },
-        pulled: async function(sender) {
-          if (classThis.isLoading) {
+        pulled: async sender => {
+          if (this.isLoading) {
             sender.endRefreshing();
             return;
           }
-          await classThis.loadBooru({
-            tags: classThis.booruInfo.tags,
-            random: classThis.booruInfo.random,
-            startPage: classThis.booruInfo.startPage
+          await this.loadBooru({
+            tags: this.booruInfo.tags,
+            random: this.booruInfo.random,
+            startPage: this.booruInfo.startPage
           });
           sender.endRefreshing();
         },
-        willBeginDragging: function(sender) {
-          classThis.views.searchBarBooru.initial();
+        willBeginDragging: sender => {
+          this.views.searchBarBooru.initial();
         },
-        didSelect: function(sender, indexPath, data) {
+        didSelect: (sender, indexPath, data) => {
           const s = new SubController({
-            items: classThis.booruItems,
+            items: this.booruItems,
             index: indexPath.item,
             searchEvent: async text => {
-              await classThis.loadBooru({ tags: [text] });
+              await this.loadBooru({ tags: [text] });
             }
           });
           s.push();
         },
-        didReachBottom: async function(sender) {
-          if (classThis.isLoading) {
+        didReachBottom: async sender => {
+          if (this.isLoading) {
             sender.endFetchingMore();
             return;
           }
-          const result = await classThis.generatorBooru.next();
+          const result = await this.generatorBooru.next();
           if (!result.done) {
-            classThis.booruItems.push(...classThis._filter(result.value));
-            classThis.views.thumbnailsViewBooru.items = classThis.booruItems;
+            this.booruItems.push(...this._filter(result.value));
+            this.views.thumbnailsViewBooru.items = this.booruItems;
           }
           sender.endFetchingMore();
         }
@@ -130,9 +127,9 @@ class Controller {
     this.views.thumbnailsViewFavorites = new ThumbnailsView({
       layout: $layout.fill,
       events: {
-        itemSize: function(sender, indexPath) {
+        itemSize: (sender, indexPath) => {
           const index = indexPath.item;
-          const info = classThis.favoritesItems[index];
+          const info = this.favoritesItems[index];
           const width = info.width;
           let height = info.height;
           if (height > width * 2) {
@@ -142,34 +139,34 @@ class Controller {
           }
           return $size(width, height);
         },
-        pulled: async function(sender) {
-          classThis.loadFavorites({
-            tags: classThis.favoritesInfo.tags,
+        pulled: async sender => {
+          this.loadFavorites({
+            tags: this.favoritesInfo.tags,
             startPage: 1
           });
           sender.endRefreshing();
         },
-        willBeginDragging: function(sender) {
-          classThis.views.searchBarFavorites.initial();
+        willBeginDragging: sender => {
+          this.views.searchBarFavorites.initial();
         },
-        didSelect: function(sender, indexPath, data) {
+        didSelect: (sender, indexPath, data) => {
           const s = new SubController({
-            items: classThis.favoritesItems,
+            items: this.favoritesItems,
             index: indexPath.item,
             searchEvent: async text => {
-              classThis.views.footerBar.index = 0;
-              classThis.changeIndex(0);
-              await classThis.loadBooru({ tags: [text] });
+              this.views.footerBar.index = 0;
+              this.changeIndex(0);
+              await this.loadBooru({ tags: [text] });
             }
           });
           s.push();
         },
-        didReachBottom: async function(sender) {
-          const result = classThis.generatorFavorites.next();
+        didReachBottom: async sender => {
+          const result = this.generatorFavorites.next();
           if (!result.done) {
-            classThis.favoritesItems.push(...result.value);
-            classThis.views.thumbnailsViewFavorites.items =
-              classThis.favoritesItems;
+            this.favoritesItems.push(...result.value);
+            this.views.thumbnailsViewFavorites.items =
+              this.favoritesItems;
           }
           sender.endFetchingMore();
         }
@@ -186,7 +183,7 @@ class Controller {
         if (!text) return;
         const tags = text.split(" ");
         if (!tags || !tags.length) return;
-        await classThis.loadBooru({ tags });
+        await this.loadBooru({ tags });
       }
     });
     this.views.searchBarFavorites = new SearchBar({
@@ -200,7 +197,7 @@ class Controller {
         if (!text) return;
         const tags = text.split(" ");
         if (!tags || !tags.length) return;
-        classThis.loadFavorites({ tags });
+        this.loadFavorites({ tags });
       }
     });
     this.views.tagsView = new TagsView({
@@ -210,29 +207,28 @@ class Controller {
       },
       searchEvent: async (text, type = "booru") => {
         if (type === "booru") {
-          classThis.views.footerBar.index = 0;
-          classThis.changeIndex(0);
+          this.views.footerBar.index = 0;
+          this.changeIndex(0);
           const tags = text.split(" ");
           if (!tags || !tags.length) return;
-          await classThis.loadBooru({ tags });
+          await this.loadBooru({ tags });
         } else if (type === "favorites") {
-          classThis.views.footerBar.index = 1;
-          classThis.changeIndex(1);
+          this.views.footerBar.index = 1;
+          this.changeIndex(1);
           const tags = text.split(" ");
           if (!tags || !tags.length) return;
-          classThis.loadFavorites({ tags });
+          this.loadFavorites({ tags });
         }
       }
     });
   }
 
   _defineNavBottons() {
-    const classThis = this;
     return [
       {
         symbol: "plus",
         handler: async sender => {
-          switch (classThis.footerBarIndex) {
+          switch (this.footerBarIndex) {
             case 0: {
               const { index } = await $ui.popover({
                 sourceView: sender,
@@ -249,19 +245,19 @@ class Controller {
               });
               switch (index) {
                 case 0: {
-                  if (classThis.isLoading) return;
+                  if (this.isLoading) return;
                   let startPage = await inputAlert({
                     title: $l10n("JUMP_TO_PAGE"),
                     message:
                       $l10n("CURRENT_PAGE") +
                       ": " +
-                      classThis.booruInfo.startPage
+                      this.booruInfo.startPage
                   });
                   startPage = startPage.trim();
                   if (/^\d+$/.test(startPage) && parseInt(startPage) > 0) {
-                    await classThis.loadBooru({
-                      tags: classThis.booruInfo.tags,
-                      random: classThis.booruInfo.random,
+                    await this.loadBooru({
+                      tags: this.booruInfo.tags,
+                      random: this.booruInfo.random,
                       startPage: parseInt(startPage)
                     });
                   } else {
@@ -270,26 +266,26 @@ class Controller {
                   break;
                 }
                 case 1: {
-                  await classThis.loadBooru();
+                  await this.loadBooru();
                   break;
                 }
                 case 2: {
-                  if (checkRandomSupport(classThis.booruInfo.site)) {
-                    await classThis.loadBooru({ random: true });
+                  if (checkRandomSupport(this.booruInfo.site)) {
+                    await this.loadBooru({ random: true });
                   } else {
                     $ui.error($l10n("RANDOM_SUPPORT_ERROR"));
                   }
                   break;
                 }
                 case 3: {
-                  const newSite = await selectServers(classThis.booruInfo.site);
-                  classThis.booruInfo.site = newSite;
-                  await classThis.loadBooru();
+                  const newSite = await selectServers(this.booruInfo.site);
+                  this.booruInfo.site = newSite;
+                  await this.loadBooru();
                   $ui.title = newSite;
                   break;
                 }
                 case 4: {
-                  await classThis.openPrefs();
+                  await this.openPrefs();
                   break;
                 }
                 default:
@@ -302,7 +298,7 @@ class Controller {
                 sourceView: sender,
                 sourceRect: sender.bounds,
                 directions: $popoverDirection.up,
-                size: $size(200, 44 * 2),
+                size: $size(200, 44 * 3),
                 items: [
                   $l10n("JUMP_TO_PAGE"),
                   $l10n("BROWSE_ALL"),
@@ -316,12 +312,12 @@ class Controller {
                     message:
                       $l10n("CURRENT_PAGE") +
                       ": " +
-                      classThis.favoritesInfo.startPage
+                      this.favoritesInfo.startPage
                   });
                   startPage = startPage.trim();
                   if (/^\d+$/.test(startPage) && parseInt(startPage) > 0) {
                     this.loadFavorites({
-                      tags: classThis.favoritesInfo.tags,
+                      tags: this.favoritesInfo.tags,
                       startPage: parseInt(startPage)
                     });
                   } else {
@@ -334,7 +330,7 @@ class Controller {
                   break;
                 }
                 case 2: {
-                  await classThis.openPrefs();
+                  await this.openPrefs();
                   break;
                 }
                 default:
@@ -366,13 +362,13 @@ class Controller {
                     category,
                     favorited
                   });
-                  classThis.views.tagsView.reload(true);
+                  this.views.tagsView.reload(true);
                   break;
                 }
                 case 1: {
                   const result = await addCombination();
                   database.safeAddCombination(result);
-                  classThis.views.tagsView.reload(true);
+                  this.views.tagsView.reload(true);
                   break;
                 }
                 case 2: {
@@ -387,11 +383,11 @@ class Controller {
                     }
                   });
                   constants.userConfig.saveTagCategoires(result);
-                  classThis.views.tagsView.reloadAll();
+                  this.views.tagsView.reloadAll();
                   break;
                 }
                 case 3: {
-                  await classThis.openPrefs();
+                  await this.openPrefs();
                   break;
                 }
                 default:
@@ -406,7 +402,7 @@ class Controller {
       },
       {
         symbol: "questionmark.circle",
-        handler: function() {
+        handler: () => {
           $ui.push({
             props: {
               title: "README",
@@ -435,7 +431,6 @@ class Controller {
   }
 
   render() {
-    const classThis = this;
     $ui.render({
       props: {
         title: "",
@@ -451,13 +446,13 @@ class Controller {
     this.views.favoritesView.add(this.views.thumbnailsViewFavorites.definition);
     this.views.footerBar.index = this.footerBarIndex;
     this.changeIndex(this.footerBarIndex);
-    $delay(0.1, function() {
-      classThis.views.thumbnailsViewBooru.view
+    $delay(0.1, () => {
+      this.views.thumbnailsViewBooru.view
         .get("header")
-        .add(classThis.views.searchBarBooru.definition);
-      classThis.views.thumbnailsViewFavorites.view
+        .add(this.views.searchBarBooru.definition);
+        this.views.thumbnailsViewFavorites.view
         .get("header")
-        .add(classThis.views.searchBarFavorites.definition);
+        .add(this.views.searchBarFavorites.definition);
     });
   }
 
