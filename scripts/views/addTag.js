@@ -8,9 +8,10 @@ const colors = require("../utils/colors");
 const ListView = require("../dialogs/listView");
 
 class Label extends BaseView {
-  constructor({ text, layout }) {
+  constructor({ text, hidden, layout }) {
     super();
     this._text = text;
+    this._hidden = hidden;
     this.layout = layout;
   }
 
@@ -21,7 +22,8 @@ class Label extends BaseView {
         id: this.id,
         text: this._text,
         font: $font(13),
-        textColor: colors.sectionHeaderColor
+        textColor: colors.sectionHeaderColor,
+        hidden: this._hidden
       },
       layout: this.layout
     };
@@ -34,9 +36,10 @@ class Label extends BaseView {
 }
 
 class Markdown extends BaseView {
-  constructor({ content, layout }) {
+  constructor({ content, hidden, layout }) {
     super();
     this._content = content;
+    this._hidden = hidden;
     this.layout = layout;
   }
 
@@ -46,7 +49,8 @@ class Markdown extends BaseView {
       props: {
         id: this.id,
         content: this._content,
-        bgcolor: $color("secondarySurface")
+        bgcolor: $color("secondarySurface"),
+        hidden: this._hidden
       },
       layout: this.layout
     };
@@ -70,7 +74,7 @@ class FooterView extends BaseView {
 
   _defineView() {
     this.views.labelOtherNames = new Label({
-      text: "Other Names",
+      text: "",
       layout: (make, view) => {
         make.top.inset(5);
         make.left.inset(15);
@@ -80,6 +84,7 @@ class FooterView extends BaseView {
     });
     this.views.labelWiki = new Label({
       text: "Wiki",
+      hidden: true,
       layout: (make, view) => {
         make.top.equalTo(view.prev.bottom).inset(5);
         make.left.inset(15);
@@ -116,6 +121,7 @@ class FooterView extends BaseView {
       }
     });
     this.views.markdown = new Markdown({
+      hidden: true,
       layout: (make, view) => {
         make.top.equalTo(view.prev.bottom).inset(5);
         make.left.right.inset(15);
