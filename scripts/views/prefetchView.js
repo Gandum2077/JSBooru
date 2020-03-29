@@ -23,10 +23,13 @@ class PrefetchView extends BaseView {
               type: "image",
               props: {
                 id: "image",
-                contentMode: 1,
                 bgcolor: $color("clear")
               },
-              layout: $layout.fill
+              layout: (make, view) => {
+                make.center.equalTo(view.super)
+                make.width.equalTo(view.super)
+                make.height.equalTo(view.width)
+              }
             }
           ]
         }
