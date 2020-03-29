@@ -1,11 +1,10 @@
 const BaseView = require("../components/baseView");
 const constants = require("../utils/constants");
-const colors = require("../utils/colors");
 
 class AccessoryView extends BaseView {
-  constructor({ textViewId }) {
+  constructor({ selectEvent }) {
     super();
-    this.textViewId = textViewId;
+    this._selectEvent = selectEvent;
   }
 
   _defineView() {
@@ -53,9 +52,9 @@ class AccessoryView extends BaseView {
         },
         didSelect: (sender, indexPath, data) => {
           if (indexPath.item === 0) {
-            $(this.textViewId).text = $clipboard.text;
+            this._selectEvent($clipboard.text);
           } else {
-            $(this.textViewId).text = data.label.text;
+            this._selectEvent(data.label.text);
           }
         }
       }

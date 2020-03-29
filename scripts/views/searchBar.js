@@ -1,5 +1,4 @@
 const BaseView = require("../components/baseView");
-const idManager = require("../utils/id");
 const AccessoryView = require("./accessoryView");
 const colors = require("../utils/colors");
 
@@ -13,7 +12,6 @@ class SearchBar extends BaseView {
     searchEvent
   } = {}) {
     super();
-    this.textViewId = idManager.newId;
     this.placeholder = placeholder;
     this.layout = layout;
     this.useAccessoryView = useAccessoryView;
@@ -27,17 +25,12 @@ class SearchBar extends BaseView {
         font: $font(17),
         lineSpacing: 0
       }).width + 3;
-    this.wrapperLayout1 = $layout.fill;
-    this.wrapperLayout2 = (make, view) => {
-      make.left.top.bottom.inset(0);
-      make.right.inset(this.buttonWidth + 5);
-    };
   }
 
   _defineView() {
     this.accessoryView = this.useAccessoryView
       ? new AccessoryView({
-          textViewId: this.textViewId
+          selectEvent: text => this.text = text
         })
       : undefined;
     const image = {
@@ -65,23 +58,19 @@ class SearchBar extends BaseView {
       }
     };
     const button = {
-      type: "label",
+      type: "button",
       props: {
         id: "button",
         radius: 0,
         bgcolor: $color("clear"),
-        text: this.cancelText,
-        textColor: $color("tintColor"),
+        title: this.cancelText,
+        titleColor: $color("tintColor"),
         font: $font(17),
-        userInteractionEnabled: true,
-        alpha: 0,
-        lines: 0,
-        align: $align.center
-        //autoFontSize: true
+        alpha: 0
       },
       layout: (make, view) => {
         make.top.bottom.inset(0);
-        make.left.equalTo(view.prev.right).inset(5);
+        make.right.inset(10);
         make.width.equalTo(this.buttonWidth);
       },
       events: {
@@ -92,7 +81,7 @@ class SearchBar extends BaseView {
     const input = {
       type: "input",
       props: {
-        id: this.textViewId,
+        id: "input",
         type: $kbType.search,
         placeholder: this.placeholder,
         bgcolor: $color("clear"),
@@ -103,8 +92,8 @@ class SearchBar extends BaseView {
       },
       layout: (make, view) => {
         make.top.bottom.inset(0);
-        make.left.equalTo(view.prev.right);
-        make.right.inset(0);
+        make.left.equalTo(view.prev.prev.right);
+        make.right.equalTo(view.prev.left);
       },
       events: {
         changed: sender => {
@@ -112,13 +101,8 @@ class SearchBar extends BaseView {
             this.changedEvent(sender.text);
           }
         },
-        didBeginEditing: sender => {
-          this.activate();
-        },
-        didEndEditing: sender => {
-          this.initial();
-          sender.blur();
-        },
+        didBeginEditing: sender => this.activate(),
+        didEndEditing: sender => this.initial(),
         returned: async sender => {
           sender.blur();
           if (this.searchEvent) {
@@ -127,24 +111,21 @@ class SearchBar extends BaseView {
         }
       }
     };
-    const symbolInputWrapper = {
-      type: "view",
+    const wrapper = {
       props: {
-        id: "wrapper",
         bgcolor: colors.searchBarInputColor,
         radius: 8
       },
-      views: [image, input],
-      layout: this.wrapperLayout1
+      views: [image, button, input],
+      layout: $layout.fill
     };
     const view = {
-      type: "view",
       props: {
         id: this.id,
         alpha: 0.6,
         clipsToBounds: true
       },
-      views: [symbolInputWrapper, button],
+      views: [wrapper],
       layout: this.layout
     };
     return view;
@@ -152,13 +133,10 @@ class SearchBar extends BaseView {
 
   initial() {
     if (this.useAccessoryView) this.accessoryView.initial();
-    const wrapper = this.view.get("wrapper");
-    wrapper.remakeLayout(this.wrapperLayout1);
     this.view.alpha = 0.6;
     $ui.animate({
       duration: 0.2,
       animation: () => {
-        wrapper.relayout();
         this.view.get("button").alpha = 0;
       }
     });
@@ -167,32 +145,29 @@ class SearchBar extends BaseView {
 
   activate() {
     if (this.useAccessoryView) this.accessoryView.initial();
-    const wrapper = this.view.get("wrapper");
-    wrapper.remakeLayout(this.wrapperLayout2);
     this.view.alpha = 1;
     $ui.animate({
       duration: 0.2,
       animation: () => {
-        wrapper.relayout();
         this.view.get("button").alpha = 1;
       }
     });
   }
 
   focus() {
-    $(this.textViewId).focus();
+    this.view.get("input").focus();
   }
 
   blur() {
-    $(this.textViewId).blur();
+    this.view.get("input").blur();
   }
 
   set text(text) {
-    $(this.textViewId).text = text;
+    this.view.get("input").text = text;
   }
 
   get text() {
-    return $(this.textViewId).text;
+    return this.view.get("input").text;
   }
 }
 
