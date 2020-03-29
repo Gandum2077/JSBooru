@@ -1,5 +1,5 @@
 node_modules
 assets/userConfig.json
-assets/favorites.db
+assets/database.db
 assets/.files
 .output
