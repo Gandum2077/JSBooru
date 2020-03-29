@@ -6,6 +6,7 @@ const { ContentView } = require("../views/views");
 const FooterBar = require("../views/footerBar");
 const ThumbnailsView = require("../views/thumbnailsView");
 const SearchBar = require("../views/searchBar");
+const AccessoryView = require("../views/accessoryView");
 const TagsView = require("../views/tagsView");
 const selectServers = require("../views/selectServers");
 const addTag = require("../views/addTag");
@@ -171,8 +172,12 @@ class Controller {
         }
       }
     });
+    this.views.accessoryViewBooru = new AccessoryView({
+      selectEvent: text => (this.views.searchBarBooru.text = text)
+    });
     this.views.searchBarBooru = new SearchBar({
       placeholder: $l10n("SEARCH"),
+      accessoryView: this.views.accessoryViewBooru,
       layout: (make, view) => {
         make.height.equalTo(36);
         make.left.right.equalTo(view.super.super).inset(10);
@@ -186,8 +191,12 @@ class Controller {
         await this.loadBooru({ tags });
       }
     });
+    this.views.accessoryViewFavorites = new AccessoryView({
+      selectEvent: text => (this.views.searchBarFavorites.text = text)
+    });
     this.views.searchBarFavorites = new SearchBar({
       placeholder: $l10n("SEARCH"),
+      accessoryView: this.views.accessoryViewFavorites,
       layout: (make, view) => {
         make.height.equalTo(36);
         make.left.right.equalTo(view.super.super).inset(10);

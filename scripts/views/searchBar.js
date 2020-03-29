@@ -1,12 +1,11 @@
 const BaseView = require("../components/baseView");
-const AccessoryView = require("./accessoryView");
 const colors = require("../utils/colors");
 
 class SearchBar extends BaseView {
   constructor({
     placeholder,
     layout,
-    useAccessoryView = true,
+    accessoryView,
     cancelText = $l10n("CANCEL"),
     changedEvent,
     searchEvent
@@ -14,7 +13,7 @@ class SearchBar extends BaseView {
     super();
     this.placeholder = placeholder;
     this.layout = layout;
-    this.useAccessoryView = useAccessoryView;
+    this.accessoryView = accessoryView;
     this.cancelText = cancelText;
     this.searchEvent = searchEvent;
     this.changedEvent = changedEvent;
@@ -28,11 +27,6 @@ class SearchBar extends BaseView {
   }
 
   _defineView() {
-    this.accessoryView = this.useAccessoryView
-      ? new AccessoryView({
-          selectEvent: text => this.text = text
-        })
-      : undefined;
     const image = {
       type: "view",
       props: {
@@ -86,7 +80,7 @@ class SearchBar extends BaseView {
         placeholder: this.placeholder,
         bgcolor: $color("clear"),
         radius: 0,
-        accessoryView: this.useAccessoryView
+        accessoryView: this.accessoryView
           ? this.accessoryView.definition
           : undefined
       },
@@ -132,7 +126,7 @@ class SearchBar extends BaseView {
   }
 
   initial() {
-    if (this.useAccessoryView) this.accessoryView.initial();
+    if (this.accessoryView) this.accessoryView.initial();
     this.view.alpha = 0.6;
     $ui.animate({
       duration: 0.2,
@@ -144,7 +138,7 @@ class SearchBar extends BaseView {
   }
 
   activate() {
-    if (this.useAccessoryView) this.accessoryView.initial();
+    if (this.accessoryView) this.accessoryView.initial();
     this.view.alpha = 1;
     $ui.animate({
       duration: 0.2,
