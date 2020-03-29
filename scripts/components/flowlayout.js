@@ -110,32 +110,28 @@ Cell.defaultProps = {
 class FlowLayout extends BaseView {
   constructor({ props, layout, events = {} }) {
     super();
-    this.props = { ...this.constructor.defaultProps, ...props };
-    this.props.id = this.id;
+    this.props = { ...this.constructor.defaultProps, ...props, id: this.id };
     this._data = this.props.data;
     this.layout = layout;
-    const {
-      ready: ready_origin,
-      layoutSubviews: layoutSubviews_origin,
-      ...rest
-    } = events;
-    this.events = { ready_origin, layoutSubviews_origin, ...rest };
-    this.events.ready = sender => {
-      this.ready = false;
-      sender.relayout();
-      this.width = sender.frame.width;
-      this.cells.forEach(cell => sender.add(cell.created));
-      this.ready = true;
-      if (this.events.ready_origin) this.events.ready_origin(sender);
-    };
-    this.events.layoutSubviews = sender => {
-      if (this.ready) {
+    this.events = {
+      ...events,
+      ready: sender => {
+        this.ready = false;
         sender.relayout();
         this.width = sender.frame.width;
-        const height = this._layoutCells();
-        sender.contentSize = $size(0, height);
-        if (this.events.layoutSubviews_origin) {
-          this.events.layoutSubviews_origin(sender);
+        this.cells.forEach(cell => sender.add(cell.created));
+        this.ready = true;
+        if (events.ready) events.ready(sender);
+      },
+      layoutSubviews: sender => {
+        if (this.ready) {
+          sender.relayout();
+          this.width = sender.frame.width;
+          const height = this._layoutCells();
+          sender.contentSize = $size(0, height);
+          if (events.layoutSubviews) {
+            events.layoutSubviews(sender);
+          }
         }
       }
     };
