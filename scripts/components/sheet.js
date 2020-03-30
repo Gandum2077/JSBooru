@@ -52,7 +52,7 @@ class Sheet {
       type: this.id + ": UIViewController",
       events: {
         "viewDidDisappear:": () => {
-          if (!this.done && this.reject) this.reject("cancel");
+          if (!this._done && this.reject) this.reject("cancel");
         }
       }
     });
