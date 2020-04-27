@@ -3,7 +3,7 @@ const database = require("../utils/database");
 const inputAlert = require("../dialogs/inputAlert");
 const editListDialogs = require("../dialogs/editListDialogs");
 const { ContentView } = require("../views/views");
-const FooterBar = require("../views/footerBar");
+const TabBar = require("../components/tabBar");
 const ThumbnailsView = require("../views/thumbnailsView");
 const SearchBar = require("../views/searchBar");
 const AccessoryView = require("../views/accessoryView");
@@ -21,12 +21,12 @@ const SubController = require("./reader");
 
 class Controller {
   constructor({
-    footerBarIndex = 0,
+    tabBarIndex = 0,
     booruSite = constants.sitesConfig[$prefs.get("default_site")].name
   } = {}) {
     this.views = {};
     this._createdPermanentView();
-    this.footerBarIndex = footerBarIndex;
+    this.tabBarIndex = tabBarIndex;
     this.booruInfo = {
       site: booruSite,
       tags: [],
@@ -39,36 +39,40 @@ class Controller {
   }
 
   _createdPermanentView() {
-    this.views.main = new ContentView();
-    this.views.footerBar = new FooterBar({
-      items: [
-        {
-          symbol: "photo.fill",
-          title: "Booru"
-        },
-        {
-          symbol: "bookmark.fill",
-          title: "Favorites"
-        },
-        {
-          symbol: "tag.fill",
-          title: "Tags"
-        }
-      ],
+    this.views.main = new ContentView({
+      layout: $layout.fill
+    });
+    this.views.tabBar = new TabBar({
+      props: {
+        items: [
+          {
+            symbol: "photo.fill",
+            title: "Booru"
+          },
+          {
+            symbol: "bookmark.fill",
+            title: "Favorites"
+          },
+          {
+            symbol: "tag.fill",
+            title: "Tags"
+          }
+        ]
+      },
       events: {
         changed: index => this.changeIndex(index)
       }
     });
     this.views.booruView = new ContentView({
       layout: (make, view) => {
-        make.left.right.top.inset(0);
-        make.bottom.equalTo(this.views.footerBar.view.top);
+        make.left.right.top.equalTo(view.super.safeArea);
+        make.bottom.equalTo(this.views.tabBar.view.top);
       }
     });
     this.views.favoritesView = new ContentView({
       layout: (make, view) => {
-        make.left.right.top.inset(0);
-        make.bottom.equalTo(this.views.footerBar.view.top);
+        make.left.right.top.equalTo(view.super.safeArea);
+        make.bottom.equalTo(this.views.tabBar.view.top);
       }
     });
     this.views.thumbnailsViewBooru = new ThumbnailsView({
@@ -155,7 +159,7 @@ class Controller {
             items: this.favoritesItems,
             index: indexPath.item,
             searchEvent: async text => {
-              this.views.footerBar.index = 0;
+              this.views.tabBar.index = 0;
               this.changeIndex(0);
               await this.loadBooru({ tags: [text] });
             }
@@ -212,18 +216,18 @@ class Controller {
     });
     this.views.tagsView = new TagsView({
       layout: (make, view) => {
-        make.left.right.top.inset(0);
-        make.bottom.equalTo(this.views.footerBar.view.top);
+        make.left.right.top.equalTo(view.super.safeArea);
+        make.bottom.equalTo(this.views.tabBar.view.top);
       },
       searchEvent: async (text, type = "booru") => {
         if (type === "booru") {
-          this.views.footerBar.index = 0;
+          this.views.tabBar.index = 0;
           this.changeIndex(0);
           const tags = text.split(" ");
           if (!tags || !tags.length) return;
           await this.loadBooru({ tags });
         } else if (type === "favorites") {
-          this.views.footerBar.index = 1;
+          this.views.tabBar.index = 1;
           this.changeIndex(1);
           const tags = text.split(" ");
           if (!tags || !tags.length) return;
@@ -238,7 +242,7 @@ class Controller {
       {
         symbol: "plus",
         handler: async sender => {
-          switch (this.footerBarIndex) {
+          switch (this.tabBarIndex) {
             case 0: {
               const { index } = await $ui.popover({
                 sourceView: sender,
@@ -446,14 +450,14 @@ class Controller {
       },
       views: [this.views.main.definition]
     });
-    this.views.main.add(this.views.footerBar.definition);
+    this.views.main.add(this.views.tabBar.definition);
     this.views.main.add(this.views.tagsView.definition);
     this.views.main.add(this.views.favoritesView.definition);
     this.views.main.add(this.views.booruView.definition);
     this.views.booruView.add(this.views.thumbnailsViewBooru.definition);
     this.views.favoritesView.add(this.views.thumbnailsViewFavorites.definition);
-    this.views.footerBar.index = this.footerBarIndex;
-    this.changeIndex(this.footerBarIndex);
+    this.views.tabBar.index = this.tabBarIndex;
+    this.changeIndex(this.tabBarIndex);
     $delay(0.1, () => {
       this.views.thumbnailsViewBooru.add(this.views.searchBarBooru.definition);
       this.views.thumbnailsViewFavorites.add(
@@ -463,7 +467,7 @@ class Controller {
   }
 
   changeIndex(index) {
-    this.footerBarIndex = index;
+    this.tabBarIndex = index;
     switch (index) {
       case 0: {
         this.views.booruView.moveToFront();
