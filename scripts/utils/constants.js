@@ -6,8 +6,8 @@ const savedTagsFile = "assets/savedTags.json";
 const favoritedTagsFile = "assets/favoritedTags.json";
 const tagCombinationsFile = "assets/tagCombinations.json";
 
-const icloudSyncPath = "drive://._JSBooruSync";
-const databaseFileOnIcloud = "drive://._JSBooruSync/database.db";
+const icloudSyncPath = "drive://_JSBooruSync";
+const databaseFileOnIcloud = "drive://_JSBooruSync/database.db";
 
 const sitesConfig = JSON.parse($file.read(sitesConfigFile).string);
 
