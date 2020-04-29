@@ -32,6 +32,10 @@
 "Next 3 Pages" = "Next 3 Pages";
 "Next 4 Pages" = "Next 4 Pages";
 "Slideshow Intervals" = "Slideshow Intervals";
+"ICLOUD_AND_TIPS" = "iCloud\nWarning: Since iCloud can not sync instantly, data changes cannot be synchronized on other devices immediately, and operations on another device before synchronization is complete may cause file conflicts and lose some data";
+"Sync Database" = "Sync Database";
+"Overwrite Database in iCloud with Local Database" = "Overwrite Database in iCloud with Local Database";
+"Overwrite Local Database with Database in iCloud" = "Overwrite Local Database with Database in iCloud";
 "STORAGE" = "STORAGE";
 "Clear Download Cache" = "Clear Download Cache";
 "Rebuild Database" = "Rebuild Database";

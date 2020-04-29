@@ -1,5 +1,18 @@
 const constants = require("./constants");
 const database = require("./database");
+const icloudManager = require("./icloud");
+
+function overwriteIcloudDatabase() {
+  database.closeDB();
+  icloudManager.copyDatabaseToIcloud();
+  database.openDB();
+}
+
+function overwriteLocalDatabase() {
+  database.closeDB();
+  icloudManager.copyDatabaseFromIcloud();
+  database.openDB();
+}
 
 function rebuildDatabase() {
   $ui.alert({
@@ -44,6 +57,8 @@ function reset() {
 }
 
 module.exports = {
+  overwriteIcloudDatabase,
+  overwriteLocalDatabase,
   rebuildDatabase,
   reset
 };

@@ -6,6 +6,9 @@ const savedTagsFile = "assets/savedTags.json";
 const favoritedTagsFile = "assets/favoritedTags.json";
 const tagCombinationsFile = "assets/tagCombinations.json";
 
+const icloudSyncPath = "drive://._JSBooruSync";
+const databaseFileOnIcloud = "drive://._JSBooruSync/database.db";
+
 const sitesConfig = JSON.parse($file.read(sitesConfigFile).string);
 
 class UserConfig {
@@ -104,6 +107,8 @@ module.exports = {
   savedTagsFile,
   favoritedTagsFile,
   tagCombinationsFile,
+  icloudSyncPath,
+  databaseFileOnIcloud,
   sitesConfig,
   userConfig
 };

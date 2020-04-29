@@ -1,5 +1,6 @@
 const constants = require("../utils/constants");
 const database = require("../utils/database");
+const icloudManager = require("../utils/icloud");
 const inputAlert = require("../dialogs/inputAlert");
 const editListDialogs = require("../dialogs/editListDialogs");
 const { ContentView } = require("../views/views");
@@ -554,15 +555,20 @@ class Controller {
   }
 
   async openPrefs() {
-    await $prefs.open();
-    this.checkPrefs();
+    await $prefs.open(() => this.checkPrefs());
   }
 
   checkPrefs() {
     const intervals = $prefs.get("slideshow_intervals");
-    if (intervals < 1 || intervals > 30) {
-      $prefs.set("slideshow_intervals", 5);
-    }
+    if (intervals < 1 || intervals > 30) $prefs.set("slideshow_intervals", 5);
+    const databaseSyncEnabled = $prefs.get("sync_database");
+    if (!$file.exists(constants.databaseFileOnIcloud))
+      icloudManager.copyDatabaseToIcloud();
+    database.closeDB();
+    database.databaseFile = databaseSyncEnabled
+      ? constants.databaseFileOnIcloud
+      : constants.databaseFile;
+    database.openDB();
   }
 }
 

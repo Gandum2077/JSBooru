@@ -1,4 +1,4 @@
-const { databaseFile } = require("./constants");
+const { databaseFile, databaseFileOnIcloud } = require("./constants");
 
 class Database {
   constructor(databaseFile) {
@@ -368,6 +368,8 @@ class Database {
   }
 }
 
-const database = new Database(databaseFile);
+const database = new Database(
+  $prefs.get("sync_database") ? databaseFileOnIcloud : databaseFile
+);
 
 module.exports = database;

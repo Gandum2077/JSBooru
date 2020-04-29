@@ -85,6 +85,29 @@
       ]
     },
     {
+      "title": "ICLOUD_AND_TIPS",
+      "items": [
+        {
+          "title": "Sync Database",
+          "type": "boolean",
+          "key": "sync_database",
+          "value": false
+        },
+        {
+          "title": "Overwrite Database in iCloud with Local Database",
+          "type": "script",
+          "key": "overwrite_icloud_database",
+          "value": "require('scripts/utils/settings').overwriteIcloudDatabase();"
+        },
+        {
+          "title": "Overwrite Local Database with Database in iCloud",
+          "type": "script",
+          "key": "overwrite_local_database",
+          "value": "require('scripts/utils/settings').overwriteLocalDatabase();"
+        }
+      ]
+    },
+    {
       "title": "STORAGE",
       "items": [
         {
