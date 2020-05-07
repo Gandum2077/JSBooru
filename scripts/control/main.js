@@ -41,6 +41,7 @@ class Controller {
 
   _createdPermanentView() {
     this.views.main = new ContentView({
+      bgcolor: $color("backgroundColor"),
       layout: $layout.fill
     });
     this.views.tabBar = new TabBar({

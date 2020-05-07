@@ -17,6 +17,7 @@ class SubCotroller {
 
   _createdPermanentView() {
     this.views.main = new ContentView({
+      bgcolor: $color("backgroundColor"),
       layout: $layout.fill
     });
     this.views.favoritedButton = new Button({
@@ -69,7 +70,7 @@ class SubCotroller {
         make.height.equalTo(50);
       }
     });
-    this.views.footBlur = new FooterBlur()
+    this.views.footBlur = new FooterBlur();
     this.views.imageView = new ImageView({
       layout: (make, view) => {
         make.top.inset(0);
@@ -118,20 +119,6 @@ class SubCotroller {
       },
       views: [this.views.main.definition],
       events: {
-        layoutSubviews: sender => {
-          if (!this.views.imageView.prepared) return;
-          const scroll = this.views.imageView.view.get("scroll");
-          $delay(0.05, () => {
-            scroll.zoomScale = 1;
-            sender.get("content").frame = $rect(
-              0,
-              0,
-              scroll.size.width,
-              scroll.size.height
-            );
-            scroll.zoomScale = 1;
-          });
-        },
         dealloc: () => this.stopTimer()
       }
     });

@@ -20,7 +20,7 @@ class ThumbnailsView extends BaseView {
         waterfall: true,
         columns: this.columns,
         spacing: 5,
-        //bgcolor: $color("backgroundColor"),
+        bgcolor: $color("backgroundColor"),
         header: {
           props: {
             id: "header",
