@@ -32,28 +32,56 @@ class EnhancedImageView extends BaseView {
       layout: $layout.fill
     };
 
+    const upperButton = {
+      type: "view",
+      props: {
+        userInteractionEnabled: true
+      },
+      layout: (make, view) => {
+        make.top.left.right.inset(0);
+        make.height.equalTo(view.super).dividedBy(2);
+      },
+      events: {
+        tapped: sender => {
+          const scroll = this.view.get("scroll");
+          if (scroll.zoomScale !== 1) {
+            scroll.zoomScale = 1;
+            return;
+          }
+          if (this._events.upperLocationTouched)
+            this._events.upperLocationTouched();
+        }
+      }
+    };
+
+    const lowerButton = {
+      type: "view",
+      props: {
+        userInteractionEnabled: true
+      },
+      layout: (make, view) => {
+        make.bottom.left.right.inset(0);
+        make.height.equalTo(view.super).dividedBy(2);
+      },
+      events: {
+        tapped: sender => {
+          const scroll = this.view.get("scroll");
+          if (scroll.zoomScale !== 1) {
+            scroll.zoomScale = 1;
+            return;
+          }
+          if (this._events.lowerLocationTouched)
+            this._events.lowerLocationTouched();
+        }
+      }
+    };
+
     const content = {
       type: "view",
       props: {
-        id: "content",
-        userInteractionEnabled: true
+        id: "content"
       },
-      views: [image],
-      events: {
-        touchesEnded: (sender, location, locations) => {
-          if (sender.super.zoomScale !== 1) {
-            sender.super.zoomScale = 1;
-            return;
-          }
-          if (location.y <= sender.frame.height / 2) {
-            if (this._events.upperLocationTouched)
-              this._events.upperLocationTouched();
-          } else {
-            if (this._events.lowerLocationTouched)
-              this._events.lowerLocationTouched();
-          }
-        }
-      }
+      views: [image, upperButton, lowerButton]
     };
     const scroll = {
       type: "scroll",
