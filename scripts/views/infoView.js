@@ -15,7 +15,10 @@ class InfoView extends BaseView {
       postRows.push({
         label: {
           styledText: {
-            text: `Sample  ${this.item.sampleWidth} × ${this.item.sampleHeight}`,
+            text:
+              this.item.sampleWidth && this.item.sampleHeight
+                ? `Sample  ${this.item.sampleWidth} × ${this.item.sampleHeight}`
+                : "N.A.",
             font: $font(15),
             color: $color("secondaryText"),
             styles: [
@@ -32,7 +35,10 @@ class InfoView extends BaseView {
       postRows.push({
         label: {
           styledText: {
-            text: `Original  ${this.item.width} × ${this.item.height}`,
+            text:
+              this.item.width && this.item.height
+                ? `Original  ${this.item.width} × ${this.item.height}`
+                : "N.A.",
             font: $font(15),
             color: $color("secondaryText"),
             styles: [
@@ -45,7 +51,7 @@ class InfoView extends BaseView {
           }
         }
       });
-    if (this.item.source)
+    if (this.item.source && $detector.link(this.item.source).length)
       postRows.push({
         label: {
           styledText: {
@@ -59,6 +65,9 @@ class InfoView extends BaseView {
                 color: $color("primaryText")
               }
             ]
+          },
+          info: {
+            url: this.item.source
           }
         }
       });
@@ -155,22 +164,44 @@ class InfoView extends BaseView {
         didSelect: async (sender, indexPath, data) => {
           switch (indexPath.section) {
             case 0: {
+              if (!data.label.info || !data.label.info.url) return;
+              const url = data.label.info.url;
+              const { index } = await $ui.popover({
+                sourceView: sender.cell(indexPath),
+                sourceRect: sender.cell(indexPath).bounds,
+                directions: $popoverDirection.any,
+                size: $size(250, 44 * 3),
+                items: [
+                  $l10n("OPEN_URL"),
+                  $l10n("OPEN_URL_IN_SAFARI"),
+                  $l10n("COPY_URL_TO_CLIPBOARD")
+                ]
+              });
+              switch (index) {
+                case 0: {
+                  $safari.open({ url });
+                  break;
+                }
+                case 1: {
+                  $app.openURL(url);
+                  break;
+                }
+                case 2: {
+                  $clipboard.text = url;
+                  break;
+                }
+                default:
+                  break;
+              }
               break;
             }
             case 1: {
               const tag_name = data.label.text;
               const savedTagInfo = database.searchSavedTag(tag_name);
-              const totalHeight = $ui.window.frame.height;
-              const positionY =
-                sender.cell(indexPath).frame.y - sender.bounds.y;
-              const directions =
-                positionY > totalHeight / 2 && totalHeight - positionY < 300
-                  ? $popoverDirection.down
-                  : $popoverDirection.up;
               const { index } = await $ui.popover({
                 sourceView: sender.cell(indexPath),
                 sourceRect: sender.cell(indexPath).bounds,
-                directions,
+                directions: $popoverDirection.any,
                 size: $size(250, 220),
                 items: [
                   $l10n("SEARCH_DIRECTLY"),

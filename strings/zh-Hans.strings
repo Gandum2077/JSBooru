@@ -47,6 +47,10 @@
 
 // Tags and combinations
 
+"OPEN_URL" = "打开URL";
+"OPEN_URL_IN_SAFARI" = "在Safari中打开URL";
+"COPY_URL_TO_CLIPBOARD" = "复制URL到剪贴板";
+
 "SAVE_TAG_TITLE" = "保存标签";
 "TAG_FAVORITE_TITLE" = "标签收藏";
 "SEARCH_DIRECTLY" = "立即搜索";

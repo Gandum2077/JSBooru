@@ -47,6 +47,10 @@
 
 // Tags and combinations
 
+"OPEN_URL" = "Open URL";
+"OPEN_URL_IN_SAFARI" = "Open URL in Safari";
+"COPY_URL_TO_CLIPBOARD" = "Copy URL to Clipboard";
+
 "SAVE_TAG_TITLE" = "Save Tag";
 "TAG_FAVORITE_TITLE" = "Tag Favorite";
 "SEARCH_DIRECTLY" = "Search Directly";
