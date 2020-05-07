@@ -32,7 +32,7 @@
 "Next 3 Pages" = "提前三页";
 "Next 4 Pages" = "提前四页";
 "Slideshow Intervals" = "幻灯片浏览速度";
-"ICLOUD_AND_TIPS" = "iCloud\n警告：由于iCloud并非即时同步，因此在其他设备上并不能立即同步数据更改，并且同步完成前其他设备上的操作可能会导致文件版本冲突并丢失一部分数据";
+"ICLOUD_AND_TIPS" = "iCloud\n警告：由于没有iCloud相关API，因此无法即时同步（一般需要10到30分钟的时间才能完成同步）";
 "Sync Database" = "同步数据库";
 "Overwrite Database in iCloud with Local Database" = "用本地数据库覆盖iCloud中的数据库";
 "Overwrite Local Database with Database in iCloud" = "用iCloud数据库覆盖本地数据库";
