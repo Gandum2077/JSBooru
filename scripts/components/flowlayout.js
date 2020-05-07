@@ -218,6 +218,7 @@ class FlowLayout extends BaseView {
   }
 
   set data(data) {
+    if (!data) data = [];
     this._data = data;
     this._createCells();
     this.view.views.forEach(n => n.remove());
