@@ -1,5 +1,6 @@
-const ImageView = require("../views/imageView");
+const ImageView = require("../components/enhancedImageView");
 const FooterStackView = require("../views/footerStackView");
+const FooterBlur = require("../components/footerBlur");
 const PrefetchView = require("../views/prefetchView");
 const InfoView = require("../views/infoView");
 const { ContentView, MaskView, Button, Label } = require("../views/views");
@@ -15,7 +16,9 @@ class SubCotroller {
   }
 
   _createdPermanentView() {
-    this.views.main = new ContentView();
+    this.views.main = new ContentView({
+      layout: $layout.fill
+    });
     this.views.favoritedButton = new Button({
       symbol: "bookmark",
       tapped: sender => {
@@ -59,20 +62,29 @@ class SubCotroller {
         this.views.slideshowButton.definition,
         this.views.shareButton.definition,
         this.views.indexLabel.definition
-      ]
+      ],
+      layout: (make, view) => {
+        make.top.inset(0);
+        make.left.right.equalTo(view.super.safeArea);
+        make.height.equalTo(50);
+      }
     });
+    this.views.footBlur = new FooterBlur()
     this.views.imageView = new ImageView({
       layout: (make, view) => {
-        make.left.top.right.inset(0);
+        make.top.inset(0);
+        make.left.right.equalTo(view.super.safeArea);
         make.bottom.equalTo(view.prev.top);
       },
-      upEvent: () => {
-        this.index -= 1;
-        this.refresh();
-      },
-      downEvent: () => {
-        this.index += 1;
-        this.refresh();
+      events: {
+        upperLocationTouched: () => {
+          this.index -= 1;
+          this.refresh();
+        },
+        lowerLocationTouched: () => {
+          this.index += 1;
+          this.refresh();
+        }
       }
     });
     this.views.prefetchView = new PrefetchView({
@@ -124,7 +136,8 @@ class SubCotroller {
       }
     });
     $app.tips($l10n("READER_TIPS"));
-    this.views.main.add(this.views.footerStackView.definition);
+    this.views.main.add(this.views.footBlur.definition);
+    this.views.footBlur.add(this.views.footerStackView.definition);
     this.views.main.add(this.views.imageView.definition);
     $delay(0.3, () => this.refresh());
   }

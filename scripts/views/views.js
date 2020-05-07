@@ -64,7 +64,7 @@ class Button extends BaseView {
       props: {
         id: this.id,
         radius: 0,
-        bgcolor: $color("secondarySurface")
+        bgcolor: $color("clear")
       },
       views: [
         {
@@ -103,7 +103,7 @@ class Button extends BaseView {
 }
 
 class Label extends BaseView {
-  constructor({ bgcolor = $color("secondarySurface"), layout } = {}) {
+  constructor({ bgcolor = $color("clear"), layout } = {}) {
     super();
     this.bgcolor = bgcolor;
     this.layout = layout;
