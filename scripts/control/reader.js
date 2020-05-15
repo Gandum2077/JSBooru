@@ -66,7 +66,7 @@ class SubCotroller {
       ],
       layout: (make, view) => {
         make.top.inset(0);
-        make.left.right.equalTo(view.super.safeArea);
+        make.left.right.equalTo(view.super.safeArea).inset(20);
         make.height.equalTo(50);
       }
     });

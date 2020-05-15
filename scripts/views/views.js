@@ -66,6 +66,9 @@ class Button extends BaseView {
         radius: 0,
         bgcolor: $color("clear")
       },
+      events: {
+        tapped: this.tapped
+      },
       views: [
         {
           type: "image",
@@ -79,9 +82,6 @@ class Button extends BaseView {
             make.top.bottom.inset(12.5);
             make.centerX.equalTo(view.super);
             make.width.equalTo(view.height);
-          },
-          events: {
-            tapped: this.tapped
           }
         }
       ]
