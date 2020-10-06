@@ -5,6 +5,36 @@ const PrefetchView = require("../views/prefetchView");
 const InfoView = require("../views/infoView");
 const { ContentView, MaskView, Button, Label } = require("../views/views");
 const database = require("../utils/database");
+const constants = require("../utils/constants");
+
+function cacheImage(image, filename) {
+  const imagePath = constants.cachedImagePath;
+  const fullpath = imagePath + "/" + filename;
+  if ($file.exists(fullpath)) return;
+  let scaledImage;
+  const originSize = image.size;
+  const scales = [originSize.height/300, originSize.width / 300]
+  const max = Math.max(...scales)
+  const min = Math.min(...scales)
+  if (min < 1 && max < 2) {
+    scaledImage = image
+  } else if (max / min > 2) {
+    scaledImage = $imagekit.scaleBy(image, 2 / max)
+  } else {
+    scaledImage = $imagekit.scaleBy(image, 1 / min)
+  }
+  $file.write({
+    path: fullpath,
+    data: scaledImage.png
+  });
+}
+
+function deleteImage(filename) {
+  const imagePath = constants.cachedImagePath;
+  const fullpath = imagePath + "/" + filename;
+  if (!$file.exists(fullpath)) return;
+  $file.delete(fullpath);
+}
 
 class SubCotroller {
   constructor({ items, index, searchEvent }) {
@@ -30,10 +60,20 @@ class SubCotroller {
           database.deletePost({ site, id });
           this.views.favoritedButton.symbol = "bookmark";
           this.views.favoritedButton.tintColor = $color("primaryText");
+          $delay(0.1, () => {
+            const image = this.views.imageView.image;
+            if (image && favorited)
+              cacheImage(
+                image,
+                this.item.booru.domain + "_" + this.item.id + ".png"
+              );
+          });
         } else {
           database.insertPost({ info: this.item, favorited: true });
           this.views.favoritedButton.symbol = "bookmark.fill";
           this.views.favoritedButton.tintColor = $color("red");
+          const image = this.views.imageView.image;
+          deleteImage(this.item.booru.domain + "_" + this.item.id + ".png");
         }
       }
     });
@@ -130,9 +170,10 @@ class SubCotroller {
   }
 
   refresh() {
-    this.views.imageView.src = $prefs.get("orginal_image_first")
+    const src = $prefs.get("orginal_image_first")
       ? this.item.fileUrl
       : this.item.sampleUrl;
+    this.views.imageView.src = src;
     const id = this.item.id;
     const site = this.item.booru.domain;
     const favorited = database.queryPostFavorited({ site, id });
@@ -155,6 +196,11 @@ class SubCotroller {
         .slice(this.index + prefetch, 5 + this.index)
         .map(n => n.previewUrl)
     ];
+    $delay(0.1, () => {
+      const image = this.views.imageView.image;
+      if (image && favorited)
+        cacheImage(image, this.item.booru.domain + "_" + this.item.id + ".png");
+    });
   }
 
   presentInfoView() {

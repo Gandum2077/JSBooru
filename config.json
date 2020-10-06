@@ -2,14 +2,14 @@
   "info": {
     "name": "JSBooru",
     "url": "",
-    "version": "2.3.1",
+    "version": "2.4.0",
     "author": "Gandum2077",
     "website": "https://github.com/Gandum2077/JSBooru",
     "types": 0
   }, 
   "settings": {
-    "minSDKVer": "2.8.0",
-    "minOSVer": "13.0.0",
+    "minSDKVer": "2.12.0",
+    "minOSVer": "14.0.0",
     "idleTimerDisabled": false,
     "autoKeyboardEnabled": false,
     "keyboardToolbarEnabled": false,

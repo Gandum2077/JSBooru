@@ -9,6 +9,9 @@ const tagCombinationsFile = "assets/tagCombinations.json";
 const icloudSyncPath = "drive://_JSBooruSync";
 const databaseFileOnIcloud = "drive://_JSBooruSync/database.db";
 
+const cachedImagePath = "assets/images";
+if (!$file.exists(cachedImagePath)) $file.mkdir(cachedImagePath);
+
 const sitesConfig = JSON.parse($file.read(sitesConfigFile).string);
 
 class UserConfig {
@@ -109,6 +112,7 @@ module.exports = {
   tagCombinationsFile,
   icloudSyncPath,
   databaseFileOnIcloud,
+  cachedImagePath,
   sitesConfig,
   userConfig
 };
