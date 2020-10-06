@@ -24,7 +24,7 @@ JSBooru 是一款基于 Node.js 的应用。
 
 ## Requirements
 
-1. JSBox>=2.8.0，需要启用 Node.js 功能，iOS>=13.0.0
+1. JSBox>=2.12.0，需要启用 Node.js 功能，iOS>=14.0.0
 2. 良好的网络环境，此部分请参见 [Known issues](#known-issues)
 3. node modules `booru`
 
